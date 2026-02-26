@@ -1,0 +1,24 @@
+//MA Meeting Notes 30.01.2026//
+
+/zu besprechen/
+
+- Meilensteinplan
+- JSONPath-Grammatik ~80% vollständig (EBNF aus RFC 9535 ABNF abgeleitet)
+- Tagebuch geführt seit Dienstag, ~ 4 Stunden pro Tag gearbeitet (aber je nach Arbeitsschritt auch Luft nach oben)
+- einfache Flex / Bison Tests gingen, aber Bison Hack konnte nicht ausgeführt werden (Installationsproblem?)
+
+
+
+/weiteres Vorgehen/
+
+- Bison Hack in Linux VM ausprobieren, evtl funktioniert es da?
+
+- ist in YottaDB docker container evtl sogar bash mit lexx und yacc
+
+- kw8 bantel im urlaub, evtl kurzes meeting?
+- Meeting in KW9! bzgl YottaDB wildcards / indizierung (23.02.2026!)
+
+- latex dokument aufsetzen, kapitelebene, seiten ca abplanen (~ca 80 seiten)
+- dokumentation paralel aufsetzen (einleitung, grundlagen, gliederungen,...)
+
+- grammatik hochziehen (ast kann man hinterher mit hack)

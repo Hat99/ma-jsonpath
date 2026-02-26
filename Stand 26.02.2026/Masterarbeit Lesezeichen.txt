@@ -1,0 +1,28 @@
+//Masterarbeit Lesezeichen//
+
+Bisonhack
+https://github.com/informatik-aalen/Bison-Syntaxtree-Hack
+
+CPP Access for YottaDB
+https://github.com/informatik-aalen/CPP-Access-for-YottaDB
+
+Vorarbeit Goti
+https://github.com/JenilGoti/JSON_PATH_PARSER_LEX_YACC
+
+
+Beispielgrammatik PostgreSQL
+https://github.com/postgres/postgres/blob/master/src/backend/parser/gram.y
+
+Flex-Bison Beispiel
+https://github.com/meyerd/flex-bison-example
+
+JSON lex / yacc
+https://gist.github.com/justjkk/436828
+
+
+
+Flex Bison Tutorial
+https://www.youtube.com/watch?v=ZfeABEU4I4s
+
+Bison Manual
+https://www.gnu.org/software/bison/manual/bison.html

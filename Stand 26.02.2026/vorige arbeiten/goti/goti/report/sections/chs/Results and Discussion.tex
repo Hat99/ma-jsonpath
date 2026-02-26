@@ -1,0 +1,54 @@
+\chapter{Results and Discussion}
+
+\section{Parser Functionality and Accuracy}
+
+The developed JSONPath parser successfully parse and compile a wide range of JSONPath queries like basic selectors, recursive descent, array indexing and slicing, and filter expressions. Testing with various JSON documents of different complexities shows the parser’s ability to accurately extract the needed data nodes.
+
+The parser accurately handles standard JSONPath operators like:
+
+\begin{itemize}
+	\item Root selector (\texttt{\$})
+	\item Child and recursive descent selectors (\texttt{.} and \texttt{..})
+	\item Array indexing and slicing (\texttt{[index]} and \texttt{[start:end:step]})
+	\item Filters with logical and comparison operators (e.g., \texttt{[?(@.age > 25 \&\& @.status == 'active')]})
+\end{itemize}
+
+The syntax analysis check the JSONPath grammar rules, and the constructed abstract syntax tree improve efficient query evaluation on the input JSON data.
+
+\section{Integration with YottaDB and Query Execution}
+
+Impimentation of the parser to compile JSONPath queries into YottaDB query language was successfully achieved. This compilation allows JSONPath queries to be executed directly on data stored within YottaDB.
+
+The compiled queries has the same meaning as the original JSONPath expressions:
+
+\begin{itemize}
+	\item Effective to get data from nested data structures
+	\item use of filters and conditional logic
+	\item Support for array operations in YottaDB’s query syntax
+\end{itemize}
+
+Figure~\ref{fig:yottadb_output}a sample output of such a compiled query, validating the correctness of the translation and execution.
+
+\section{Performance Evaluation}
+
+The parser operates with acceptable speed and memory consumption for typical JSON documents used in web and database applications. The recursive descent parsing technique offers simplicity but may face scalability challenges with extremely large or deeply nested JSON inputs.
+
+The integration with YottaDB adds some time for execution due to the translation step, but query execution benefits from YottaDB’s optimized data handling. Future work can explore caching strategies and incremental parsing to improve overall responsiveness.
+
+\section{Challenges and Limitations}
+
+During implementation, several challenges were faced:
+
+\begin{itemize}
+	\item Handling complex filter expressions with nested logical operators required careful grammar design to avoid ambiguity.
+	\item Error reporting was refined iteratively to provide meaningful feedback without overwhelming the user.
+	\item Some advanced JSONPath features, such as regular expression matching and user-defined functions, were not implemented due to time constraints.
+	\item The current implementation assumes well-formed input JSON and does not support extensive error recovery on malformed data.
+\end{itemize}
+
+After overcome these limitations, the parser will be more robust and versatile.
+
+\section{Summary}
+
+The parser for JSONPath exhibits remarkable precision and real-world usefulness, particularly in combination with YottaDB for database querying applications. The approach provides a middle ground of simple parsing methods and powerful query functionality. The results support future further optimization and refinement of functionalities in subsequent versions.
+

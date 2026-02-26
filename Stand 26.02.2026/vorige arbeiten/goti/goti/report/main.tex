@@ -1,0 +1,88 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{geometry}
+\geometry{left=3cm,right=2.5cm,top=3cm,bottom=3cm}
+
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+\onehalfspacing
+
+% Title and author info
+\title{Your Seminar Report Title}
+\author{Your Name \\ Department of XYZ \\ Your College Name}
+\date{\today}
+
+\begin{document}
+	\include{sections/titlepage}
+	\include{sections/abstract}
+	\newpage
+	\tableofcontents
+	\newpage
+	\include{sections/chs/Introduction}
+	\include{sections/chs/Literature Survey}
+	\include{sections/chs/Jsonpath Grammar Syntax Examples}
+	\include{sections/chs/Methodology}
+	\include{sections/chs/Results and Discussion}
+	\include{sections/chs/Applications of JSONPath in Data Analytics and NLPsss}
+	\include{sections/chs/Conclusion}
+	
+	\newpage
+	
+	% -------- REFERENCES --------
+	\begin{thebibliography}{99}
+		
+		\bibitem{postgres_jsonpath}
+		PostgreSQL JSONPath Grammar, \url{https://github.com/postgres/postgres/blob/0af302af40669d9bc6de7a202e4723fee39d9376/src/backend/utils/adt/jsonpath_gram.y}.
+		
+		\bibitem{brunerd_jsonpath}
+		Bruno Sciessere, JSONPath for Node.js, \url{https://github.com/brunerd/jsonpath}.
+		
+		\bibitem{jsoncons_net}
+		Daniel A. Parker, JsonCons.Net JSONPath Specification, \url{https://danielaparker.github.io/JsonCons.Net/articles/JsonPath/Specification.html}.
+		
+		\bibitem{sql_json_wiscorp}
+		Wiscorp, SQL/JSON Part 2 Specification, 2014, \url{https://www.wiscorp.com/pub/DM32.2-2014-00025r1-sql-json-part-2.pdf}.
+		
+		\bibitem{jsonpath_com}
+		JSONPath Online Tool, \url{https://jsonpath.com/}.
+		
+		\bibitem{azure_jsonpath}
+		Microsoft Azure Data Explorer JSONPath Documentation, \url{https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/jsonpath}.
+		
+		\bibitem{toolsqa_jsonpath}
+		ToolsQA JSONPath Tutorial, \url{https://www.toolsqa.com/rest-assured/jsonpath-and-query-json-using-jsonpath/}.
+		
+		\bibitem{jsonpath_plus}
+		JSONPath-Plus Repository, \url{https://github.com/JSONPath-Plus/JSONPath}.
+		
+		\bibitem{programmerall_article}
+		ProgrammerAll Article on JSONPath, \url{https://programmerall.com/article/34962294403/}.
+		
+		\bibitem{antlr4_jsonpath}
+		Steven Alexander, ANTLR4 JSONPath Grammar, \url{https://github.com/stevenalexander/antlr4-jsonpath-grammar}.
+		
+		\bibitem{ietf_jsonpath_draft}
+		IETF JSONPath Base Draft-05, \url{https://www.ietf.org/archive/id/draft-ietf-jsonpath-base-05.html}.
+		
+		\bibitem{ietf_rfc9535}
+		IETF RFC 9535, JSONPath Standard, \url{https://datatracker.ietf.org/doc/rfc9535/}.
+		
+		\bibitem{jsonpath_data_analytics} 
+		Integrate.io blog. “Decoding JSONPath: Modern Data Navigation.”  
+		
+		\bibitem{restfulapi_jsonpath}
+		RESTful API Tutorial, ``JSON and JSONPath,'' Available: \url{https://restfulapi.net/json-jsonpath/}.
+		
+		\bibitem{kinesis_jsonpath} 
+		Amazon Web Services Documentation. “Using JSONPath in Amazon Kinesis Data Analytics.”  
+		
+		\bibitem{json_nlp_schema} 
+		Damir Cavar et al. JSON-NLP: An Annotation Encoding Schema for Natural Language Processing using JSON. Semiring Inc. Technical Report (2019).
+		
+	\end{thebibliography}
+	
+	
+\end{document}

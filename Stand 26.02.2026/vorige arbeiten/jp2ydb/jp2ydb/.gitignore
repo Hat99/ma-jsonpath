@@ -1,0 +1,41 @@
+# ── Build-Artefakte
+/bin/
+/build/
+*.o
+**/*.o
+*.a
+*.so
+*.dll
+*.dylib
+*.exe
+
+# ── Flex/Bison (falls jemand mal in-place baut)
+**/parser.tab.c
+**/parser.tab.h
+**/lex.yy.c
+**/parser.output
+
+# ── Logs & Dumps
+*.log
+core
+core.*
+*.core
+
+# ── Editor/OS
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ── Tools/Index
+compile_commands.json
+tags
+cscope.*
+.clangd/
+.cache/
+
+# ── Lokale YottaDB-Daten (Volume aus run_ydb.sh)
+ydb-data/

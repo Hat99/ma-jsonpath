@@ -1,0 +1,44 @@
+//MA Meeting Notes 26.01.2026//
+
+/Frage/
+Wie oft Meetings anstreben?
+öfter!
+
+
+nächstes meeting freitag um 10:15! 
+
+//RESOURCEN//
+https://github.com/postgres/postgres/blob/master/src/backend/parser/gram.y
+
+https://github.com/informatik-aalen/Bison-Syntaxtree-Hack
++ tree.hpp
+
+https://github.com/informatik-aalen/CPP-Access-for-YottaDB
+
+https://github.com/JenilGoti/JSON_PATH_PARSER_LEX_YACC -> plagiate?
+
+
+https://gist.github.com/justjkk/436828
+
+
+
+tree hat latex visualisierung
+
+
+index verwaltung soll passieren um big data sets zu ermöglichen
+
+indizierung sollte fokus sein
+
+yottadb unterstützt kein direktes regex
+
+erstmal wichtig parser
+
+cpp api ausprobieren, yacc syntax tree hack
+
+tagebuch führen wie viel stunden ich aufgewendet habe (was gemacht, was gescheitert)
+
+meilenstein plan für die nächsten 4 monate machen (bis nächstes meeting)
+
+bison hack bis nächstes meeting
+
+postgre sql yacc gramatik anschauen! (auf github)
