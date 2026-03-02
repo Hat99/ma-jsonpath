@@ -1,0 +1,448 @@
+
+\documentclass[oneside]{ausarbeitung}
+\bibliography{latexlit}
+
+
+% ----------------------------------------------------------------------
+
+\begin{document}
+
+%--- Sprachauswahl
+% Erlaubte Werte:
+%   \selectlanguage{english}
+%   \selectlanguage{ngerman}
+\selectlanguage{ngerman}
+
+%--- Art der Arbeit
+% Erlaubte Werte:
+%   \Praxissemesterbericht
+  \Projektbericht
+%   \Bachelorarbeit
+%   \Seminararbeit
+%   \Masterarbeit
+
+%\Praxissemesterbericht
+
+%--- Studiengang:
+% Erlaubte Werte:
+%   \Informatik
+%   \Elektronik
+%   \DataScience
+\Informatik
+
+\title{Entwicklung einer Editor-Anwendung für modular rekombinierbare Bilder}
+
+\author{Paul Mayr}
+\matrikelnr{77868}
+
+%--- Ist der Erstbetreuer (\examinerA) an der Hochschule ein Professor?
+% Erlaubte Werte:
+%   \examinerIsAProfessortrue   % Ja
+   \examinerIsAProfessorfalse  % Nein
+%\examinerIsAProfessortrue   % Ja
+
+%--- Betreuer
+\examinerA{Dr.~Marc Hermann}
+%\examinerB{Prof.~Dr.~Ulrich~Klauck}
+
+%--- Einreichungsdatum
+\date{28. Februar 2025}
+
+%--- Angaben zur Firma
+% Auskommentieren, wenn die Arbeit nicht bei einer ext. Firma gemacht wurde.
+
+%--- Titelseite Anzeigen
+\maketitle
+\cleardoublepage
+
+%---
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+%--- Firmendaten Anzeigen
+% Auskommentieren, wenn die Arbeit nicht bei einer ext. Firma gemacht wurde.
+
+
+%--- Eidesstattliche Erklärung anzeigen
+\makeaffirmation
+\cleardoublepage
+
+%---
+\begin{abstract}
+  Ziel der Kurzfassung ist es, einen (eiligen) Leser zu informieren, so 
+  dass dieser entscheiden kann, ob der Bericht für ihn hilfreich ist oder 
+  nicht (neudeutsch: Management Summary). Die Kurzfassung gibt daher eine 
+  kurze Darstellung
+
+  \begin{itemize}
+    \item des in der Arbeit angegangenen Problems
+    \item der verwendeten Methode(n)
+    \item des in der Arbeit erzielten Fortschritts.
+  \end{itemize}
+
+  Dabei sollte nicht auf die Struktur der Arbeit eingegangen werden, also 
+  Kapitel~\ref{cha:grundlagen} etc. denn die Kurzfassung soll ja gerade 
+  das Wichtigste der Arbeit vermitteln, ohne dass diese gelesen werden muss.
+  Eine Kapitelbezogene Darstellung sollte sich in Kapitel~%
+  \ref{cha:einleitung} unter Vorgehen befinden.
+
+  Länge: Maximal 1 Seite.
+\end{abstract}
+%-----------------------------------------------------------------------
+\cleardoublepage
+\tableofcontents
+
+%---
+\listoffigures
+
+%---
+\listoftables
+
+%---
+\lstlistoflistings
+
+%---
+\listofabbreviations
+\begin{acronym}[Bsp.]  % Längstes Kürzel in der nachfolgenden
+                       % Liste um die Breite der Spalte für die
+                       % Abkürzungen zu bestimmen.
+
+%% Eintrag: \acro{Referenzname}[Kürzel]{Langform}
+%% Im Text wird die Abkürzung dann mit \ac{Referenzname} benutzt.
+\acro{rup}[RUP]{Rational Unified Process}
+
+\acro{alts}[Alts]{Alternatives}
+\acro{json}[JSON]{JavaScript Object Notation}
+\acro{ui}[UI]{User Interface}
+\acro{xaml}[XAML]{Extensible Application Markup Language}
+\acro{ar}[AR]{Augmented Reality}
+\acro{vr}[VR]{Virtual Reality}
+
+
+%\acro{bsp}[Bsp.]{Beispiel}
+\end{acronym}
+%---
+
+
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ----------------------------------------------------------------------
+\chapter{Einleitung}
+\label{cha:einleitung}
+
+
+
+Digitale Illustrationen in Programmen wie \textit{Photoshop} und \textit{Clip Studio Paint} ähneln in vielen Weisen traditionellen Illustrationen auf Papier, jedoch bietet die digitale Technik einiges an zusätzlichem Spielraum für kreative Experimente innerhalb einer einzelnen Illustration.\\
+Sowohl durch die Möglichkeit in nahezu jedem Fall alles gemachte vollständig Rückgängig machen zu können als auch durch die Möglichkeit der Aufteilung der Bildinhalte in voneinander getrennte Bild-Ebenen welche unabhängig voneinander bearbeitet werden können lassen sich einfach und vergleichsweise schnell Ideen ausprobieren, ohne Gefahr zu laufen, das Bild dadurch zu ruinieren.
+
+Dieses Experimentieren führt oft zu verschiedenen Konfigurationsmöglichkeiten derselben Illustration - ein Charakter kann zum Beispiel andere Klamotten tragen, eine andere Pose einnehmen oder sogar einen komplett anderen Hintergrund haben. Der Künstler steht dann vor der Entscheidung, welche Konfiguration der Illustration die \textit{richtige} ist, was oft um einiges leichter gesagt als getan ist und sich auch im Laufe der Zeit ändern kann.
+
+Ein oft verwendeter Ansatz, diese Entscheidung zu vereinfachen oder idealerweise gänzlich zu umgehen, ist es, mehrere verschiedene Versionen der Illustration zu erstellen, die alle mehr oder weniger den gleichen Stellenwert haben können. Diese sogenannten Alternativen (englisch \textit{Alternatives}) ermöglichen sogar die Erzählung von Geschichten über die Änderungen zwischen den verschiedenen Versionen.
+
+Der Einsatz von \ac{alts} ist jedoch trotz der vielen zusätzlichen Möglichkeiten nach wie vor begrenzt.
+\\Vor allem bei hochauflösenden Illustrationen steigt der Speicheraufwand für \ac{alts} meist ungefähr linear an und der Zeitaufwand für den Export der Einzelbilder aus gängigen Zeichenprogrammen nimmt ebenso zu. Viele Internetplattformen limitieren auch die Anzahl und Größe von Bildern, wodurch zu viele \ac{alts} schnell dazu führen können, dass Illustrationen auf diesen Seiten nicht mehr gepostet werden können.\\
+Die Anzahl von möglichen \ac{alts} ergibt sich aber meistens durch Kombinatorik, so kann zum Beispiel eine Charakter-Illustration mit verschiedenen Optionen für Kleidungsstücke schnell tausende oder mehr \ac{alts} ermöglichen, die im schlimmsten Fall die Vision des Künstlers alle ähnlich gut erfüllen können.\\
+
+
+
+Ideal hierfür wäre also eine Möglichkeit, alle Kombinationen einer Illustration zusammenstellen und verfügbar machen zu können. Künstler können hierfür zum Beispiel die originalen Quell-Dateien ihrer Illustration teilen, jedoch bringt dies einige Nachteile und potentielle Probleme mit sich:
+\begin{itemize}
+    \item die Dateien können meistens nur von den (kostenpflichtigen) Programmen geöffnet werden, die sie erstellt haben,
+    \item diese Programme sind für einen professionellen Kunst-Workflow erstellt und entsprechend komplizierter in Aufbau und Bedienung als es für das reine Betrachten der \ac{alts} nötig wäre,
+    \item es ist oft nicht möglich, in diesen Programmen sinnvolle Kombinationen von unsinnigen Kombinationen zu trennen und
+    \item das Teilen der Original-Dateien kann zu unerwünschter Reproduktion der Illustration führen (zum Beispiel könnte die Unterschrift oder eventuelle Wasserzeichen entfernt werden).
+\end{itemize}
+
+
+
+Das Anwendungspaar \textit{Altimate} und \textit{Altimake}, welches in dieser Arbeit entwickelt wird, soll die Limitationen der \ac{alts} und die Probleme des Teilens der Original-Dateien umgehen und es ermöglichen (nahezu) unendlich viele Versionen einer Illustration vergleichsweise einfach und mit geringem Aufwand und Speicherbedarf zu erstellen und verteilen.
+
+Der Name \textit{Altimate} (auch \textit{Alt-Imate}) wird aus der Kurzform \ac{alts} und dem englischen \textit{ultimate} (ultimativ) abgeleitet - entsprechend dem Ziel, die \textit{ultimative Alternative} zu \ac{alts} zu sein.\\
+Die Anwendung soll eine einfache Möglichkeit bieten, anhand einer vorgegebenen Anleitung - die sogenannte \textit{Altimate-Datei} - Bilder in Echtzeit aus ihren Komponenten zu konstruieren und über in der Anleitung definierte Optionen dem Nutzer ermöglichen, verschiedene Kombinationen des Bildes auszuwählen und zu betrachten.
+
+Als das passende Gegenstück zu Altimate ergibt sich der Name der Anwendung \textit{Altimake} aus einer Kombination von \textit{Altimate} und dem englischen \textit{make} (\textit{machen} beziehungsweise \textit{herstellen}).\\
+Altimake soll als Editorprogramm das einfache erstellen der Altimate-Dateien auf Basis der Bild-Komponenten ermöglichen.\\
+
+
+
+
+
+Ziel der Arbeit ist es, ein sinnvolles Konzept für das Anwendungspaar Altimate und Altimake zu entwickeln, sowie anschließend darauf aufbauend eine grundlegende Implementation beider Anwendungen zu realisieren.
+
+Hierfür werden zunächst die für die Arbeit und das Verständnis dieser Dokumentation benötigen Grundlagen betrachtet.\\
+Eine anschließende erste Planung und prototypische Implementation von Altimate ermöglicht es, die grundlegende Umsetzbarkeit der Anwendungen zu prüfen, sowie präzisere Anforderungen für die finalen Anwendungen zu ermitteln.\\
+Aufbauend auf den Erkenntnissen des ersten Prototyps und der darauf aufgebauten Anforderungsliste wird das Lösungskonzept entwickelt. Hierbei wird auch auf die getroffenen Technologie- und Software-Architektur-Entscheidungen eingegangen.\\
+Die Realisierung des Lösungskonzept und Implementierung der Anwendungen wird daraufhin betrachtet und auf die verschiedenen Komponenten, insbesondere deren Funktion und Zusammenspiel, eingegangen.
+%TODO: Evaluierung?
+Zuletzt werden die erreichten Ergebnisse in der Zusammenfassung erörtert und ein Ausblick auf mögliche Erweiterbarkeit der Anwendungen beziehungsweise der Thematik im Ganzen gegeben.
+
+
+
+% ---
+\chapter{Grundlagen}
+\label{cha:grundlagen}
+
+In diesem Kapitel das für das Praktikum relevante Grundlagenwissen 
+dargestellt. Der Praktikant soll hierzu das ihm durch Vorlesungen 
+bekannte, bzw. durch Recherchen vertiefte theoretische Wissen 
+darstellen, das für die Lösung der im Praktikum gestellten Probleme 
+notwendig ist.
+
+Dabei ist darauf zu achten, nur solche Inhalte in das Grundlagenkapitel 
+aufzunehmen, die später auch verwendet werden (Problembezogenheit). 
+Ebenso ist auf eine ausreichend tiefe und vollständige Darstellung der 
+Grundlagen zu achten.
+
+Für die Erstellung des Literaturverzeichnisses 
+wird das Werkzeug JabRef\autocite{JabRef:JabRef} verwendet. 
+
+Sie können aber auch das Werkzeug Citavi\autocite{SAS:Citavi} benutzen
+und dort nach \textsc{Bib}\TeX{} exportieren.
+
+\section{Grundlagengebiet A}
+\label{sec:grundlagengebieta}
+
+\subsection{Definition AA}
+\label{sub:definitionaa}
+
+\subsection{Definition AB}
+\label{sub:definitionab}
+
+\section{Grundlagengebiet B}
+\label{sec:grundlagengebietb}
+
+\subsection{Definition BA}
+\label{sub:definitionBa}
+
+\subsection{Definition BB}
+\label{sub:definitionbb}
+
+
+
+
+
+
+
+
+%---
+\chapter{Implementierung}
+\label{cha:implementierung}
+
+In diesem Kapitel wird die Umsetzung der im vorigen Kapitel erarbeiteten Lösungskonzepte beschrieben. Dafür werden neben den Unity-Szenen, die das \ac{ui} realisieren, die C\#-Skripte aufgeteilt in Daten-Skripte, Funktionsskripte und andere Skripte vorgestellt.
+
+
+
+\section{Unity-Szenen}
+
+Wie in Abbildung \ref{architektur} beschrieben wird die Erstellung des Anwendungs-Paars Altimate und Altimake durch eine geteilte Codebasis und mehrere Unity-Szenen realisiert. Entsprechend wurde für jede der beiden Anwendungen eine gleichnamige Unity-Szene erstellt, die das komplette \ac{ui} der jeweiligen Anwendung beinhaltet. Beim Export der Anwendungen muss dementsprechend nur die passende Szene ausgewählt werden, da das Backend unverändert bleibt.
+
+\subsection{Altimake}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 14cm, keepaspectratio]{"images/altimake ui"}
+    \caption{Altimake \ac{ui}-Ansichten (von links: Startbildschirm, Hauptbildschirm, Hauptbildschirm mit offenem Optionsmenü)}
+    \label{altimakeUI}
+\end{figure}
+
+Die \textit{Altimake}-Szene teilt sich in zwei verschiedene \ac{ui}-Layouts: \textit{start screen} und \textit{main screen} (siehe Abbildung \ref{altimakeUI}).
+
+Der \textit{start screen} wird beim Starten der Anwendung angezeigt und ermöglicht es dem Nutzer, entweder eine neue Altimate-Datei zu erstellen oder eine vorhandene zu laden. Der Startbildschirm dient prinzipiell auch als kleines \textit{Onboarding} und könnte dementsprechend für zukünftige Erweiterungen auch ein weiter ausgebautes Onboarding beinhalten, um vor allem neuen Nutzern die Funktionsweisen der Anwendung zu erklären.
+
+Der \textit{main screen} repräsentiert das Hauptmenü der Anwendung und ist nach dem \ac{ui}-Konzept \ref{ui} erstellt. Um die Bedienung der Anwendung intuitiver begreifbar machen zu können, wurden an geeigneten Stellen einfache Icons eingefügt, die die jeweiligen Inhalte und Funktionen visuell untermauern. Zusätzlich wurden um die einzelnen Segmente des Menüs deutlicher voneinander zu trennen schwarze Umrisse ergänzt.\\
+Die im \ac{ui}-Konzept noch nicht eingeplante Zoom-Leiste ist als kleine Leiste im Bild-Fenster realisiert. Dadurch wird zum einen nicht viel von der Bild-Fläche weggenommen und zum anderen die Relevanz der Zoom-Leiste für die Bild-Betrachtung hervorgehoben.
+
+Das \textit{Add Toggle Option}- beziehungsweise \textit{Edit Toggle Option}-Menü ermöglicht schnelles Erstellen und bearbeiten einzelner Optionen. Um eine möglichst intuitive Bedienung zu ermöglichen, werden dabei die betroffenen Bildebenen via Drag \& Drop in das entsprechende Feld der Option gezogen um sie zuzuweisen. 
+
+
+
+\subsection{Altimate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = 14cm, keepaspectratio]{"images/altimate ui"}
+    \caption{Altimate \ac{ui}-Ansichten (von links: Startbildschirm, Hauptbildschirm)}
+    \label{altimateUI}
+\end{figure}
+
+Abbildung \ref{altimateUI} zeigt, wie die Altimate-Szene größtenteils als Reduktion der Altimake-Szene erstellt werden kann. Dies entspricht der Grundidee, Altimate als Teilmenge von Altimake zu betrachten und ermöglicht es, durch Entfernen der Editor-Funktionen und unnötigen Teilmenüs, das vollständige Altimate-\ac{ui} zu erstellen.
+
+
+
+
+
+\section{Daten-Skripte}
+
+Das Anwendungs-Paar benötigt nur ein Datenskript \textit{Altimate}, welches das Altimate-Schema umsetzt. Zusätzlich hierzu wird die Verwendung des Datenskripts über die Hilfsklasse \textit{AltimateHelper} vereinfacht.
+
+\subsection{Altimate}
+
+Das Datenskript \textit{Altimate} repräsentiert das Altimate-Objekt nach dem angepassten Altimate-Schema. Hierbei sind Optionen als \textit{Part} als Subklasse von Altimate und Bilder wiederum als \textit{ImageData} als Subklasse von Part realisiert um die Hierarchie der Datenstruktur darzustellen. 
+
+Die ImageData-Klasse verfügt zusätzlich über eigene Vergleichsoperatoren um automatisch nach Bildebenenwerten sortiert werden zu können.
+
+\subsection{AltimateHelper}
+
+Der AltimateHelper dient als Zugriffspunkt auf die geladene Altimate-Datei für die anderen Skripte, indem eine globale Altimate-Instanz anhand der Datei erstellt und aufrecht erhalten wird. Bei Änderungen an der Altimate-Instanz kann der AltimateHelper diese ebenso in der Altimate-Datei abspeichern. Außerdem beinhaltet der AltimateHelper unter \textit{basePath} den global zugänglichen Ordnerpfad, in dem sich die Altimate-Datei befindet.
+
+Beim Ladevorgang einer Altimate-Datei ist der AltimateHelper für die Interpretation des Altimate-Schemas zuständig. Das bedeutet, dass das Altimate-Objekt schrittweise durchlaufen wird um alle relevanten Bilddaten und Optionen zu ermitteln und die ermittelten Daten zum weiteren Laden an die entsprechenden Stellen weitergeleitet werden. 
+
+
+
+\section{Funktionsskripte}
+
+Die Funktionsskripte sind für die verschiedenen Features der Anwendungen zuständig, die der Nutzer über Knöpfe ansteuern kann beziehungsweise die teilweise im Hintergrund laufen.
+
+\subsection{StartMenuHandler}
+
+Der \textit{StartMenuHandler} ist für das Erstellen von neuen Altimate-Dateien sowie das Laden vorhandener Altimate-Dateien zuständig. Konkret kann er sowohl auf dem Startbildschirm als auch im File-Menü im Hauptbildschirm aufgerufen werden.
+
+Während dem Start- und Ladevorgang werden zunächst alle vorhandenen Menüs zurückgesetzt, um im Falle von bereits geladenen Daten Verwirrung zu vermeiden. Anschließend wird im gewählten Ordnerpfad je nach Vorgang entsprechend entweder eine neue Altimate-Datei angelegt oder die vorhandene Altimate-Datei ausgelesen und zur Interpretation dem \textit{AltimateHelper} überlassen. Anschließend wird zum Hauptmenü gewechselt und die Echtzeitkomponente im \textit{TimedThread} aktiviert.
+
+
+
+\subsection{MainMenuHandler}
+
+Der \textit{MainMenuHandler} beinhaltet alle Funktionalitäten des Hauptmenüs, die nicht aufgrund ihrer Komplexität in einen der anderen Handler ausgelagert wurden. Konkret sind dementsprechend die Verantwortungen des MainMenuHandlers das Verwalten der Dateiansicht und deren Inputs sowie Inputs zum Ändern des Altimate-Namens und dem manuellen Speichern der Altimate-Datei.
+
+
+
+\subsection{OptionsHandler}
+
+Der \textit{OptionsHandler} ist für alle interaktiven Bildkomponenten zuständig. Unter seine Zuständigkeit fällt neben dem Laden der Optionen und den Inputs dieser auch das Erstellen und Bearbeiten von Optionen. Das Untermenü \textit{Add Toggle Option} beziehungsweise \textit{Edit Toggle Option} wird dementsprechend auch vom OptionsHandler verwaltet. 
+
+
+
+\subsection{ImageHandler}
+
+Der Aufgabenbereich des \textit{ImageHandlers} ist im Großen und Ganzen unverändert zum initialen Prototyp. Der ImageHandler ist für das Darstellen des Altimate-Bilds zuständig vom Laden der einzelnen Teilbilder zum Aktualisieren bei Konfigurationsänderungen. Darüber hinaus wird die Zoomfunktionalität auch im ImageHandler umgesetzt.
+
+
+
+\subsection{LayerHandler}
+
+Der \textit{LayerHandler} ist für die Verwaltung der Bildebenen-Hierarchie zuständig und dementsprechend neben dem Laden der Bildebenen auch für Änderungen an ihnen verantwortlich. Auch die Normalisierung der Bildebenen wird durch den LayerHandler umgesetzt.
+
+
+
+\subsection{FileMenuHandler}
+
+Der \textit{FileMenuHandler} ermöglicht die Interaktion mit dem \textit{File}-Menü, welches durch einen Klick auf den \textit{File}-Knopf in der oberen Menüleiste erreicht werden kann. Konkret können über dieses Menü auch außerhalb des Startbildschirms neue Altimate-Dateien erstellt und vorhandene Altimate-Dateien geladen werden, wobei in beiden Fällen zunächst die aktuell geöffnete Altimate-Datei abgespeichert wird.\\
+Durch einen Mausklick außerhalb des offenen File-Menüs lässt sich dieses wieder schließen.
+
+
+
+\subsection{TimedThread}
+
+Der \textit{TimedThread} ist für die Echtzeitfunktionalitäten der Anwendungen zuständig. Prinzipiell kann jedes Unity-Skript auf die \textit{Update}-Methode zugreifen, um Code an die Bildwiederholungsrate gekoppelt dauerhaft auszuführen, jedoch ist besonders bei Programmen mit wenig Funktionen, die das benötigen eine zentralisierte Echtzeitkomponente eine gute Möglichkeit, diese Funktionalitäten zu verwalten.
+
+Die Echtzeitfunktionen basieren alle auf periodischen Abfragen, weshalb zu Beginn der Anwendung, wenn noch keine Altimate-Datei geladen ist, die Spielzeit eingefroren wird. Dadurch vergeht aus Sicht der Anwendung keine Zeit auf dem Startbildschirm und Funktionen wie zum Beispiel Autosaves werden nicht durchgeführt.
+
+Es machen drei Funktionalitäten vom \textit{TimedThread} gebrauch: Autosaves, Refreshes der Dateiansicht und das initiale Laden der Teilbilder.
+
+Autosaves werden periodisch (Standardwert alle 60 Sekunden) durchgeführt. Hierfür ruft der TimedThread jeweils nach Ablauf der Zeit die Speicherfunktion des AltimateHelpers auf.
+
+Refreshes der Dateiansicht funktionieren nach demselben Schema und ermöglichen es der Anwendung, Änderungen im Ordnersystem anzuzeigen, die außerhalb der Anwendung passieren. So kann zum Beispiel ein Nutzer anstelle der Import-Funktion theoretisch auch die Teilbilddateien manuell in den Ordner einfügen und diese in der Anwendung einbauen. Die Refresh-Rate liegt hierbei bei 1 Hertz.
+
+Das initiale Laden der Teilbilder wird durch den TimedThread gesteuert, da das Laden einer Bilddatei aus dem Speicher - vor allem bei großen Bildern - sehr lange dauern kann und dadurch die Anwendung währenddessen einfriert. Die Standard-Funktionen von Unity zum Laden der Bilder lassen sich jedoch auch nicht auf Nebenthreads verschieben, um die Anwendung am Einfrieren zu hindern, weshalb als Kompromisslösung die Bilder eins nach dem anderen geladen werden und zwischen jedem Ladevorgang die Anwendung kurz weiterlaufen kann. Dies hat den Vorteil, dass der Nutzer schneller sieht, dass die Anwendung das Bild lädt und so hoffentlich nicht davon ausgeht, dass die Anwendung abgestürzt wäre.\\
+Um das sequenzielle Laden der Teilbilder zu ermöglichen wird dem \textit{ImageHandler} immer nur ein Teilbild übergeben und sobald dieser das Bild fertig geladen hat und die entsprechende Flag gesetzt wurde wird das nächste Bild zum Laden übergeben.
+
+
+
+\section{Andere Skripte}
+
+Diese Skripte erfüllen jeweils in sich abgeschlossene, kleinere Aufgaben beziehungsweise implementieren einzelne Features in den Anwendungen.
+
+
+
+\subsection{FileHelper}
+
+Der \textit{FileHelper} dient als Wrapper-Klasse für Dateipfadwahlen und Dateizugriffe. Dies ist insbesondere für die Auswahl des Dateipfades sinnvoll, da diese auf dem externen Plugin \textit{AnotherFileBrowser} beruht und daher möglichst getrennt von der restlichen Codebasis behandelt werden sollte, um das Plugin gegebenenfalls leichter durch ein anderes austauschen zu können.
+
+
+\subsection{DragDrop}
+
+Das \textit{DragDrop}-Skript implementiert verschiedene Unity-Drag-Events um die Drag \& Drop-Funktionalität zu realisieren. Das Skript unterstützt zwei verschiedene Arten von Drag \& Drop: direkt und Duplikat-basiert. 
+
+Direktes Drag \& Drop bedeutet, dass das Zielobjekt selbst bewegt wird, also nach erfolgreichem Drag \& Drop nicht mehr an seinem Ausgangspunkt ist. Dieser Einsatzfall wird in den Anwendungen jedoch aktuell nicht verwendet.
+
+Duplikat-basiertes Drag \& Drop erzeugt eine Kopie des Zielobjekts und bewegt diese, es wird also das eigentliche Zielobjekt nicht beeinflusst. Die Kopie wird im Anschluss zum Drag \& Drop-Vorgang wieder entfernt. Dies findet in Altimake beim Zuweisen der für eine Option relevanten Bildebenen statt, da die Ebenen nicht aus der Hierarchie entfernt werden sollen, sondern lediglich eine Verknüpfung zwischen Option und Ebene hergestellt werden soll.
+
+
+
+\subsection{Flag}
+
+Das \textit{Flag}-Skript dient als sehr einfache Möglichkeit, zuverlässig Spielobjekte zu identifizieren. Hierfür wird in der Unity-Szene dem entsprechenden Objekt das Skript mit einer spezifischen Flag hinzugefügt um später zur Laufzeit auf das Vorhandensein und den Inhalt der Flag prüfen zu können.
+
+Ein alternativer Ansatz zur Flag wäre es, auf den Namen eines Spielobjekts zu prüfen, jedoch wird in der Unity-Szene nicht ersichtlich, auf welche Namen in Skripten geprüft werden und auf welche nicht, wodurch Namensänderungen unbeabsichtigte Nebenwirkungen haben können. Das Flag-Skript ermöglicht eine Entkopplung von Objektnamen und -funktionalität und markiert eindeutig welche Objekte eine derartige Prüfung im Skript erwarten.
+
+Das Flag-Skript findet bei der Auswertung des Drag \& Drop Ziels und bei der Zuweisung der Handler-Funktionen der Dateien in der Dateiansicht Einsatz.
+
+
+
+\subsection{Tooltip und TooltipBase}
+
+\textit{Tooltip} und \textit{TooltipBase} sind zwei Skripte, die zusammen die Tooltip-Funktionalität ermöglichen. Tooltip ist dabei ein sehr einfaches Skript, dass auf den jeweiligen Spielobjekten läuft, die einen Tooltip anzeigen sollen und die Tooltip-Nachricht kennt, während TooltipBase auf dem tatsächlichen Tooltip-Spielobjekt läuft und dieses wenn ein Tooltip ausgelöst wird zur Position der Maus bewegt.
+
+
+
+%---
+\chapter{Zusammenfassung und Ausblick}
+\label{cha:zusammenfassung}
+
+In dieser Arbeit wurde ein Anwendungs-Paar für die Erstellung und Betrachtung von modular rekombinierbarer Bilder erstellt. Das sogenannte \textit{Altimate}-System besteht aus der Editor-Anwendung \textit{Altimake}, welche aus Bildbausteinen modulare Kombinations-Anleitungen nach dem \textit{Altimate}-Schema in Form von Altimate-Dateien erstellen kann und diese bearbeiten kann, sowie der Konfigurations-Anwendung \textit{Altimate}, welche diese Altimate-Dateien öffnen und das Bild anhand der aktuell gewählten Konfiguration darstellen kann.
+
+Zunächst wurde hierfür ein initialer Prototyp der Altimate-Anwendung entworfen, um die Umsetzbarkeit der Lösung zu validieren und bereits erste Erkenntnisse über potentielle Probleme und Verbesserungspotential zu sammeln.
+
+Das Altimate-Schema wurde auf Basis der Erkenntnisse von diesem initialen Prototyp überarbeitet um besser den Anforderungen gerecht zu werden und Flexibilität für zukünftige Erweiterungen zu bieten.
+
+Ausgehend von der funktionell komplexeren Altimake-Editor-Anwendung wurde anschließend das Anwendungspaar Altimate und Altimake auf einer geteilten Codebasis in Unity entwickelt.
+
+
+
+\section{Ausblick}
+\label{sec:ausblick}
+
+Das Anwendungs-Paar Altimate und Altimake bietet viel Potential für zukünftige Änderungen und Erweiterungen. Im Folgenden werden nur einige Beispiele hierfür aufgeführt, es gibt jedoch viele weitere und bei einer Veröffentlichung beziehungsweise zum Beispiel dem Einsatz von Altimate durch Testgruppen können zweifelsohne noch mehr gefunden werden.
+
+Das Erstellen einer mobilen Version von Altimate und eventuell sogar auch Altimake könnte die Einsatzmöglichkeiten beziehungsweise das Zielpublikum der Anwendungen deutlich vergrößern. 
+
+Die Inklusion alternierender Komponenten, welche im Altimate-Schema bereits vollständig verankert ist, kann weitere flexiblere Einsatzmöglichkeiten der Anwendung bieten.
+
+Das Modellieren von inhaltlichen Abhängigkeiten beziehungsweise logischen Verknüpfungen zwischen Komponenten und eventuellen anderen Komponentenarten und -Abhängigkeiten kann die Flexibilität des Altimate-Schemas weiter erhöhen und kreativen Einsatz der Anwendungen steigern. Idealerweise sollte irgendwann jede sinnvolle Kombination von Optionen und Teilbildern mit Altimate möglich sein um der künstlerischen Kreativität keine Grenzen zu setzen.\\
+Ein potentieller Grundstein hierfür ist bereits mit der noch nicht vollständig ausgeschöpften Flexibilität des Altimate-Schemas gesetzt.
+
+Das Hinzufügen von verschiedenen Mischmodi kann zum einen die Altimate-Modellierung im Umfang näher an die gängigen Illustrationsprogramme bringen und zum anderen flexiblere Auftrennung verschiedener Teilkomponenten ermöglichen.
+
+Animations- und Soundfunktionalitäten können das digitale Medium der Altimate-Dateien weiter ausnützen und die Anwendungen interaktiver gestalten. Insbesondere einfache Animationsmöglichkeiten anhand von vorgefertigten Animationsmustern können einen weiteren Grund darstellen, warum Künstler Altimate für die Verteilung ihrer Illustrationen wählen würden.
+
+Exportmöglichkeiten, insbesondere als Standalone-Lösung, können die Einstiegshürde, Altimate installiert zu haben, entfernen und dadurch mehr Nutzern ermöglichen, Altimate-Dateien zu betrachten.
+
+Das Einstellen des maximalen und minimalen Zoomfaktors kann durch Einschränkung oder Erweiterung der Betrachtungsmöglichkeiten die gewünschte Wirkung der Illustrationen verstärken.
+
+
+
+\section{Fazit}
+
+Das Anwendungs-Paar Altimate und Altimake zeigt das Potential von kreativen Lösungen für Probleme der digitalen Illustrationen. Altimake kann schnell und einfach aus Bildbausteinen eine interaktive Erfahrung gestalten, die ansonsten auf wenige Bild-Alternativen reduziert werden müsste. Altimate ermöglicht es, intuitiv beliebige Konfigurationen einer Altimate-Datei auszuprobieren und interaktiv zu betrachten. 
+
+In ihrem Zusammenspiel bieten Altimate und Altimake eine Lösung für die Grenzen von Bildalternativen, die der grenzenlosen künstlerischen Kreativität der Menschen dadurch etwas besser gegenüberstehen kann.
+
+
+
+%-----------------------------------------------------------------------
+\appendix
+
+%---
+\printbibliography[heading=bibintoc]
+
+%---
+\chapter{Anhang A}
+
+%---
+\chapter{Anhang B}
+
+
+\end{document}
