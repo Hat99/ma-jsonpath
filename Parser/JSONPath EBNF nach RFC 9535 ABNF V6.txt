@@ -1,0 +1,228 @@
+//JSONPath EBNF nach RFC 9535 ABNF (V6)//
+
+
+
+/NOTE: explizite Leerzeichenbehandlung -> dürfen *nicht* überlesen werden/
+
+/TODO: "***" -> zu klären, welche Symbole genau anzugeben sind/
+
+
+
+
+
+jsonpath-query	=	ROOT-IDENTIFIER segments
+
+ROOT-IDENTIFIER	=	"$"
+
+segments		=	{S segment}
+
+S			=	{B}					//optional whitespaces
+
+B			=	" "					//space
+				| "***"				//horizontal tab
+				| "***"				//line feed / new line
+				| "***"				//carriage return
+
+
+
+
+
+segment		=	child-segment
+				| descendant-segment
+
+child-segment	=	bracketed-selection
+				| ("." (WILDCARD-SELECTOR | member-name-shorthand))
+
+bracketed-selection =	"[" S selector {S "," S selector} S "]"
+
+member-name-shorthand
+			=	name-first {name-char}
+
+name-first		=	ALPHA
+				| "_"
+				| "***"				//skip surrogate code points
+				| "***"
+
+name-char		=	name-first
+				| DIGIT
+
+DIGIT			=	"0".."9"				//0-9
+
+ALPHA			=	"A".."Z" | "a".."z"		//A-Z | a-z
+
+
+
+descendant-segment =	".." (bracketed-selection | WILDCARD-SELECTOR | member-name-shorthand)
+
+
+
+
+
+selector		=	name-selector
+				| WILDCARD-SELECTOR
+				| slice-selector
+				| index-selector
+				| filterselector
+
+
+
+name-selector	= 	string-literal
+
+string-literal	=	'"' {double-quoted} '"'	//"string"
+				| "'" {single-quoted} "'"	//'string'
+
+double-quoted	=	unescaped
+				| "'"
+				| ESC '"'
+				| ESC escapable
+
+single-quoted	=	unescaped
+				| '"'
+				| ESC "'"
+				| ESC escapable
+
+ESC			=	"\"
+
+unescaped		=	"***"			//omit 0x22 "
+				| "***"		//omit 0x27 '
+				| "***"		//omit 0x5C \
+				| "***"		//skip surrogate code points
+				| "***"
+
+escapable		=	"***"			//b BS backspace U+0008
+				| "***"		//f FF form feed U+000C
+				| "***"		//n LF line feed U+000A
+				| "***"		//r CR carriage return U+000D
+				| "***"		//t HT horizontal tab U+0009
+				| "***"		/// slash (solidus) U+002F
+				| "***"		//\ backslash (reverse solidus) U+005C
+				| "***" hexchar	//uXXXX U+XXXX
+
+hexchar		=	non-surrogate
+				| high-surrogate "\" "***" low-surrogate
+
+non-surrogate	=	((DIGIT | "A" | "B" | "C" | "E" | "F") HEXDIG HEXDIG HEXDIG)
+				| ("D" "***" HEXDIG HEXDIG)
+
+high-surrogate	=	"D" ("8" | "9" | "A" | "B") HEXDIG HEXDIG
+
+low-surrogate	=	"D" ("C" | "D" | "E" | "F") HEXDIG HEXDIG
+
+HEXDIG		=	DIGIT | "A" | "B" | "C" | "D" | "E" | "F"
+
+
+
+WILDCARD-SELECTOR =	"*"
+
+
+
+slice-selector	=	[start S] ":" S [end S] [":" [S step]]
+
+start			= 	int
+
+end			=	int
+
+step			=	int
+
+
+
+index-selector	=	int					//decimal integer
+
+int			=	"0"
+				| (["-"] DIGIT1 {DIGIT})	//- optional
+
+DIGIT1		=	"1".."9"				//1-9 non-zero digit
+
+
+
+filter-selector	=	"?" S logical-expr
+
+logical-expr	=	logical-or-expr
+
+logical-or-expr	=	logical-and-expr {S "||" S logical-and-expr}
+
+logical-and-expr	=	basic-expr {S "&&" S basic-expr}
+
+basic-expr		=	paren-expr
+				| comparison-expr
+				| test-expr
+
+paren-expr		=	[LOGICAL-NOT-OP S] "(" S logical-expr S ")"
+
+LOGICAL-NOT-OP	=	"!"
+
+
+comparison-expr	=	comparable S comparison-op S comparable
+
+literal		=	number
+				| string-literal
+				| true
+				| false
+				| null
+
+comparable		=	literal
+				| singular-query
+				| function-expr
+
+comparison-op	=	"=="
+				| "!="
+				| "<="
+				| ">="
+				| "<"
+				| ">"
+
+singular-query	=	rel-singular-query
+				| abs-singular-query
+
+rel-singular-query =	CURRENT-NODE-IDENTIFIER singular-query-segments
+
+abs-singular-query =	ROOT-IDENTIFIER singular-query-segments
+
+singular-query-segments 
+			= 	{S (name-segment | index-segment)}
+
+name-segment	=	("[" name-selector "]")
+				| ("." member-name-shorthand)
+
+index-segment	=	"[" index-selector "]"
+
+number		=	(int | "-0") [frac] [exp]
+
+frac			=	"." DIGIT {DIGIT}
+
+exp			=	"e" [ "-" | "+" ] DIGIT {DIGIT}
+
+true			=	"true"				//case-sensitive!
+
+false			=	"false"				//case-sensitive!
+
+null			=	"null"				//case-sensitive!
+
+
+test-expr		=	[LOGICAL-NOT-OP S] (filter-query | function-expr)
+
+filter-query	=	rel-query | jsonpath-query
+
+rel-query		=	CURRENT-NODE-IDENTIFIER segments
+
+CURRENT-NODE-IDENTIFIER = "@"
+
+
+
+function-name	=	function-name-first {function-name-char}
+
+function-name-first =	LCALPHA
+
+function-name-char =	function-name-first 
+				| "_"
+				| DIGIT
+
+LCALPHA		=	"a".."z"				//lowercase alphabet
+
+
+function-expr	=	function-name "(" S [function-argument {S "," S function-argument}] S ")"
+
+function-argument = 	literal
+				| filter-query
+				| logical-expr
+				| function-expr
