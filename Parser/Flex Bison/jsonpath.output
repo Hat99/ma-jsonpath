@@ -1,0 +1,6482 @@
+State 5 conflicts: 1 shift/reduce, 4 reduce/reduce
+State 95 conflicts: 4 reduce/reduce
+State 117 conflicts: 28 shift/reduce
+State 170 conflicts: 1 shift/reduce
+State 171 conflicts: 1 shift/reduce
+State 172 conflicts: 1 shift/reduce
+State 201 conflicts: 4 shift/reduce
+State 219 conflicts: 4 reduce/reduce
+State 223 conflicts: 4 reduce/reduce
+State 224 conflicts: 4 reduce/reduce
+State 264 conflicts: 28 shift/reduce
+State 265 conflicts: 4 reduce/reduce
+State 271 conflicts: 32 shift/reduce
+State 277 conflicts: 4 reduce/reduce
+State 279 conflicts: 4 shift/reduce
+State 326 conflicts: 6 reduce/reduce
+State 329 conflicts: 6 reduce/reduce
+State 330 conflicts: 4 reduce/reduce
+State 331 conflicts: 4 reduce/reduce
+State 366 conflicts: 4 reduce/reduce
+State 392 conflicts: 28 shift/reduce
+State 393 conflicts: 28 shift/reduce
+State 408 conflicts: 28 shift/reduce
+
+
+Grammar
+
+    0 $accept: jsonpath_query $end
+
+    1 jsonpath_query: root_identifier segments
+    2               | root_identifier segments T_NEW_LINE
+
+    3 segments: ε
+    4         | segments S segment
+
+    5 B: T_SPACE
+    6  | T_TAB
+    7  | T_NEW_LINE
+    8  | T_CARRIAGE_RETURN
+
+    9 S: ε
+   10  | S B
+
+   11 root_identifier: T_DOLLAR
+
+   12 selector: name_selector
+   13         | wildcard_selector
+   14         | slice_selector
+   15         | index_selector
+   16         | filter_selector
+
+   17 name_selector: string_literal
+
+   18 string_literal: T_DOUBLE_QUOTE rep_double_quoted T_DOUBLE_QUOTE
+   19               | T_SINGLE_QUOTE rep_single_quoted T_SINGLE_QUOTE
+
+   20 rep_double_quoted: ε
+   21                  | rep_double_quoted double_quoted
+
+   22 double_quoted: unescaped
+   23              | T_SINGLE_QUOTE
+   24              | ESC T_DOUBLE_QUOTE
+   25              | ESC escapable
+
+   26 rep_single_quoted: ε
+   27                  | rep_single_quoted single_quoted
+
+   28 single_quoted: unescaped
+   29              | T_DOUBLE_QUOTE
+   30              | ESC T_SINGLE_QUOTE
+   31              | ESC escapable
+
+   32 ESC: T_BACKSLASH
+
+   33 unescaped: T_SPACE
+   34          | T_EXCLAMATION
+   35          | T_HASHTAG
+   36          | T_DOLLAR
+   37          | T_PERCENT
+   38          | T_AMPERSAND
+   39          | T_PAREN_OPEN
+   40          | T_PAREN_CLOSE
+   41          | T_ASTERISK
+   42          | T_PLUS
+   43          | T_COMMA
+   44          | T_HYPHEN
+   45          | T_PERIOD
+   46          | T_FORWARD_SLASH
+   47          | DIGIT
+   48          | T_COLON
+   49          | T_SEMICOLON
+   50          | T_LT
+   51          | T_EQUALS
+   52          | T_GT
+   53          | T_QUESTION
+   54          | T_AT
+   55          | UCALPHA
+   56          | T_SQUARE_BRACKET_OPEN
+   57          | T_SQUARE_BRACKET_CLOSE
+   58          | T_CIRCUMFLEX
+   59          | T_UNDERSCORE
+   60          | T_GRAVE
+   61          | LCALPHA
+   62          | T_CURLY_BRACE_OPEN
+   63          | T_VERTICAL_BAR
+   64          | T_CURLY_BRACE_CLOSE
+   65          | T_TILDE
+   66          | T_DEL
+
+   67 escapable: T_LC_B
+   68          | T_LC_F
+   69          | T_LC_N
+   70          | T_LC_R
+   71          | T_LC_T
+   72          | T_FORWARD_SLASH
+   73          | T_BACKSLASH
+   74          | T_LC_U hexchar
+
+   75 hexchar: non_surrogate
+   76        | high_surrogate T_BACKSLASH T_LC_U low_surrogate
+
+   77 non_surrogate: DIGIT HEXDIG HEXDIG HEXDIG
+   78              | T_UC_A HEXDIG HEXDIG HEXDIG
+   79              | T_UC_B HEXDIG HEXDIG HEXDIG
+   80              | T_UC_C HEXDIG HEXDIG HEXDIG
+   81              | T_UC_E HEXDIG HEXDIG HEXDIG
+   82              | T_UC_F HEXDIG HEXDIG HEXDIG
+   83              | T_UC_D T_ZERO HEXDIG HEXDIG
+   84              | T_UC_D T_ONE HEXDIG HEXDIG
+   85              | T_UC_D T_TWO HEXDIG HEXDIG
+   86              | T_UC_D T_THREE HEXDIG HEXDIG
+   87              | T_UC_D T_FOUR HEXDIG HEXDIG
+   88              | T_UC_D T_FIVE HEXDIG HEXDIG
+   89              | T_UC_D T_SIX HEXDIG HEXDIG
+   90              | T_UC_D T_SEVEN HEXDIG HEXDIG
+
+   91 high_surrogate: T_UC_D T_EIGHT HEXDIG HEXDIG
+   92               | T_UC_D T_NINE HEXDIG HEXDIG
+   93               | T_UC_D T_UC_A HEXDIG HEXDIG
+   94               | T_UC_D T_UC_B HEXDIG HEXDIG
+
+   95 low_surrogate: T_UC_D T_UC_C HEXDIG HEXDIG
+   96              | T_UC_D T_UC_D HEXDIG HEXDIG
+   97              | T_UC_D T_UC_E HEXDIG HEXDIG
+   98              | T_UC_D T_UC_F HEXDIG HEXDIG
+
+   99 HEXDIG: DIGIT
+  100       | T_UC_A
+  101       | T_UC_B
+  102       | T_UC_C
+  103       | T_UC_D
+  104       | T_UC_E
+  105       | T_UC_F
+
+  106 wildcard_selector: T_ASTERISK
+
+  107 index_selector: int
+
+  108 int: T_ZERO
+  109    | opt_hyphen DIGIT1 rep_DIGIT
+
+  110 opt_hyphen: ε
+  111           | T_HYPHEN
+
+  112 DIGIT1: T_ONE
+  113       | T_TWO
+  114       | T_THREE
+  115       | T_FOUR
+  116       | T_FIVE
+  117       | T_SIX
+  118       | T_SEVEN
+  119       | T_EIGHT
+  120       | T_NINE
+
+  121 rep_DIGIT: ε
+  122          | rep_DIGIT DIGIT
+
+  123 slice_selector: opt_start T_COLON S opt_end opt_step
+
+  124 opt_start: ε
+  125          | start S
+
+  126 opt_end: ε
+  127        | end S
+
+  128 opt_step: ε
+  129         | T_COLON S step
+  130         | T_COLON
+
+  131 start: int
+
+  132 end: int
+
+  133 step: int
+
+  134 filter_selector: T_QUESTION S logical_expr
+
+  135 logical_expr: logical_or_expr
+
+  136 logical_or_expr: logical_and_expr rep_logical_and_expr
+
+  137 rep_logical_and_expr: ε
+  138                     | rep_logical_and_expr S T_VERTICAL_BAR T_VERTICAL_BAR S logical_and_expr
+
+  139 logical_and_expr: basic_expr rep_basic_expr
+
+  140 rep_basic_expr: ε
+  141               | rep_basic_expr S T_AMPERSAND T_AMPERSAND S basic_expr
+
+  142 basic_expr: paren_expr
+  143           | comparison_expr
+  144           | test_expr
+
+  145 paren_expr: opt_not_op T_PAREN_OPEN S logical_expr S T_PAREN_CLOSE
+
+  146 opt_not_op: ε
+  147           | logical_not_op S
+
+  148 logical_not_op: T_EXCLAMATION
+
+  149 test_expr: opt_not_op filter_query
+  150          | opt_not_op function_expr
+
+  151 filter_query: rel_query
+  152             | jsonpath_query
+
+  153 rel_query: current_node_identifier segments
+
+  154 current_node_identifier: T_AT
+
+  155 comparison_expr: comparable S comparison_op S comparable
+
+  156 literal: number
+  157        | string_literal
+  158        | true
+  159        | false
+  160        | null
+
+  161 comparable: literal
+  162           | singular_query
+  163           | function_expr
+
+  164 comparison_op: T_EQUALS T_EQUALS
+  165              | T_EXCLAMATION T_EQUALS
+  166              | T_LT T_EQUALS
+  167              | T_GT T_EQUALS
+  168              | T_LT
+  169              | T_GT
+
+  170 singular_query: rel_singular_query
+  171               | abs_singular_query
+
+  172 rel_singular_query: current_node_identifier singular_query_segments
+
+  173 abs_singular_query: root_identifier singular_query_segments
+
+  174 singular_query_segments: rep_singular_query_segment
+
+  175 rep_singular_query_segment: ε
+  176                           | rep_singular_query_segment singular_query_segment
+
+  177 singular_query_segment: S name_segment
+  178                       | S index_segment
+
+  179 name_segment: T_SQUARE_BRACKET_OPEN name_selector T_SQUARE_BRACKET_CLOSE
+  180             | T_PERIOD member_name_shorthand
+
+  181 index_segment: T_SQUARE_BRACKET_OPEN index_selector T_SQUARE_BRACKET_CLOSE
+
+  182 number: int opt_frac opt_exp
+  183       | T_HYPHEN T_ZERO opt_frac opt_exp
+
+  184 opt_frac: ε
+  185         | frac
+
+  186 frac: T_PERIOD DIGIT rep_DIGIT
+
+  187 opt_exp: ε
+  188        | exp
+
+  189 exp: T_LC_E opt_signed DIGIT rep_DIGIT
+
+  190 opt_signed: ε
+  191           | T_HYPHEN
+  192           | T_PLUS
+
+  193 true: T_LC_T T_LC_R T_LC_U T_LC_E
+
+  194 false: T_LC_F T_LC_A T_LC_L T_LC_S T_LC_E
+
+  195 null: T_LC_N T_LC_U T_LC_L T_LC_L
+
+  196 function_name: function_name_first rep_function_name_char
+
+  197 rep_function_name_char: ε
+  198                       | rep_function_name_char function_name_char
+
+  199 function_name_first: LCALPHA
+
+  200 function_name_char: function_name_first
+  201                   | T_UNDERSCORE
+  202                   | DIGIT
+
+  203 LCALPHA: T_LC_A
+  204        | T_LC_B
+  205        | T_LC_C
+  206        | T_LC_D
+  207        | T_LC_E
+  208        | T_LC_F
+  209        | T_LC_G
+  210        | T_LC_H
+  211        | T_LC_I
+  212        | T_LC_J
+  213        | T_LC_K
+  214        | T_LC_L
+  215        | T_LC_M
+  216        | T_LC_N
+  217        | T_LC_O
+  218        | T_LC_P
+  219        | T_LC_Q
+  220        | T_LC_R
+  221        | T_LC_S
+  222        | T_LC_T
+  223        | T_LC_U
+  224        | T_LC_V
+  225        | T_LC_W
+  226        | T_LC_X
+  227        | T_LC_Y
+  228        | T_LC_Z
+
+  229 function_expr: function_name T_PAREN_OPEN S opt_func_args S T_PAREN_CLOSE
+
+  230 opt_func_args: ε
+  231              | function_argument rep_function_argument
+
+  232 rep_function_argument: ε
+  233                      | rep_function_argument S T_COMMA S function_argument
+
+  234 function_argument: literal
+  235                  | filter_query
+  236                  | logical_expr
+  237                  | function_expr
+
+  238 segment: child_segment
+  239        | descendant_segment
+
+  240 child_segment: bracketed_selection
+  241              | T_PERIOD wildcard_selector
+  242              | T_PERIOD member_name_shorthand
+
+  243 bracketed_selection: T_SQUARE_BRACKET_OPEN S selector rep_selector S T_SQUARE_BRACKET_CLOSE
+
+  244 rep_selector: ε
+  245             | rep_selector S T_COMMA S selector
+
+  246 member_name_shorthand: name_first rep_name_char
+
+  247 name_first: ALPHA
+  248           | T_UNDERSCORE
+
+  249 rep_name_char: ε
+  250              | rep_name_char name_char
+
+  251 name_char: name_first
+  252          | DIGIT
+
+  253 DIGIT: T_ZERO
+  254      | DIGIT1
+
+  255 ALPHA: UCALPHA
+  256      | LCALPHA
+
+  257 UCALPHA: T_UC_A
+  258        | T_UC_B
+  259        | T_UC_C
+  260        | T_UC_D
+  261        | T_UC_E
+  262        | T_UC_F
+  263        | T_UC_G
+  264        | T_UC_H
+  265        | T_UC_I
+  266        | T_UC_J
+  267        | T_UC_K
+  268        | T_UC_L
+  269        | T_UC_M
+  270        | T_UC_N
+  271        | T_UC_O
+  272        | T_UC_P
+  273        | T_UC_Q
+  274        | T_UC_R
+  275        | T_UC_S
+  276        | T_UC_T
+  277        | T_UC_U
+  278        | T_UC_V
+  279        | T_UC_W
+  280        | T_UC_X
+  281        | T_UC_Y
+  282        | T_UC_Z
+
+  283 descendant_segment: T_PERIOD T_PERIOD bracketed_selection
+  284                   | T_PERIOD T_PERIOD wildcard_selector
+  285                   | T_PERIOD T_PERIOD member_name_shorthand
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    T_TAB (258) 6
+    T_NEW_LINE (259) 2 7
+    T_CARRIAGE_RETURN (260) 8
+    T_SPACE (261) 5 33
+    T_EXCLAMATION (262) 34 148 165
+    T_DOUBLE_QUOTE (263) 18 24 29
+    T_HASHTAG (264) 35
+    T_DOLLAR (265) 11 36
+    T_PERCENT (266) 37
+    T_AMPERSAND (267) 38 141
+    T_SINGLE_QUOTE (268) 19 23 30
+    T_PAREN_OPEN (269) 39 145 229
+    T_PAREN_CLOSE (270) 40 145 229
+    T_ASTERISK (271) 41 106
+    T_PLUS (272) 42 192
+    T_COMMA (273) 43 233 245
+    T_HYPHEN (274) 44 111 183 191
+    T_PERIOD (275) 45 180 186 241 242 283 284 285
+    T_FORWARD_SLASH (276) 46 72
+    T_ZERO (277) 83 108 183 253
+    T_ONE (278) 84 112
+    T_TWO (279) 85 113
+    T_THREE (280) 86 114
+    T_FOUR (281) 87 115
+    T_FIVE (282) 88 116
+    T_SIX (283) 89 117
+    T_SEVEN (284) 90 118
+    T_EIGHT (285) 91 119
+    T_NINE (286) 92 120
+    T_COLON (287) 48 123 129 130
+    T_SEMICOLON (288) 49
+    T_LT (289) 50 166 168
+    T_EQUALS (290) 51 164 165 166 167
+    T_GT (291) 52 167 169
+    T_QUESTION (292) 53 134
+    T_AT (293) 54 154
+    T_UC_A (294) 78 93 100 257
+    T_UC_B (295) 79 94 101 258
+    T_UC_C (296) 80 95 102 259
+    T_UC_D (297) 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 103 260
+    T_UC_E (298) 81 97 104 261
+    T_UC_F (299) 82 98 105 262
+    T_UC_G (300) 263
+    T_UC_H (301) 264
+    T_UC_I (302) 265
+    T_UC_J (303) 266
+    T_UC_K (304) 267
+    T_UC_L (305) 268
+    T_UC_M (306) 269
+    T_UC_N (307) 270
+    T_UC_O (308) 271
+    T_UC_P (309) 272
+    T_UC_Q (310) 273
+    T_UC_R (311) 274
+    T_UC_S (312) 275
+    T_UC_T (313) 276
+    T_UC_U (314) 277
+    T_UC_V (315) 278
+    T_UC_W (316) 279
+    T_UC_X (317) 280
+    T_UC_Y (318) 281
+    T_UC_Z (319) 282
+    T_SQUARE_BRACKET_OPEN (320) 56 179 181 243
+    T_BACKSLASH (321) 32 73 76
+    T_SQUARE_BRACKET_CLOSE (322) 57 179 181 243
+    T_CIRCUMFLEX (323) 58
+    T_UNDERSCORE (324) 59 201 248
+    T_GRAVE (325) 60
+    T_LC_A (326) 194 203
+    T_LC_B (327) 67 204
+    T_LC_C (328) 205
+    T_LC_D (329) 206
+    T_LC_E (330) 189 193 194 207
+    T_LC_F (331) 68 194 208
+    T_LC_G (332) 209
+    T_LC_H (333) 210
+    T_LC_I (334) 211
+    T_LC_J (335) 212
+    T_LC_K (336) 213
+    T_LC_L (337) 194 195 214
+    T_LC_M (338) 215
+    T_LC_N (339) 69 195 216
+    T_LC_O (340) 217
+    T_LC_P (341) 218
+    T_LC_Q (342) 219
+    T_LC_R (343) 70 193 220
+    T_LC_S (344) 194 221
+    T_LC_T (345) 71 193 222
+    T_LC_U (346) 74 76 193 195 223
+    T_LC_V (347) 224
+    T_LC_W (348) 225
+    T_LC_X (349) 226
+    T_LC_Y (350) 227
+    T_LC_Z (351) 228
+    T_CURLY_BRACE_OPEN (352) 62
+    T_VERTICAL_BAR (353) 63 138
+    T_CURLY_BRACE_CLOSE (354) 64
+    T_TILDE (355) 65
+    T_DEL (356) 66
+
+
+Nonterminals, with rules where they appear
+
+    $accept (102)
+        on left: 0
+    jsonpath_query (103)
+        on left: 1 2
+        on right: 0 152
+    segments (104)
+        on left: 3 4
+        on right: 1 2 4 153
+    B (105)
+        on left: 5 6 7 8
+        on right: 10
+    S (106)
+        on left: 9 10
+        on right: 4 10 123 125 127 129 134 138 141 145 147 155 177 178 229 233 243 245
+    root_identifier (107)
+        on left: 11
+        on right: 1 2 173
+    selector (108)
+        on left: 12 13 14 15 16
+        on right: 243 245
+    name_selector (109)
+        on left: 17
+        on right: 12 179
+    string_literal (110)
+        on left: 18 19
+        on right: 17 157
+    rep_double_quoted (111)
+        on left: 20 21
+        on right: 18 21
+    double_quoted (112)
+        on left: 22 23 24 25
+        on right: 21
+    rep_single_quoted (113)
+        on left: 26 27
+        on right: 19 27
+    single_quoted (114)
+        on left: 28 29 30 31
+        on right: 27
+    ESC (115)
+        on left: 32
+        on right: 24 25 30 31
+    unescaped (116)
+        on left: 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66
+        on right: 22 28
+    escapable (117)
+        on left: 67 68 69 70 71 72 73 74
+        on right: 25 31
+    hexchar (118)
+        on left: 75 76
+        on right: 74
+    non_surrogate (119)
+        on left: 77 78 79 80 81 82 83 84 85 86 87 88 89 90
+        on right: 75
+    high_surrogate (120)
+        on left: 91 92 93 94
+        on right: 76
+    low_surrogate (121)
+        on left: 95 96 97 98
+        on right: 76
+    HEXDIG (122)
+        on left: 99 100 101 102 103 104 105
+        on right: 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98
+    wildcard_selector (123)
+        on left: 106
+        on right: 13 241 284
+    index_selector (124)
+        on left: 107
+        on right: 15 181
+    int (125)
+        on left: 108 109
+        on right: 107 131 132 133 182
+    opt_hyphen (126)
+        on left: 110 111
+        on right: 109
+    DIGIT1 (127)
+        on left: 112 113 114 115 116 117 118 119 120
+        on right: 109 254
+    rep_DIGIT (128)
+        on left: 121 122
+        on right: 109 122 186 189
+    slice_selector (129)
+        on left: 123
+        on right: 14
+    opt_start (130)
+        on left: 124 125
+        on right: 123
+    opt_end (131)
+        on left: 126 127
+        on right: 123
+    opt_step (132)
+        on left: 128 129 130
+        on right: 123
+    start (133)
+        on left: 131
+        on right: 125
+    end (134)
+        on left: 132
+        on right: 127
+    step (135)
+        on left: 133
+        on right: 129
+    filter_selector (136)
+        on left: 134
+        on right: 16
+    logical_expr (137)
+        on left: 135
+        on right: 134 145 236
+    logical_or_expr (138)
+        on left: 136
+        on right: 135
+    rep_logical_and_expr (139)
+        on left: 137 138
+        on right: 136 138
+    logical_and_expr (140)
+        on left: 139
+        on right: 136 138
+    rep_basic_expr (141)
+        on left: 140 141
+        on right: 139 141
+    basic_expr (142)
+        on left: 142 143 144
+        on right: 139 141
+    paren_expr (143)
+        on left: 145
+        on right: 142
+    opt_not_op (144)
+        on left: 146 147
+        on right: 145 149 150
+    logical_not_op (145)
+        on left: 148
+        on right: 147
+    test_expr (146)
+        on left: 149 150
+        on right: 144
+    filter_query (147)
+        on left: 151 152
+        on right: 149 235
+    rel_query (148)
+        on left: 153
+        on right: 151
+    current_node_identifier (149)
+        on left: 154
+        on right: 153 172
+    comparison_expr (150)
+        on left: 155
+        on right: 143
+    literal (151)
+        on left: 156 157 158 159 160
+        on right: 161 234
+    comparable (152)
+        on left: 161 162 163
+        on right: 155
+    comparison_op (153)
+        on left: 164 165 166 167 168 169
+        on right: 155
+    singular_query (154)
+        on left: 170 171
+        on right: 162
+    rel_singular_query (155)
+        on left: 172
+        on right: 170
+    abs_singular_query (156)
+        on left: 173
+        on right: 171
+    singular_query_segments (157)
+        on left: 174
+        on right: 172 173
+    rep_singular_query_segment (158)
+        on left: 175 176
+        on right: 174 176
+    singular_query_segment (159)
+        on left: 177 178
+        on right: 176
+    name_segment (160)
+        on left: 179 180
+        on right: 177
+    index_segment (161)
+        on left: 181
+        on right: 178
+    number (162)
+        on left: 182 183
+        on right: 156
+    opt_frac (163)
+        on left: 184 185
+        on right: 182 183
+    frac (164)
+        on left: 186
+        on right: 185
+    opt_exp (165)
+        on left: 187 188
+        on right: 182 183
+    exp (166)
+        on left: 189
+        on right: 188
+    opt_signed (167)
+        on left: 190 191 192
+        on right: 189
+    true (168)
+        on left: 193
+        on right: 158
+    false (169)
+        on left: 194
+        on right: 159
+    null (170)
+        on left: 195
+        on right: 160
+    function_name (171)
+        on left: 196
+        on right: 229
+    rep_function_name_char (172)
+        on left: 197 198
+        on right: 196 198
+    function_name_first (173)
+        on left: 199
+        on right: 196 200
+    function_name_char (174)
+        on left: 200 201 202
+        on right: 198
+    LCALPHA (175)
+        on left: 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228
+        on right: 61 199 256
+    function_expr (176)
+        on left: 229
+        on right: 150 163 237
+    opt_func_args (177)
+        on left: 230 231
+        on right: 229
+    rep_function_argument (178)
+        on left: 232 233
+        on right: 231 233
+    function_argument (179)
+        on left: 234 235 236 237
+        on right: 231 233
+    segment (180)
+        on left: 238 239
+        on right: 4
+    child_segment (181)
+        on left: 240 241 242
+        on right: 238
+    bracketed_selection (182)
+        on left: 243
+        on right: 240 283
+    rep_selector (183)
+        on left: 244 245
+        on right: 243 245
+    member_name_shorthand (184)
+        on left: 246
+        on right: 180 242 285
+    name_first (185)
+        on left: 247 248
+        on right: 246 251
+    rep_name_char (186)
+        on left: 249 250
+        on right: 246 250
+    name_char (187)
+        on left: 251 252
+        on right: 250
+    DIGIT (188)
+        on left: 253 254
+        on right: 47 77 99 122 186 189 202 252
+    ALPHA (189)
+        on left: 255 256
+        on right: 247
+    UCALPHA (190)
+        on left: 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 273 274 275 276 277 278 279 280 281 282
+        on right: 55 255
+    descendant_segment (191)
+        on left: 283 284 285
+        on right: 239
+
+
+State 0
+
+    0 $accept: • jsonpath_query $end
+
+    T_DOLLAR  shift, and go to state 1
+
+    jsonpath_query   go to state 2
+    root_identifier  go to state 3
+
+
+State 1
+
+   11 root_identifier: T_DOLLAR •
+
+    $default  reduce using rule 11 (root_identifier)
+
+
+State 2
+
+    0 $accept: jsonpath_query • $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 jsonpath_query: root_identifier • segments
+    2               | root_identifier • segments T_NEW_LINE
+
+    $default  reduce using rule 3 (segments)
+
+    segments  go to state 5
+
+
+State 4
+
+    0 $accept: jsonpath_query $end •
+
+    $default  accept
+
+
+State 5
+
+    1 jsonpath_query: root_identifier segments •
+    2               | root_identifier segments • T_NEW_LINE
+    4 segments: segments • S segment
+
+    T_NEW_LINE  shift, and go to state 6
+
+    T_TAB                  reduce using rule 1 (jsonpath_query)
+    T_TAB                  [reduce using rule 9 (S)]
+    T_NEW_LINE             [reduce using rule 1 (jsonpath_query)]
+    T_NEW_LINE             [reduce using rule 9 (S)]
+    T_CARRIAGE_RETURN      reduce using rule 1 (jsonpath_query)
+    T_CARRIAGE_RETURN      [reduce using rule 9 (S)]
+    T_SPACE                reduce using rule 1 (jsonpath_query)
+    T_SPACE                [reduce using rule 9 (S)]
+    T_PERIOD               reduce using rule 9 (S)
+    T_SQUARE_BRACKET_OPEN  reduce using rule 9 (S)
+    $default               reduce using rule 1 (jsonpath_query)
+
+    S  go to state 7
+
+
+State 6
+
+    2 jsonpath_query: root_identifier segments T_NEW_LINE •
+
+    $default  reduce using rule 2 (jsonpath_query)
+
+
+State 7
+
+    4 segments: segments S • segment
+   10 S: S • B
+
+    T_TAB                  shift, and go to state 8
+    T_NEW_LINE             shift, and go to state 9
+    T_CARRIAGE_RETURN      shift, and go to state 10
+    T_SPACE                shift, and go to state 11
+    T_PERIOD               shift, and go to state 12
+    T_SQUARE_BRACKET_OPEN  shift, and go to state 13
+
+    B                    go to state 14
+    segment              go to state 15
+    child_segment        go to state 16
+    bracketed_selection  go to state 17
+    descendant_segment   go to state 18
+
+
+State 8
+
+    6 B: T_TAB •
+
+    $default  reduce using rule 6 (B)
+
+
+State 9
+
+    7 B: T_NEW_LINE •
+
+    $default  reduce using rule 7 (B)
+
+
+State 10
+
+    8 B: T_CARRIAGE_RETURN •
+
+    $default  reduce using rule 8 (B)
+
+
+State 11
+
+    5 B: T_SPACE •
+
+    $default  reduce using rule 5 (B)
+
+
+State 12
+
+  241 child_segment: T_PERIOD • wildcard_selector
+  242              | T_PERIOD • member_name_shorthand
+  283 descendant_segment: T_PERIOD • T_PERIOD bracketed_selection
+  284                   | T_PERIOD • T_PERIOD wildcard_selector
+  285                   | T_PERIOD • T_PERIOD member_name_shorthand
+
+    T_ASTERISK    shift, and go to state 19
+    T_PERIOD      shift, and go to state 20
+    T_UC_A        shift, and go to state 21
+    T_UC_B        shift, and go to state 22
+    T_UC_C        shift, and go to state 23
+    T_UC_D        shift, and go to state 24
+    T_UC_E        shift, and go to state 25
+    T_UC_F        shift, and go to state 26
+    T_UC_G        shift, and go to state 27
+    T_UC_H        shift, and go to state 28
+    T_UC_I        shift, and go to state 29
+    T_UC_J        shift, and go to state 30
+    T_UC_K        shift, and go to state 31
+    T_UC_L        shift, and go to state 32
+    T_UC_M        shift, and go to state 33
+    T_UC_N        shift, and go to state 34
+    T_UC_O        shift, and go to state 35
+    T_UC_P        shift, and go to state 36
+    T_UC_Q        shift, and go to state 37
+    T_UC_R        shift, and go to state 38
+    T_UC_S        shift, and go to state 39
+    T_UC_T        shift, and go to state 40
+    T_UC_U        shift, and go to state 41
+    T_UC_V        shift, and go to state 42
+    T_UC_W        shift, and go to state 43
+    T_UC_X        shift, and go to state 44
+    T_UC_Y        shift, and go to state 45
+    T_UC_Z        shift, and go to state 46
+    T_UNDERSCORE  shift, and go to state 47
+    T_LC_A        shift, and go to state 48
+    T_LC_B        shift, and go to state 49
+    T_LC_C        shift, and go to state 50
+    T_LC_D        shift, and go to state 51
+    T_LC_E        shift, and go to state 52
+    T_LC_F        shift, and go to state 53
+    T_LC_G        shift, and go to state 54
+    T_LC_H        shift, and go to state 55
+    T_LC_I        shift, and go to state 56
+    T_LC_J        shift, and go to state 57
+    T_LC_K        shift, and go to state 58
+    T_LC_L        shift, and go to state 59
+    T_LC_M        shift, and go to state 60
+    T_LC_N        shift, and go to state 61
+    T_LC_O        shift, and go to state 62
+    T_LC_P        shift, and go to state 63
+    T_LC_Q        shift, and go to state 64
+    T_LC_R        shift, and go to state 65
+    T_LC_S        shift, and go to state 66
+    T_LC_T        shift, and go to state 67
+    T_LC_U        shift, and go to state 68
+    T_LC_V        shift, and go to state 69
+    T_LC_W        shift, and go to state 70
+    T_LC_X        shift, and go to state 71
+    T_LC_Y        shift, and go to state 72
+    T_LC_Z        shift, and go to state 73
+
+    wildcard_selector      go to state 74
+    LCALPHA                go to state 75
+    member_name_shorthand  go to state 76
+    name_first             go to state 77
+    ALPHA                  go to state 78
+    UCALPHA                go to state 79
+
+
+State 13
+
+  243 bracketed_selection: T_SQUARE_BRACKET_OPEN • S selector rep_selector S T_SQUARE_BRACKET_CLOSE
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 80
+
+
+State 14
+
+   10 S: S B •
+
+    $default  reduce using rule 10 (S)
+
+
+State 15
+
+    4 segments: segments S segment •
+
+    $default  reduce using rule 4 (segments)
+
+
+State 16
+
+  238 segment: child_segment •
+
+    $default  reduce using rule 238 (segment)
+
+
+State 17
+
+  240 child_segment: bracketed_selection •
+
+    $default  reduce using rule 240 (child_segment)
+
+
+State 18
+
+  239 segment: descendant_segment •
+
+    $default  reduce using rule 239 (segment)
+
+
+State 19
+
+  106 wildcard_selector: T_ASTERISK •
+
+    $default  reduce using rule 106 (wildcard_selector)
+
+
+State 20
+
+  283 descendant_segment: T_PERIOD T_PERIOD • bracketed_selection
+  284                   | T_PERIOD T_PERIOD • wildcard_selector
+  285                   | T_PERIOD T_PERIOD • member_name_shorthand
+
+    T_ASTERISK             shift, and go to state 19
+    T_UC_A                 shift, and go to state 21
+    T_UC_B                 shift, and go to state 22
+    T_UC_C                 shift, and go to state 23
+    T_UC_D                 shift, and go to state 24
+    T_UC_E                 shift, and go to state 25
+    T_UC_F                 shift, and go to state 26
+    T_UC_G                 shift, and go to state 27
+    T_UC_H                 shift, and go to state 28
+    T_UC_I                 shift, and go to state 29
+    T_UC_J                 shift, and go to state 30
+    T_UC_K                 shift, and go to state 31
+    T_UC_L                 shift, and go to state 32
+    T_UC_M                 shift, and go to state 33
+    T_UC_N                 shift, and go to state 34
+    T_UC_O                 shift, and go to state 35
+    T_UC_P                 shift, and go to state 36
+    T_UC_Q                 shift, and go to state 37
+    T_UC_R                 shift, and go to state 38
+    T_UC_S                 shift, and go to state 39
+    T_UC_T                 shift, and go to state 40
+    T_UC_U                 shift, and go to state 41
+    T_UC_V                 shift, and go to state 42
+    T_UC_W                 shift, and go to state 43
+    T_UC_X                 shift, and go to state 44
+    T_UC_Y                 shift, and go to state 45
+    T_UC_Z                 shift, and go to state 46
+    T_SQUARE_BRACKET_OPEN  shift, and go to state 13
+    T_UNDERSCORE           shift, and go to state 47
+    T_LC_A                 shift, and go to state 48
+    T_LC_B                 shift, and go to state 49
+    T_LC_C                 shift, and go to state 50
+    T_LC_D                 shift, and go to state 51
+    T_LC_E                 shift, and go to state 52
+    T_LC_F                 shift, and go to state 53
+    T_LC_G                 shift, and go to state 54
+    T_LC_H                 shift, and go to state 55
+    T_LC_I                 shift, and go to state 56
+    T_LC_J                 shift, and go to state 57
+    T_LC_K                 shift, and go to state 58
+    T_LC_L                 shift, and go to state 59
+    T_LC_M                 shift, and go to state 60
+    T_LC_N                 shift, and go to state 61
+    T_LC_O                 shift, and go to state 62
+    T_LC_P                 shift, and go to state 63
+    T_LC_Q                 shift, and go to state 64
+    T_LC_R                 shift, and go to state 65
+    T_LC_S                 shift, and go to state 66
+    T_LC_T                 shift, and go to state 67
+    T_LC_U                 shift, and go to state 68
+    T_LC_V                 shift, and go to state 69
+    T_LC_W                 shift, and go to state 70
+    T_LC_X                 shift, and go to state 71
+    T_LC_Y                 shift, and go to state 72
+    T_LC_Z                 shift, and go to state 73
+
+    wildcard_selector      go to state 81
+    LCALPHA                go to state 75
+    bracketed_selection    go to state 82
+    member_name_shorthand  go to state 83
+    name_first             go to state 77
+    ALPHA                  go to state 78
+    UCALPHA                go to state 79
+
+
+State 21
+
+  257 UCALPHA: T_UC_A •
+
+    $default  reduce using rule 257 (UCALPHA)
+
+
+State 22
+
+  258 UCALPHA: T_UC_B •
+
+    $default  reduce using rule 258 (UCALPHA)
+
+
+State 23
+
+  259 UCALPHA: T_UC_C •
+
+    $default  reduce using rule 259 (UCALPHA)
+
+
+State 24
+
+  260 UCALPHA: T_UC_D •
+
+    $default  reduce using rule 260 (UCALPHA)
+
+
+State 25
+
+  261 UCALPHA: T_UC_E •
+
+    $default  reduce using rule 261 (UCALPHA)
+
+
+State 26
+
+  262 UCALPHA: T_UC_F •
+
+    $default  reduce using rule 262 (UCALPHA)
+
+
+State 27
+
+  263 UCALPHA: T_UC_G •
+
+    $default  reduce using rule 263 (UCALPHA)
+
+
+State 28
+
+  264 UCALPHA: T_UC_H •
+
+    $default  reduce using rule 264 (UCALPHA)
+
+
+State 29
+
+  265 UCALPHA: T_UC_I •
+
+    $default  reduce using rule 265 (UCALPHA)
+
+
+State 30
+
+  266 UCALPHA: T_UC_J •
+
+    $default  reduce using rule 266 (UCALPHA)
+
+
+State 31
+
+  267 UCALPHA: T_UC_K •
+
+    $default  reduce using rule 267 (UCALPHA)
+
+
+State 32
+
+  268 UCALPHA: T_UC_L •
+
+    $default  reduce using rule 268 (UCALPHA)
+
+
+State 33
+
+  269 UCALPHA: T_UC_M •
+
+    $default  reduce using rule 269 (UCALPHA)
+
+
+State 34
+
+  270 UCALPHA: T_UC_N •
+
+    $default  reduce using rule 270 (UCALPHA)
+
+
+State 35
+
+  271 UCALPHA: T_UC_O •
+
+    $default  reduce using rule 271 (UCALPHA)
+
+
+State 36
+
+  272 UCALPHA: T_UC_P •
+
+    $default  reduce using rule 272 (UCALPHA)
+
+
+State 37
+
+  273 UCALPHA: T_UC_Q •
+
+    $default  reduce using rule 273 (UCALPHA)
+
+
+State 38
+
+  274 UCALPHA: T_UC_R •
+
+    $default  reduce using rule 274 (UCALPHA)
+
+
+State 39
+
+  275 UCALPHA: T_UC_S •
+
+    $default  reduce using rule 275 (UCALPHA)
+
+
+State 40
+
+  276 UCALPHA: T_UC_T •
+
+    $default  reduce using rule 276 (UCALPHA)
+
+
+State 41
+
+  277 UCALPHA: T_UC_U •
+
+    $default  reduce using rule 277 (UCALPHA)
+
+
+State 42
+
+  278 UCALPHA: T_UC_V •
+
+    $default  reduce using rule 278 (UCALPHA)
+
+
+State 43
+
+  279 UCALPHA: T_UC_W •
+
+    $default  reduce using rule 279 (UCALPHA)
+
+
+State 44
+
+  280 UCALPHA: T_UC_X •
+
+    $default  reduce using rule 280 (UCALPHA)
+
+
+State 45
+
+  281 UCALPHA: T_UC_Y •
+
+    $default  reduce using rule 281 (UCALPHA)
+
+
+State 46
+
+  282 UCALPHA: T_UC_Z •
+
+    $default  reduce using rule 282 (UCALPHA)
+
+
+State 47
+
+  248 name_first: T_UNDERSCORE •
+
+    $default  reduce using rule 248 (name_first)
+
+
+State 48
+
+  203 LCALPHA: T_LC_A •
+
+    $default  reduce using rule 203 (LCALPHA)
+
+
+State 49
+
+  204 LCALPHA: T_LC_B •
+
+    $default  reduce using rule 204 (LCALPHA)
+
+
+State 50
+
+  205 LCALPHA: T_LC_C •
+
+    $default  reduce using rule 205 (LCALPHA)
+
+
+State 51
+
+  206 LCALPHA: T_LC_D •
+
+    $default  reduce using rule 206 (LCALPHA)
+
+
+State 52
+
+  207 LCALPHA: T_LC_E •
+
+    $default  reduce using rule 207 (LCALPHA)
+
+
+State 53
+
+  208 LCALPHA: T_LC_F •
+
+    $default  reduce using rule 208 (LCALPHA)
+
+
+State 54
+
+  209 LCALPHA: T_LC_G •
+
+    $default  reduce using rule 209 (LCALPHA)
+
+
+State 55
+
+  210 LCALPHA: T_LC_H •
+
+    $default  reduce using rule 210 (LCALPHA)
+
+
+State 56
+
+  211 LCALPHA: T_LC_I •
+
+    $default  reduce using rule 211 (LCALPHA)
+
+
+State 57
+
+  212 LCALPHA: T_LC_J •
+
+    $default  reduce using rule 212 (LCALPHA)
+
+
+State 58
+
+  213 LCALPHA: T_LC_K •
+
+    $default  reduce using rule 213 (LCALPHA)
+
+
+State 59
+
+  214 LCALPHA: T_LC_L •
+
+    $default  reduce using rule 214 (LCALPHA)
+
+
+State 60
+
+  215 LCALPHA: T_LC_M •
+
+    $default  reduce using rule 215 (LCALPHA)
+
+
+State 61
+
+  216 LCALPHA: T_LC_N •
+
+    $default  reduce using rule 216 (LCALPHA)
+
+
+State 62
+
+  217 LCALPHA: T_LC_O •
+
+    $default  reduce using rule 217 (LCALPHA)
+
+
+State 63
+
+  218 LCALPHA: T_LC_P •
+
+    $default  reduce using rule 218 (LCALPHA)
+
+
+State 64
+
+  219 LCALPHA: T_LC_Q •
+
+    $default  reduce using rule 219 (LCALPHA)
+
+
+State 65
+
+  220 LCALPHA: T_LC_R •
+
+    $default  reduce using rule 220 (LCALPHA)
+
+
+State 66
+
+  221 LCALPHA: T_LC_S •
+
+    $default  reduce using rule 221 (LCALPHA)
+
+
+State 67
+
+  222 LCALPHA: T_LC_T •
+
+    $default  reduce using rule 222 (LCALPHA)
+
+
+State 68
+
+  223 LCALPHA: T_LC_U •
+
+    $default  reduce using rule 223 (LCALPHA)
+
+
+State 69
+
+  224 LCALPHA: T_LC_V •
+
+    $default  reduce using rule 224 (LCALPHA)
+
+
+State 70
+
+  225 LCALPHA: T_LC_W •
+
+    $default  reduce using rule 225 (LCALPHA)
+
+
+State 71
+
+  226 LCALPHA: T_LC_X •
+
+    $default  reduce using rule 226 (LCALPHA)
+
+
+State 72
+
+  227 LCALPHA: T_LC_Y •
+
+    $default  reduce using rule 227 (LCALPHA)
+
+
+State 73
+
+  228 LCALPHA: T_LC_Z •
+
+    $default  reduce using rule 228 (LCALPHA)
+
+
+State 74
+
+  241 child_segment: T_PERIOD wildcard_selector •
+
+    $default  reduce using rule 241 (child_segment)
+
+
+State 75
+
+  256 ALPHA: LCALPHA •
+
+    $default  reduce using rule 256 (ALPHA)
+
+
+State 76
+
+  242 child_segment: T_PERIOD member_name_shorthand •
+
+    $default  reduce using rule 242 (child_segment)
+
+
+State 77
+
+  246 member_name_shorthand: name_first • rep_name_char
+
+    $default  reduce using rule 249 (rep_name_char)
+
+    rep_name_char  go to state 84
+
+
+State 78
+
+  247 name_first: ALPHA •
+
+    $default  reduce using rule 247 (name_first)
+
+
+State 79
+
+  255 ALPHA: UCALPHA •
+
+    $default  reduce using rule 255 (ALPHA)
+
+
+State 80
+
+   10 S: S • B
+  243 bracketed_selection: T_SQUARE_BRACKET_OPEN S • selector rep_selector S T_SQUARE_BRACKET_CLOSE
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_ASTERISK         shift, and go to state 19
+    T_HYPHEN           shift, and go to state 87
+    T_ZERO             shift, and go to state 88
+    T_QUESTION         shift, and go to state 89
+
+    T_COLON   reduce using rule 124 (opt_start)
+    $default  reduce using rule 110 (opt_hyphen)
+
+    B                  go to state 14
+    selector           go to state 90
+    name_selector      go to state 91
+    string_literal     go to state 92
+    wildcard_selector  go to state 93
+    index_selector     go to state 94
+    int                go to state 95
+    opt_hyphen         go to state 96
+    slice_selector     go to state 97
+    opt_start          go to state 98
+    start              go to state 99
+    filter_selector    go to state 100
+
+
+State 81
+
+  284 descendant_segment: T_PERIOD T_PERIOD wildcard_selector •
+
+    $default  reduce using rule 284 (descendant_segment)
+
+
+State 82
+
+  283 descendant_segment: T_PERIOD T_PERIOD bracketed_selection •
+
+    $default  reduce using rule 283 (descendant_segment)
+
+
+State 83
+
+  285 descendant_segment: T_PERIOD T_PERIOD member_name_shorthand •
+
+    $default  reduce using rule 285 (descendant_segment)
+
+
+State 84
+
+  246 member_name_shorthand: name_first rep_name_char •
+  250 rep_name_char: rep_name_char • name_char
+
+    T_ZERO        shift, and go to state 101
+    T_ONE         shift, and go to state 102
+    T_TWO         shift, and go to state 103
+    T_THREE       shift, and go to state 104
+    T_FOUR        shift, and go to state 105
+    T_FIVE        shift, and go to state 106
+    T_SIX         shift, and go to state 107
+    T_SEVEN       shift, and go to state 108
+    T_EIGHT       shift, and go to state 109
+    T_NINE        shift, and go to state 110
+    T_UC_A        shift, and go to state 21
+    T_UC_B        shift, and go to state 22
+    T_UC_C        shift, and go to state 23
+    T_UC_D        shift, and go to state 24
+    T_UC_E        shift, and go to state 25
+    T_UC_F        shift, and go to state 26
+    T_UC_G        shift, and go to state 27
+    T_UC_H        shift, and go to state 28
+    T_UC_I        shift, and go to state 29
+    T_UC_J        shift, and go to state 30
+    T_UC_K        shift, and go to state 31
+    T_UC_L        shift, and go to state 32
+    T_UC_M        shift, and go to state 33
+    T_UC_N        shift, and go to state 34
+    T_UC_O        shift, and go to state 35
+    T_UC_P        shift, and go to state 36
+    T_UC_Q        shift, and go to state 37
+    T_UC_R        shift, and go to state 38
+    T_UC_S        shift, and go to state 39
+    T_UC_T        shift, and go to state 40
+    T_UC_U        shift, and go to state 41
+    T_UC_V        shift, and go to state 42
+    T_UC_W        shift, and go to state 43
+    T_UC_X        shift, and go to state 44
+    T_UC_Y        shift, and go to state 45
+    T_UC_Z        shift, and go to state 46
+    T_UNDERSCORE  shift, and go to state 47
+    T_LC_A        shift, and go to state 48
+    T_LC_B        shift, and go to state 49
+    T_LC_C        shift, and go to state 50
+    T_LC_D        shift, and go to state 51
+    T_LC_E        shift, and go to state 52
+    T_LC_F        shift, and go to state 53
+    T_LC_G        shift, and go to state 54
+    T_LC_H        shift, and go to state 55
+    T_LC_I        shift, and go to state 56
+    T_LC_J        shift, and go to state 57
+    T_LC_K        shift, and go to state 58
+    T_LC_L        shift, and go to state 59
+    T_LC_M        shift, and go to state 60
+    T_LC_N        shift, and go to state 61
+    T_LC_O        shift, and go to state 62
+    T_LC_P        shift, and go to state 63
+    T_LC_Q        shift, and go to state 64
+    T_LC_R        shift, and go to state 65
+    T_LC_S        shift, and go to state 66
+    T_LC_T        shift, and go to state 67
+    T_LC_U        shift, and go to state 68
+    T_LC_V        shift, and go to state 69
+    T_LC_W        shift, and go to state 70
+    T_LC_X        shift, and go to state 71
+    T_LC_Y        shift, and go to state 72
+    T_LC_Z        shift, and go to state 73
+
+    $default  reduce using rule 246 (member_name_shorthand)
+
+    DIGIT1      go to state 111
+    LCALPHA     go to state 75
+    name_first  go to state 112
+    name_char   go to state 113
+    DIGIT       go to state 114
+    ALPHA       go to state 78
+    UCALPHA     go to state 79
+
+
+State 85
+
+   18 string_literal: T_DOUBLE_QUOTE • rep_double_quoted T_DOUBLE_QUOTE
+
+    $default  reduce using rule 20 (rep_double_quoted)
+
+    rep_double_quoted  go to state 115
+
+
+State 86
+
+   19 string_literal: T_SINGLE_QUOTE • rep_single_quoted T_SINGLE_QUOTE
+
+    $default  reduce using rule 26 (rep_single_quoted)
+
+    rep_single_quoted  go to state 116
+
+
+State 87
+
+  111 opt_hyphen: T_HYPHEN •
+
+    $default  reduce using rule 111 (opt_hyphen)
+
+
+State 88
+
+  108 int: T_ZERO •
+
+    $default  reduce using rule 108 (int)
+
+
+State 89
+
+  134 filter_selector: T_QUESTION • S logical_expr
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 117
+
+
+State 90
+
+  243 bracketed_selection: T_SQUARE_BRACKET_OPEN S selector • rep_selector S T_SQUARE_BRACKET_CLOSE
+
+    $default  reduce using rule 244 (rep_selector)
+
+    rep_selector  go to state 118
+
+
+State 91
+
+   12 selector: name_selector •
+
+    $default  reduce using rule 12 (selector)
+
+
+State 92
+
+   17 name_selector: string_literal •
+
+    $default  reduce using rule 17 (name_selector)
+
+
+State 93
+
+   13 selector: wildcard_selector •
+
+    $default  reduce using rule 13 (selector)
+
+
+State 94
+
+   15 selector: index_selector •
+
+    $default  reduce using rule 15 (selector)
+
+
+State 95
+
+  107 index_selector: int •
+  131 start: int •
+
+    T_TAB              reduce using rule 107 (index_selector)
+    T_TAB              [reduce using rule 131 (start)]
+    T_NEW_LINE         reduce using rule 107 (index_selector)
+    T_NEW_LINE         [reduce using rule 131 (start)]
+    T_CARRIAGE_RETURN  reduce using rule 107 (index_selector)
+    T_CARRIAGE_RETURN  [reduce using rule 131 (start)]
+    T_SPACE            reduce using rule 107 (index_selector)
+    T_SPACE            [reduce using rule 131 (start)]
+    T_COLON            reduce using rule 131 (start)
+    $default           reduce using rule 107 (index_selector)
+
+
+State 96
+
+  109 int: opt_hyphen • DIGIT1 rep_DIGIT
+
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+
+    DIGIT1  go to state 119
+
+
+State 97
+
+   14 selector: slice_selector •
+
+    $default  reduce using rule 14 (selector)
+
+
+State 98
+
+  123 slice_selector: opt_start • T_COLON S opt_end opt_step
+
+    T_COLON  shift, and go to state 120
+
+
+State 99
+
+  125 opt_start: start • S
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 121
+
+
+State 100
+
+   16 selector: filter_selector •
+
+    $default  reduce using rule 16 (selector)
+
+
+State 101
+
+  253 DIGIT: T_ZERO •
+
+    $default  reduce using rule 253 (DIGIT)
+
+
+State 102
+
+  112 DIGIT1: T_ONE •
+
+    $default  reduce using rule 112 (DIGIT1)
+
+
+State 103
+
+  113 DIGIT1: T_TWO •
+
+    $default  reduce using rule 113 (DIGIT1)
+
+
+State 104
+
+  114 DIGIT1: T_THREE •
+
+    $default  reduce using rule 114 (DIGIT1)
+
+
+State 105
+
+  115 DIGIT1: T_FOUR •
+
+    $default  reduce using rule 115 (DIGIT1)
+
+
+State 106
+
+  116 DIGIT1: T_FIVE •
+
+    $default  reduce using rule 116 (DIGIT1)
+
+
+State 107
+
+  117 DIGIT1: T_SIX •
+
+    $default  reduce using rule 117 (DIGIT1)
+
+
+State 108
+
+  118 DIGIT1: T_SEVEN •
+
+    $default  reduce using rule 118 (DIGIT1)
+
+
+State 109
+
+  119 DIGIT1: T_EIGHT •
+
+    $default  reduce using rule 119 (DIGIT1)
+
+
+State 110
+
+  120 DIGIT1: T_NINE •
+
+    $default  reduce using rule 120 (DIGIT1)
+
+
+State 111
+
+  254 DIGIT: DIGIT1 •
+
+    $default  reduce using rule 254 (DIGIT)
+
+
+State 112
+
+  251 name_char: name_first •
+
+    $default  reduce using rule 251 (name_char)
+
+
+State 113
+
+  250 rep_name_char: rep_name_char name_char •
+
+    $default  reduce using rule 250 (rep_name_char)
+
+
+State 114
+
+  252 name_char: DIGIT •
+
+    $default  reduce using rule 252 (name_char)
+
+
+State 115
+
+   18 string_literal: T_DOUBLE_QUOTE rep_double_quoted • T_DOUBLE_QUOTE
+   21 rep_double_quoted: rep_double_quoted • double_quoted
+
+    T_SPACE                 shift, and go to state 122
+    T_EXCLAMATION           shift, and go to state 123
+    T_DOUBLE_QUOTE          shift, and go to state 124
+    T_HASHTAG               shift, and go to state 125
+    T_DOLLAR                shift, and go to state 126
+    T_PERCENT               shift, and go to state 127
+    T_AMPERSAND             shift, and go to state 128
+    T_SINGLE_QUOTE          shift, and go to state 129
+    T_PAREN_OPEN            shift, and go to state 130
+    T_PAREN_CLOSE           shift, and go to state 131
+    T_ASTERISK              shift, and go to state 132
+    T_PLUS                  shift, and go to state 133
+    T_COMMA                 shift, and go to state 134
+    T_HYPHEN                shift, and go to state 135
+    T_PERIOD                shift, and go to state 136
+    T_FORWARD_SLASH         shift, and go to state 137
+    T_ZERO                  shift, and go to state 101
+    T_ONE                   shift, and go to state 102
+    T_TWO                   shift, and go to state 103
+    T_THREE                 shift, and go to state 104
+    T_FOUR                  shift, and go to state 105
+    T_FIVE                  shift, and go to state 106
+    T_SIX                   shift, and go to state 107
+    T_SEVEN                 shift, and go to state 108
+    T_EIGHT                 shift, and go to state 109
+    T_NINE                  shift, and go to state 110
+    T_COLON                 shift, and go to state 138
+    T_SEMICOLON             shift, and go to state 139
+    T_LT                    shift, and go to state 140
+    T_EQUALS                shift, and go to state 141
+    T_GT                    shift, and go to state 142
+    T_QUESTION              shift, and go to state 143
+    T_AT                    shift, and go to state 144
+    T_UC_A                  shift, and go to state 21
+    T_UC_B                  shift, and go to state 22
+    T_UC_C                  shift, and go to state 23
+    T_UC_D                  shift, and go to state 24
+    T_UC_E                  shift, and go to state 25
+    T_UC_F                  shift, and go to state 26
+    T_UC_G                  shift, and go to state 27
+    T_UC_H                  shift, and go to state 28
+    T_UC_I                  shift, and go to state 29
+    T_UC_J                  shift, and go to state 30
+    T_UC_K                  shift, and go to state 31
+    T_UC_L                  shift, and go to state 32
+    T_UC_M                  shift, and go to state 33
+    T_UC_N                  shift, and go to state 34
+    T_UC_O                  shift, and go to state 35
+    T_UC_P                  shift, and go to state 36
+    T_UC_Q                  shift, and go to state 37
+    T_UC_R                  shift, and go to state 38
+    T_UC_S                  shift, and go to state 39
+    T_UC_T                  shift, and go to state 40
+    T_UC_U                  shift, and go to state 41
+    T_UC_V                  shift, and go to state 42
+    T_UC_W                  shift, and go to state 43
+    T_UC_X                  shift, and go to state 44
+    T_UC_Y                  shift, and go to state 45
+    T_UC_Z                  shift, and go to state 46
+    T_SQUARE_BRACKET_OPEN   shift, and go to state 145
+    T_BACKSLASH             shift, and go to state 146
+    T_SQUARE_BRACKET_CLOSE  shift, and go to state 147
+    T_CIRCUMFLEX            shift, and go to state 148
+    T_UNDERSCORE            shift, and go to state 149
+    T_GRAVE                 shift, and go to state 150
+    T_LC_A                  shift, and go to state 48
+    T_LC_B                  shift, and go to state 49
+    T_LC_C                  shift, and go to state 50
+    T_LC_D                  shift, and go to state 51
+    T_LC_E                  shift, and go to state 52
+    T_LC_F                  shift, and go to state 53
+    T_LC_G                  shift, and go to state 54
+    T_LC_H                  shift, and go to state 55
+    T_LC_I                  shift, and go to state 56
+    T_LC_J                  shift, and go to state 57
+    T_LC_K                  shift, and go to state 58
+    T_LC_L                  shift, and go to state 59
+    T_LC_M                  shift, and go to state 60
+    T_LC_N                  shift, and go to state 61
+    T_LC_O                  shift, and go to state 62
+    T_LC_P                  shift, and go to state 63
+    T_LC_Q                  shift, and go to state 64
+    T_LC_R                  shift, and go to state 65
+    T_LC_S                  shift, and go to state 66
+    T_LC_T                  shift, and go to state 67
+    T_LC_U                  shift, and go to state 68
+    T_LC_V                  shift, and go to state 69
+    T_LC_W                  shift, and go to state 70
+    T_LC_X                  shift, and go to state 71
+    T_LC_Y                  shift, and go to state 72
+    T_LC_Z                  shift, and go to state 73
+    T_CURLY_BRACE_OPEN      shift, and go to state 151
+    T_VERTICAL_BAR          shift, and go to state 152
+    T_CURLY_BRACE_CLOSE     shift, and go to state 153
+    T_TILDE                 shift, and go to state 154
+    T_DEL                   shift, and go to state 155
+
+    double_quoted  go to state 156
+    ESC            go to state 157
+    unescaped      go to state 158
+    DIGIT1         go to state 111
+    LCALPHA        go to state 159
+    DIGIT          go to state 160
+    UCALPHA        go to state 161
+
+
+State 116
+
+   19 string_literal: T_SINGLE_QUOTE rep_single_quoted • T_SINGLE_QUOTE
+   27 rep_single_quoted: rep_single_quoted • single_quoted
+
+    T_SPACE                 shift, and go to state 122
+    T_EXCLAMATION           shift, and go to state 123
+    T_DOUBLE_QUOTE          shift, and go to state 162
+    T_HASHTAG               shift, and go to state 125
+    T_DOLLAR                shift, and go to state 126
+    T_PERCENT               shift, and go to state 127
+    T_AMPERSAND             shift, and go to state 128
+    T_SINGLE_QUOTE          shift, and go to state 163
+    T_PAREN_OPEN            shift, and go to state 130
+    T_PAREN_CLOSE           shift, and go to state 131
+    T_ASTERISK              shift, and go to state 132
+    T_PLUS                  shift, and go to state 133
+    T_COMMA                 shift, and go to state 134
+    T_HYPHEN                shift, and go to state 135
+    T_PERIOD                shift, and go to state 136
+    T_FORWARD_SLASH         shift, and go to state 137
+    T_ZERO                  shift, and go to state 101
+    T_ONE                   shift, and go to state 102
+    T_TWO                   shift, and go to state 103
+    T_THREE                 shift, and go to state 104
+    T_FOUR                  shift, and go to state 105
+    T_FIVE                  shift, and go to state 106
+    T_SIX                   shift, and go to state 107
+    T_SEVEN                 shift, and go to state 108
+    T_EIGHT                 shift, and go to state 109
+    T_NINE                  shift, and go to state 110
+    T_COLON                 shift, and go to state 138
+    T_SEMICOLON             shift, and go to state 139
+    T_LT                    shift, and go to state 140
+    T_EQUALS                shift, and go to state 141
+    T_GT                    shift, and go to state 142
+    T_QUESTION              shift, and go to state 143
+    T_AT                    shift, and go to state 144
+    T_UC_A                  shift, and go to state 21
+    T_UC_B                  shift, and go to state 22
+    T_UC_C                  shift, and go to state 23
+    T_UC_D                  shift, and go to state 24
+    T_UC_E                  shift, and go to state 25
+    T_UC_F                  shift, and go to state 26
+    T_UC_G                  shift, and go to state 27
+    T_UC_H                  shift, and go to state 28
+    T_UC_I                  shift, and go to state 29
+    T_UC_J                  shift, and go to state 30
+    T_UC_K                  shift, and go to state 31
+    T_UC_L                  shift, and go to state 32
+    T_UC_M                  shift, and go to state 33
+    T_UC_N                  shift, and go to state 34
+    T_UC_O                  shift, and go to state 35
+    T_UC_P                  shift, and go to state 36
+    T_UC_Q                  shift, and go to state 37
+    T_UC_R                  shift, and go to state 38
+    T_UC_S                  shift, and go to state 39
+    T_UC_T                  shift, and go to state 40
+    T_UC_U                  shift, and go to state 41
+    T_UC_V                  shift, and go to state 42
+    T_UC_W                  shift, and go to state 43
+    T_UC_X                  shift, and go to state 44
+    T_UC_Y                  shift, and go to state 45
+    T_UC_Z                  shift, and go to state 46
+    T_SQUARE_BRACKET_OPEN   shift, and go to state 145
+    T_BACKSLASH             shift, and go to state 146
+    T_SQUARE_BRACKET_CLOSE  shift, and go to state 147
+    T_CIRCUMFLEX            shift, and go to state 148
+    T_UNDERSCORE            shift, and go to state 149
+    T_GRAVE                 shift, and go to state 150
+    T_LC_A                  shift, and go to state 48
+    T_LC_B                  shift, and go to state 49
+    T_LC_C                  shift, and go to state 50
+    T_LC_D                  shift, and go to state 51
+    T_LC_E                  shift, and go to state 52
+    T_LC_F                  shift, and go to state 53
+    T_LC_G                  shift, and go to state 54
+    T_LC_H                  shift, and go to state 55
+    T_LC_I                  shift, and go to state 56
+    T_LC_J                  shift, and go to state 57
+    T_LC_K                  shift, and go to state 58
+    T_LC_L                  shift, and go to state 59
+    T_LC_M                  shift, and go to state 60
+    T_LC_N                  shift, and go to state 61
+    T_LC_O                  shift, and go to state 62
+    T_LC_P                  shift, and go to state 63
+    T_LC_Q                  shift, and go to state 64
+    T_LC_R                  shift, and go to state 65
+    T_LC_S                  shift, and go to state 66
+    T_LC_T                  shift, and go to state 67
+    T_LC_U                  shift, and go to state 68
+    T_LC_V                  shift, and go to state 69
+    T_LC_W                  shift, and go to state 70
+    T_LC_X                  shift, and go to state 71
+    T_LC_Y                  shift, and go to state 72
+    T_LC_Z                  shift, and go to state 73
+    T_CURLY_BRACE_OPEN      shift, and go to state 151
+    T_VERTICAL_BAR          shift, and go to state 152
+    T_CURLY_BRACE_CLOSE     shift, and go to state 153
+    T_TILDE                 shift, and go to state 154
+    T_DEL                   shift, and go to state 155
+
+    single_quoted  go to state 164
+    ESC            go to state 165
+    unescaped      go to state 166
+    DIGIT1         go to state 111
+    LCALPHA        go to state 159
+    DIGIT          go to state 160
+    UCALPHA        go to state 161
+
+
+State 117
+
+   10 S: S • B
+  134 filter_selector: T_QUESTION S • logical_expr
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_EXCLAMATION      shift, and go to state 167
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_DOLLAR           shift, and go to state 1
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_HYPHEN           shift, and go to state 168
+    T_ZERO             shift, and go to state 88
+    T_AT               shift, and go to state 169
+    T_LC_A             shift, and go to state 48
+    T_LC_B             shift, and go to state 49
+    T_LC_C             shift, and go to state 50
+    T_LC_D             shift, and go to state 51
+    T_LC_E             shift, and go to state 52
+    T_LC_F             shift, and go to state 170
+    T_LC_G             shift, and go to state 54
+    T_LC_H             shift, and go to state 55
+    T_LC_I             shift, and go to state 56
+    T_LC_J             shift, and go to state 57
+    T_LC_K             shift, and go to state 58
+    T_LC_L             shift, and go to state 59
+    T_LC_M             shift, and go to state 60
+    T_LC_N             shift, and go to state 171
+    T_LC_O             shift, and go to state 62
+    T_LC_P             shift, and go to state 63
+    T_LC_Q             shift, and go to state 64
+    T_LC_R             shift, and go to state 65
+    T_LC_S             shift, and go to state 66
+    T_LC_T             shift, and go to state 172
+    T_LC_U             shift, and go to state 68
+    T_LC_V             shift, and go to state 69
+    T_LC_W             shift, and go to state 70
+    T_LC_X             shift, and go to state 71
+    T_LC_Y             shift, and go to state 72
+    T_LC_Z             shift, and go to state 73
+
+    T_DOLLAR      [reduce using rule 146 (opt_not_op)]
+    T_PAREN_OPEN  reduce using rule 146 (opt_not_op)
+    T_AT          [reduce using rule 146 (opt_not_op)]
+    T_LC_A        [reduce using rule 146 (opt_not_op)]
+    T_LC_B        [reduce using rule 146 (opt_not_op)]
+    T_LC_C        [reduce using rule 146 (opt_not_op)]
+    T_LC_D        [reduce using rule 146 (opt_not_op)]
+    T_LC_E        [reduce using rule 146 (opt_not_op)]
+    T_LC_F        [reduce using rule 146 (opt_not_op)]
+    T_LC_G        [reduce using rule 146 (opt_not_op)]
+    T_LC_H        [reduce using rule 146 (opt_not_op)]
+    T_LC_I        [reduce using rule 146 (opt_not_op)]
+    T_LC_J        [reduce using rule 146 (opt_not_op)]
+    T_LC_K        [reduce using rule 146 (opt_not_op)]
+    T_LC_L        [reduce using rule 146 (opt_not_op)]
+    T_LC_M        [reduce using rule 146 (opt_not_op)]
+    T_LC_N        [reduce using rule 146 (opt_not_op)]
+    T_LC_O        [reduce using rule 146 (opt_not_op)]
+    T_LC_P        [reduce using rule 146 (opt_not_op)]
+    T_LC_Q        [reduce using rule 146 (opt_not_op)]
+    T_LC_R        [reduce using rule 146 (opt_not_op)]
+    T_LC_S        [reduce using rule 146 (opt_not_op)]
+    T_LC_T        [reduce using rule 146 (opt_not_op)]
+    T_LC_U        [reduce using rule 146 (opt_not_op)]
+    T_LC_V        [reduce using rule 146 (opt_not_op)]
+    T_LC_W        [reduce using rule 146 (opt_not_op)]
+    T_LC_X        [reduce using rule 146 (opt_not_op)]
+    T_LC_Y        [reduce using rule 146 (opt_not_op)]
+    T_LC_Z        [reduce using rule 146 (opt_not_op)]
+    $default      reduce using rule 110 (opt_hyphen)
+
+    B                        go to state 14
+    root_identifier          go to state 173
+    string_literal           go to state 174
+    int                      go to state 175
+    opt_hyphen               go to state 96
+    logical_expr             go to state 176
+    logical_or_expr          go to state 177
+    logical_and_expr         go to state 178
+    basic_expr               go to state 179
+    paren_expr               go to state 180
+    opt_not_op               go to state 181
+    logical_not_op           go to state 182
+    test_expr                go to state 183
+    current_node_identifier  go to state 184
+    comparison_expr          go to state 185
+    literal                  go to state 186
+    comparable               go to state 187
+    singular_query           go to state 188
+    rel_singular_query       go to state 189
+    abs_singular_query       go to state 190
+    number                   go to state 191
+    true                     go to state 192
+    false                    go to state 193
+    null                     go to state 194
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 198
+
+
+State 118
+
+  243 bracketed_selection: T_SQUARE_BRACKET_OPEN S selector rep_selector • S T_SQUARE_BRACKET_CLOSE
+  245 rep_selector: rep_selector • S T_COMMA S selector
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 199
+
+
+State 119
+
+  109 int: opt_hyphen DIGIT1 • rep_DIGIT
+
+    $default  reduce using rule 121 (rep_DIGIT)
+
+    rep_DIGIT  go to state 200
+
+
+State 120
+
+  123 slice_selector: opt_start T_COLON • S opt_end opt_step
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 201
+
+
+State 121
+
+   10 S: S • B
+  125 opt_start: start S •
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+
+    $default  reduce using rule 125 (opt_start)
+
+    B  go to state 14
+
+
+State 122
+
+   33 unescaped: T_SPACE •
+
+    $default  reduce using rule 33 (unescaped)
+
+
+State 123
+
+   34 unescaped: T_EXCLAMATION •
+
+    $default  reduce using rule 34 (unescaped)
+
+
+State 124
+
+   18 string_literal: T_DOUBLE_QUOTE rep_double_quoted T_DOUBLE_QUOTE •
+
+    $default  reduce using rule 18 (string_literal)
+
+
+State 125
+
+   35 unescaped: T_HASHTAG •
+
+    $default  reduce using rule 35 (unescaped)
+
+
+State 126
+
+   36 unescaped: T_DOLLAR •
+
+    $default  reduce using rule 36 (unescaped)
+
+
+State 127
+
+   37 unescaped: T_PERCENT •
+
+    $default  reduce using rule 37 (unescaped)
+
+
+State 128
+
+   38 unescaped: T_AMPERSAND •
+
+    $default  reduce using rule 38 (unescaped)
+
+
+State 129
+
+   23 double_quoted: T_SINGLE_QUOTE •
+
+    $default  reduce using rule 23 (double_quoted)
+
+
+State 130
+
+   39 unescaped: T_PAREN_OPEN •
+
+    $default  reduce using rule 39 (unescaped)
+
+
+State 131
+
+   40 unescaped: T_PAREN_CLOSE •
+
+    $default  reduce using rule 40 (unescaped)
+
+
+State 132
+
+   41 unescaped: T_ASTERISK •
+
+    $default  reduce using rule 41 (unescaped)
+
+
+State 133
+
+   42 unescaped: T_PLUS •
+
+    $default  reduce using rule 42 (unescaped)
+
+
+State 134
+
+   43 unescaped: T_COMMA •
+
+    $default  reduce using rule 43 (unescaped)
+
+
+State 135
+
+   44 unescaped: T_HYPHEN •
+
+    $default  reduce using rule 44 (unescaped)
+
+
+State 136
+
+   45 unescaped: T_PERIOD •
+
+    $default  reduce using rule 45 (unescaped)
+
+
+State 137
+
+   46 unescaped: T_FORWARD_SLASH •
+
+    $default  reduce using rule 46 (unescaped)
+
+
+State 138
+
+   48 unescaped: T_COLON •
+
+    $default  reduce using rule 48 (unescaped)
+
+
+State 139
+
+   49 unescaped: T_SEMICOLON •
+
+    $default  reduce using rule 49 (unescaped)
+
+
+State 140
+
+   50 unescaped: T_LT •
+
+    $default  reduce using rule 50 (unescaped)
+
+
+State 141
+
+   51 unescaped: T_EQUALS •
+
+    $default  reduce using rule 51 (unescaped)
+
+
+State 142
+
+   52 unescaped: T_GT •
+
+    $default  reduce using rule 52 (unescaped)
+
+
+State 143
+
+   53 unescaped: T_QUESTION •
+
+    $default  reduce using rule 53 (unescaped)
+
+
+State 144
+
+   54 unescaped: T_AT •
+
+    $default  reduce using rule 54 (unescaped)
+
+
+State 145
+
+   56 unescaped: T_SQUARE_BRACKET_OPEN •
+
+    $default  reduce using rule 56 (unescaped)
+
+
+State 146
+
+   32 ESC: T_BACKSLASH •
+
+    $default  reduce using rule 32 (ESC)
+
+
+State 147
+
+   57 unescaped: T_SQUARE_BRACKET_CLOSE •
+
+    $default  reduce using rule 57 (unescaped)
+
+
+State 148
+
+   58 unescaped: T_CIRCUMFLEX •
+
+    $default  reduce using rule 58 (unescaped)
+
+
+State 149
+
+   59 unescaped: T_UNDERSCORE •
+
+    $default  reduce using rule 59 (unescaped)
+
+
+State 150
+
+   60 unescaped: T_GRAVE •
+
+    $default  reduce using rule 60 (unescaped)
+
+
+State 151
+
+   62 unescaped: T_CURLY_BRACE_OPEN •
+
+    $default  reduce using rule 62 (unescaped)
+
+
+State 152
+
+   63 unescaped: T_VERTICAL_BAR •
+
+    $default  reduce using rule 63 (unescaped)
+
+
+State 153
+
+   64 unescaped: T_CURLY_BRACE_CLOSE •
+
+    $default  reduce using rule 64 (unescaped)
+
+
+State 154
+
+   65 unescaped: T_TILDE •
+
+    $default  reduce using rule 65 (unescaped)
+
+
+State 155
+
+   66 unescaped: T_DEL •
+
+    $default  reduce using rule 66 (unescaped)
+
+
+State 156
+
+   21 rep_double_quoted: rep_double_quoted double_quoted •
+
+    $default  reduce using rule 21 (rep_double_quoted)
+
+
+State 157
+
+   24 double_quoted: ESC • T_DOUBLE_QUOTE
+   25              | ESC • escapable
+
+    T_DOUBLE_QUOTE   shift, and go to state 202
+    T_FORWARD_SLASH  shift, and go to state 203
+    T_BACKSLASH      shift, and go to state 204
+    T_LC_B           shift, and go to state 205
+    T_LC_F           shift, and go to state 206
+    T_LC_N           shift, and go to state 207
+    T_LC_R           shift, and go to state 208
+    T_LC_T           shift, and go to state 209
+    T_LC_U           shift, and go to state 210
+
+    escapable  go to state 211
+
+
+State 158
+
+   22 double_quoted: unescaped •
+
+    $default  reduce using rule 22 (double_quoted)
+
+
+State 159
+
+   61 unescaped: LCALPHA •
+
+    $default  reduce using rule 61 (unescaped)
+
+
+State 160
+
+   47 unescaped: DIGIT •
+
+    $default  reduce using rule 47 (unescaped)
+
+
+State 161
+
+   55 unescaped: UCALPHA •
+
+    $default  reduce using rule 55 (unescaped)
+
+
+State 162
+
+   29 single_quoted: T_DOUBLE_QUOTE •
+
+    $default  reduce using rule 29 (single_quoted)
+
+
+State 163
+
+   19 string_literal: T_SINGLE_QUOTE rep_single_quoted T_SINGLE_QUOTE •
+
+    $default  reduce using rule 19 (string_literal)
+
+
+State 164
+
+   27 rep_single_quoted: rep_single_quoted single_quoted •
+
+    $default  reduce using rule 27 (rep_single_quoted)
+
+
+State 165
+
+   30 single_quoted: ESC • T_SINGLE_QUOTE
+   31              | ESC • escapable
+
+    T_SINGLE_QUOTE   shift, and go to state 212
+    T_FORWARD_SLASH  shift, and go to state 203
+    T_BACKSLASH      shift, and go to state 204
+    T_LC_B           shift, and go to state 205
+    T_LC_F           shift, and go to state 206
+    T_LC_N           shift, and go to state 207
+    T_LC_R           shift, and go to state 208
+    T_LC_T           shift, and go to state 209
+    T_LC_U           shift, and go to state 210
+
+    escapable  go to state 213
+
+
+State 166
+
+   28 single_quoted: unescaped •
+
+    $default  reduce using rule 28 (single_quoted)
+
+
+State 167
+
+  148 logical_not_op: T_EXCLAMATION •
+
+    $default  reduce using rule 148 (logical_not_op)
+
+
+State 168
+
+  111 opt_hyphen: T_HYPHEN •
+  183 number: T_HYPHEN • T_ZERO opt_frac opt_exp
+
+    T_ZERO  shift, and go to state 214
+
+    $default  reduce using rule 111 (opt_hyphen)
+
+
+State 169
+
+  154 current_node_identifier: T_AT •
+
+    $default  reduce using rule 154 (current_node_identifier)
+
+
+State 170
+
+  194 false: T_LC_F • T_LC_A T_LC_L T_LC_S T_LC_E
+  208 LCALPHA: T_LC_F •
+
+    T_LC_A  shift, and go to state 215
+
+    T_LC_A    [reduce using rule 208 (LCALPHA)]
+    $default  reduce using rule 208 (LCALPHA)
+
+
+State 171
+
+  195 null: T_LC_N • T_LC_U T_LC_L T_LC_L
+  216 LCALPHA: T_LC_N •
+
+    T_LC_U  shift, and go to state 216
+
+    T_LC_U    [reduce using rule 216 (LCALPHA)]
+    $default  reduce using rule 216 (LCALPHA)
+
+
+State 172
+
+  193 true: T_LC_T • T_LC_R T_LC_U T_LC_E
+  222 LCALPHA: T_LC_T •
+
+    T_LC_R  shift, and go to state 217
+
+    T_LC_R    [reduce using rule 222 (LCALPHA)]
+    $default  reduce using rule 222 (LCALPHA)
+
+
+State 173
+
+  173 abs_singular_query: root_identifier • singular_query_segments
+
+    $default  reduce using rule 175 (rep_singular_query_segment)
+
+    singular_query_segments     go to state 218
+    rep_singular_query_segment  go to state 219
+
+
+State 174
+
+  157 literal: string_literal •
+
+    $default  reduce using rule 157 (literal)
+
+
+State 175
+
+  182 number: int • opt_frac opt_exp
+
+    T_PERIOD  shift, and go to state 220
+
+    $default  reduce using rule 184 (opt_frac)
+
+    opt_frac  go to state 221
+    frac      go to state 222
+
+
+State 176
+
+  134 filter_selector: T_QUESTION S logical_expr •
+
+    $default  reduce using rule 134 (filter_selector)
+
+
+State 177
+
+  135 logical_expr: logical_or_expr •
+
+    $default  reduce using rule 135 (logical_expr)
+
+
+State 178
+
+  136 logical_or_expr: logical_and_expr • rep_logical_and_expr
+
+    $default  reduce using rule 137 (rep_logical_and_expr)
+
+    rep_logical_and_expr  go to state 223
+
+
+State 179
+
+  139 logical_and_expr: basic_expr • rep_basic_expr
+
+    $default  reduce using rule 140 (rep_basic_expr)
+
+    rep_basic_expr  go to state 224
+
+
+State 180
+
+  142 basic_expr: paren_expr •
+
+    $default  reduce using rule 142 (basic_expr)
+
+
+State 181
+
+  145 paren_expr: opt_not_op • T_PAREN_OPEN S logical_expr S T_PAREN_CLOSE
+  149 test_expr: opt_not_op • filter_query
+  150          | opt_not_op • function_expr
+
+    T_DOLLAR      shift, and go to state 1
+    T_PAREN_OPEN  shift, and go to state 225
+    T_AT          shift, and go to state 169
+    T_LC_A        shift, and go to state 48
+    T_LC_B        shift, and go to state 49
+    T_LC_C        shift, and go to state 50
+    T_LC_D        shift, and go to state 51
+    T_LC_E        shift, and go to state 52
+    T_LC_F        shift, and go to state 53
+    T_LC_G        shift, and go to state 54
+    T_LC_H        shift, and go to state 55
+    T_LC_I        shift, and go to state 56
+    T_LC_J        shift, and go to state 57
+    T_LC_K        shift, and go to state 58
+    T_LC_L        shift, and go to state 59
+    T_LC_M        shift, and go to state 60
+    T_LC_N        shift, and go to state 61
+    T_LC_O        shift, and go to state 62
+    T_LC_P        shift, and go to state 63
+    T_LC_Q        shift, and go to state 64
+    T_LC_R        shift, and go to state 65
+    T_LC_S        shift, and go to state 66
+    T_LC_T        shift, and go to state 67
+    T_LC_U        shift, and go to state 68
+    T_LC_V        shift, and go to state 69
+    T_LC_W        shift, and go to state 70
+    T_LC_X        shift, and go to state 71
+    T_LC_Y        shift, and go to state 72
+    T_LC_Z        shift, and go to state 73
+
+    jsonpath_query           go to state 226
+    root_identifier          go to state 3
+    filter_query             go to state 227
+    rel_query                go to state 228
+    current_node_identifier  go to state 229
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 230
+
+
+State 182
+
+  147 opt_not_op: logical_not_op • S
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 231
+
+
+State 183
+
+  144 basic_expr: test_expr •
+
+    $default  reduce using rule 144 (basic_expr)
+
+
+State 184
+
+  172 rel_singular_query: current_node_identifier • singular_query_segments
+
+    $default  reduce using rule 175 (rep_singular_query_segment)
+
+    singular_query_segments     go to state 232
+    rep_singular_query_segment  go to state 219
+
+
+State 185
+
+  143 basic_expr: comparison_expr •
+
+    $default  reduce using rule 143 (basic_expr)
+
+
+State 186
+
+  161 comparable: literal •
+
+    $default  reduce using rule 161 (comparable)
+
+
+State 187
+
+  155 comparison_expr: comparable • S comparison_op S comparable
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 233
+
+
+State 188
+
+  162 comparable: singular_query •
+
+    $default  reduce using rule 162 (comparable)
+
+
+State 189
+
+  170 singular_query: rel_singular_query •
+
+    $default  reduce using rule 170 (singular_query)
+
+
+State 190
+
+  171 singular_query: abs_singular_query •
+
+    $default  reduce using rule 171 (singular_query)
+
+
+State 191
+
+  156 literal: number •
+
+    $default  reduce using rule 156 (literal)
+
+
+State 192
+
+  158 literal: true •
+
+    $default  reduce using rule 158 (literal)
+
+
+State 193
+
+  159 literal: false •
+
+    $default  reduce using rule 159 (literal)
+
+
+State 194
+
+  160 literal: null •
+
+    $default  reduce using rule 160 (literal)
+
+
+State 195
+
+  229 function_expr: function_name • T_PAREN_OPEN S opt_func_args S T_PAREN_CLOSE
+
+    T_PAREN_OPEN  shift, and go to state 234
+
+
+State 196
+
+  196 function_name: function_name_first • rep_function_name_char
+
+    $default  reduce using rule 197 (rep_function_name_char)
+
+    rep_function_name_char  go to state 235
+
+
+State 197
+
+  199 function_name_first: LCALPHA •
+
+    $default  reduce using rule 199 (function_name_first)
+
+
+State 198
+
+  163 comparable: function_expr •
+
+    $default  reduce using rule 163 (comparable)
+
+
+State 199
+
+   10 S: S • B
+  243 bracketed_selection: T_SQUARE_BRACKET_OPEN S selector rep_selector S • T_SQUARE_BRACKET_CLOSE
+  245 rep_selector: rep_selector S • T_COMMA S selector
+
+    T_TAB                   shift, and go to state 8
+    T_NEW_LINE              shift, and go to state 9
+    T_CARRIAGE_RETURN       shift, and go to state 10
+    T_SPACE                 shift, and go to state 11
+    T_COMMA                 shift, and go to state 236
+    T_SQUARE_BRACKET_CLOSE  shift, and go to state 237
+
+    B  go to state 14
+
+
+State 200
+
+  109 int: opt_hyphen DIGIT1 rep_DIGIT •
+  122 rep_DIGIT: rep_DIGIT • DIGIT
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+
+    $default  reduce using rule 109 (int)
+
+    DIGIT1  go to state 111
+    DIGIT   go to state 238
+
+
+State 201
+
+   10 S: S • B
+  123 slice_selector: opt_start T_COLON S • opt_end opt_step
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_HYPHEN           shift, and go to state 87
+    T_ZERO             shift, and go to state 88
+
+    T_TAB                   [reduce using rule 126 (opt_end)]
+    T_NEW_LINE              [reduce using rule 126 (opt_end)]
+    T_CARRIAGE_RETURN       [reduce using rule 126 (opt_end)]
+    T_SPACE                 [reduce using rule 126 (opt_end)]
+    T_COMMA                 reduce using rule 126 (opt_end)
+    T_COLON                 reduce using rule 126 (opt_end)
+    T_SQUARE_BRACKET_CLOSE  reduce using rule 126 (opt_end)
+    $default                reduce using rule 110 (opt_hyphen)
+
+    B           go to state 14
+    int         go to state 239
+    opt_hyphen  go to state 96
+    opt_end     go to state 240
+    end         go to state 241
+
+
+State 202
+
+   24 double_quoted: ESC T_DOUBLE_QUOTE •
+
+    $default  reduce using rule 24 (double_quoted)
+
+
+State 203
+
+   72 escapable: T_FORWARD_SLASH •
+
+    $default  reduce using rule 72 (escapable)
+
+
+State 204
+
+   73 escapable: T_BACKSLASH •
+
+    $default  reduce using rule 73 (escapable)
+
+
+State 205
+
+   67 escapable: T_LC_B •
+
+    $default  reduce using rule 67 (escapable)
+
+
+State 206
+
+   68 escapable: T_LC_F •
+
+    $default  reduce using rule 68 (escapable)
+
+
+State 207
+
+   69 escapable: T_LC_N •
+
+    $default  reduce using rule 69 (escapable)
+
+
+State 208
+
+   70 escapable: T_LC_R •
+
+    $default  reduce using rule 70 (escapable)
+
+
+State 209
+
+   71 escapable: T_LC_T •
+
+    $default  reduce using rule 71 (escapable)
+
+
+State 210
+
+   74 escapable: T_LC_U • hexchar
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 242
+    T_UC_B   shift, and go to state 243
+    T_UC_C   shift, and go to state 244
+    T_UC_D   shift, and go to state 245
+    T_UC_E   shift, and go to state 246
+    T_UC_F   shift, and go to state 247
+
+    hexchar         go to state 248
+    non_surrogate   go to state 249
+    high_surrogate  go to state 250
+    DIGIT1          go to state 111
+    DIGIT           go to state 251
+
+
+State 211
+
+   25 double_quoted: ESC escapable •
+
+    $default  reduce using rule 25 (double_quoted)
+
+
+State 212
+
+   30 single_quoted: ESC T_SINGLE_QUOTE •
+
+    $default  reduce using rule 30 (single_quoted)
+
+
+State 213
+
+   31 single_quoted: ESC escapable •
+
+    $default  reduce using rule 31 (single_quoted)
+
+
+State 214
+
+  183 number: T_HYPHEN T_ZERO • opt_frac opt_exp
+
+    T_PERIOD  shift, and go to state 220
+
+    $default  reduce using rule 184 (opt_frac)
+
+    opt_frac  go to state 252
+    frac      go to state 222
+
+
+State 215
+
+  194 false: T_LC_F T_LC_A • T_LC_L T_LC_S T_LC_E
+
+    T_LC_L  shift, and go to state 253
+
+
+State 216
+
+  195 null: T_LC_N T_LC_U • T_LC_L T_LC_L
+
+    T_LC_L  shift, and go to state 254
+
+
+State 217
+
+  193 true: T_LC_T T_LC_R • T_LC_U T_LC_E
+
+    T_LC_U  shift, and go to state 255
+
+
+State 218
+
+  173 abs_singular_query: root_identifier singular_query_segments •
+
+    $default  reduce using rule 173 (abs_singular_query)
+
+
+State 219
+
+  174 singular_query_segments: rep_singular_query_segment •
+  176 rep_singular_query_segment: rep_singular_query_segment • singular_query_segment
+
+    T_TAB                  reduce using rule 9 (S)
+    T_TAB                  [reduce using rule 174 (singular_query_segments)]
+    T_NEW_LINE             reduce using rule 9 (S)
+    T_NEW_LINE             [reduce using rule 174 (singular_query_segments)]
+    T_CARRIAGE_RETURN      reduce using rule 9 (S)
+    T_CARRIAGE_RETURN      [reduce using rule 174 (singular_query_segments)]
+    T_SPACE                reduce using rule 9 (S)
+    T_SPACE                [reduce using rule 174 (singular_query_segments)]
+    T_PERIOD               reduce using rule 9 (S)
+    T_SQUARE_BRACKET_OPEN  reduce using rule 9 (S)
+    $default               reduce using rule 174 (singular_query_segments)
+
+    S                       go to state 256
+    singular_query_segment  go to state 257
+
+
+State 220
+
+  186 frac: T_PERIOD • DIGIT rep_DIGIT
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+
+    DIGIT1  go to state 111
+    DIGIT   go to state 258
+
+
+State 221
+
+  182 number: int opt_frac • opt_exp
+
+    T_LC_E  shift, and go to state 259
+
+    $default  reduce using rule 187 (opt_exp)
+
+    opt_exp  go to state 260
+    exp      go to state 261
+
+
+State 222
+
+  185 opt_frac: frac •
+
+    $default  reduce using rule 185 (opt_frac)
+
+
+State 223
+
+  136 logical_or_expr: logical_and_expr rep_logical_and_expr •
+  138 rep_logical_and_expr: rep_logical_and_expr • S T_VERTICAL_BAR T_VERTICAL_BAR S logical_and_expr
+
+    T_TAB                   reduce using rule 9 (S)
+    T_TAB                   [reduce using rule 136 (logical_or_expr)]
+    T_NEW_LINE              reduce using rule 9 (S)
+    T_NEW_LINE              [reduce using rule 136 (logical_or_expr)]
+    T_CARRIAGE_RETURN       reduce using rule 9 (S)
+    T_CARRIAGE_RETURN       [reduce using rule 136 (logical_or_expr)]
+    T_SPACE                 reduce using rule 9 (S)
+    T_SPACE                 [reduce using rule 136 (logical_or_expr)]
+    T_PAREN_CLOSE           reduce using rule 136 (logical_or_expr)
+    T_COMMA                 reduce using rule 136 (logical_or_expr)
+    T_SQUARE_BRACKET_CLOSE  reduce using rule 136 (logical_or_expr)
+    $default                reduce using rule 9 (S)
+
+    S  go to state 262
+
+
+State 224
+
+  139 logical_and_expr: basic_expr rep_basic_expr •
+  141 rep_basic_expr: rep_basic_expr • S T_AMPERSAND T_AMPERSAND S basic_expr
+
+    T_TAB                   reduce using rule 9 (S)
+    T_TAB                   [reduce using rule 139 (logical_and_expr)]
+    T_NEW_LINE              reduce using rule 9 (S)
+    T_NEW_LINE              [reduce using rule 139 (logical_and_expr)]
+    T_CARRIAGE_RETURN       reduce using rule 9 (S)
+    T_CARRIAGE_RETURN       [reduce using rule 139 (logical_and_expr)]
+    T_SPACE                 reduce using rule 9 (S)
+    T_SPACE                 [reduce using rule 139 (logical_and_expr)]
+    T_PAREN_CLOSE           reduce using rule 139 (logical_and_expr)
+    T_COMMA                 reduce using rule 139 (logical_and_expr)
+    T_SQUARE_BRACKET_CLOSE  reduce using rule 139 (logical_and_expr)
+    T_VERTICAL_BAR          reduce using rule 139 (logical_and_expr)
+    $default                reduce using rule 9 (S)
+
+    S  go to state 263
+
+
+State 225
+
+  145 paren_expr: opt_not_op T_PAREN_OPEN • S logical_expr S T_PAREN_CLOSE
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 264
+
+
+State 226
+
+  152 filter_query: jsonpath_query •
+
+    $default  reduce using rule 152 (filter_query)
+
+
+State 227
+
+  149 test_expr: opt_not_op filter_query •
+
+    $default  reduce using rule 149 (test_expr)
+
+
+State 228
+
+  151 filter_query: rel_query •
+
+    $default  reduce using rule 151 (filter_query)
+
+
+State 229
+
+  153 rel_query: current_node_identifier • segments
+
+    $default  reduce using rule 3 (segments)
+
+    segments  go to state 265
+
+
+State 230
+
+  150 test_expr: opt_not_op function_expr •
+
+    $default  reduce using rule 150 (test_expr)
+
+
+State 231
+
+   10 S: S • B
+  147 opt_not_op: logical_not_op S •
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+
+    $default  reduce using rule 147 (opt_not_op)
+
+    B  go to state 14
+
+
+State 232
+
+  172 rel_singular_query: current_node_identifier singular_query_segments •
+
+    $default  reduce using rule 172 (rel_singular_query)
+
+
+State 233
+
+   10 S: S • B
+  155 comparison_expr: comparable S • comparison_op S comparable
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_EXCLAMATION      shift, and go to state 266
+    T_LT               shift, and go to state 267
+    T_EQUALS           shift, and go to state 268
+    T_GT               shift, and go to state 269
+
+    B              go to state 14
+    comparison_op  go to state 270
+
+
+State 234
+
+  229 function_expr: function_name T_PAREN_OPEN • S opt_func_args S T_PAREN_CLOSE
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 271
+
+
+State 235
+
+  196 function_name: function_name_first rep_function_name_char •
+  198 rep_function_name_char: rep_function_name_char • function_name_char
+
+    T_ZERO        shift, and go to state 101
+    T_ONE         shift, and go to state 102
+    T_TWO         shift, and go to state 103
+    T_THREE       shift, and go to state 104
+    T_FOUR        shift, and go to state 105
+    T_FIVE        shift, and go to state 106
+    T_SIX         shift, and go to state 107
+    T_SEVEN       shift, and go to state 108
+    T_EIGHT       shift, and go to state 109
+    T_NINE        shift, and go to state 110
+    T_UNDERSCORE  shift, and go to state 272
+    T_LC_A        shift, and go to state 48
+    T_LC_B        shift, and go to state 49
+    T_LC_C        shift, and go to state 50
+    T_LC_D        shift, and go to state 51
+    T_LC_E        shift, and go to state 52
+    T_LC_F        shift, and go to state 53
+    T_LC_G        shift, and go to state 54
+    T_LC_H        shift, and go to state 55
+    T_LC_I        shift, and go to state 56
+    T_LC_J        shift, and go to state 57
+    T_LC_K        shift, and go to state 58
+    T_LC_L        shift, and go to state 59
+    T_LC_M        shift, and go to state 60
+    T_LC_N        shift, and go to state 61
+    T_LC_O        shift, and go to state 62
+    T_LC_P        shift, and go to state 63
+    T_LC_Q        shift, and go to state 64
+    T_LC_R        shift, and go to state 65
+    T_LC_S        shift, and go to state 66
+    T_LC_T        shift, and go to state 67
+    T_LC_U        shift, and go to state 68
+    T_LC_V        shift, and go to state 69
+    T_LC_W        shift, and go to state 70
+    T_LC_X        shift, and go to state 71
+    T_LC_Y        shift, and go to state 72
+    T_LC_Z        shift, and go to state 73
+
+    $default  reduce using rule 196 (function_name)
+
+    DIGIT1               go to state 111
+    function_name_first  go to state 273
+    function_name_char   go to state 274
+    LCALPHA              go to state 197
+    DIGIT                go to state 275
+
+
+State 236
+
+  245 rep_selector: rep_selector S T_COMMA • S selector
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 276
+
+
+State 237
+
+  243 bracketed_selection: T_SQUARE_BRACKET_OPEN S selector rep_selector S T_SQUARE_BRACKET_CLOSE •
+
+    $default  reduce using rule 243 (bracketed_selection)
+
+
+State 238
+
+  122 rep_DIGIT: rep_DIGIT DIGIT •
+
+    $default  reduce using rule 122 (rep_DIGIT)
+
+
+State 239
+
+  132 end: int •
+
+    $default  reduce using rule 132 (end)
+
+
+State 240
+
+  123 slice_selector: opt_start T_COLON S opt_end • opt_step
+
+    T_COLON  shift, and go to state 277
+
+    $default  reduce using rule 128 (opt_step)
+
+    opt_step  go to state 278
+
+
+State 241
+
+  127 opt_end: end • S
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 279
+
+
+State 242
+
+   78 non_surrogate: T_UC_A • HEXDIG HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 286
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 243
+
+   79 non_surrogate: T_UC_B • HEXDIG HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 288
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 244
+
+   80 non_surrogate: T_UC_C • HEXDIG HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 289
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 245
+
+   83 non_surrogate: T_UC_D • T_ZERO HEXDIG HEXDIG
+   84              | T_UC_D • T_ONE HEXDIG HEXDIG
+   85              | T_UC_D • T_TWO HEXDIG HEXDIG
+   86              | T_UC_D • T_THREE HEXDIG HEXDIG
+   87              | T_UC_D • T_FOUR HEXDIG HEXDIG
+   88              | T_UC_D • T_FIVE HEXDIG HEXDIG
+   89              | T_UC_D • T_SIX HEXDIG HEXDIG
+   90              | T_UC_D • T_SEVEN HEXDIG HEXDIG
+   91 high_surrogate: T_UC_D • T_EIGHT HEXDIG HEXDIG
+   92               | T_UC_D • T_NINE HEXDIG HEXDIG
+   93               | T_UC_D • T_UC_A HEXDIG HEXDIG
+   94               | T_UC_D • T_UC_B HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 290
+    T_ONE    shift, and go to state 291
+    T_TWO    shift, and go to state 292
+    T_THREE  shift, and go to state 293
+    T_FOUR   shift, and go to state 294
+    T_FIVE   shift, and go to state 295
+    T_SIX    shift, and go to state 296
+    T_SEVEN  shift, and go to state 297
+    T_EIGHT  shift, and go to state 298
+    T_NINE   shift, and go to state 299
+    T_UC_A   shift, and go to state 300
+    T_UC_B   shift, and go to state 301
+
+
+State 246
+
+   81 non_surrogate: T_UC_E • HEXDIG HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 302
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 247
+
+   82 non_surrogate: T_UC_F • HEXDIG HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 303
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 248
+
+   74 escapable: T_LC_U hexchar •
+
+    $default  reduce using rule 74 (escapable)
+
+
+State 249
+
+   75 hexchar: non_surrogate •
+
+    $default  reduce using rule 75 (hexchar)
+
+
+State 250
+
+   76 hexchar: high_surrogate • T_BACKSLASH T_LC_U low_surrogate
+
+    T_BACKSLASH  shift, and go to state 304
+
+
+State 251
+
+   77 non_surrogate: DIGIT • HEXDIG HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 305
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 252
+
+  183 number: T_HYPHEN T_ZERO opt_frac • opt_exp
+
+    T_LC_E  shift, and go to state 259
+
+    $default  reduce using rule 187 (opt_exp)
+
+    opt_exp  go to state 306
+    exp      go to state 261
+
+
+State 253
+
+  194 false: T_LC_F T_LC_A T_LC_L • T_LC_S T_LC_E
+
+    T_LC_S  shift, and go to state 307
+
+
+State 254
+
+  195 null: T_LC_N T_LC_U T_LC_L • T_LC_L
+
+    T_LC_L  shift, and go to state 308
+
+
+State 255
+
+  193 true: T_LC_T T_LC_R T_LC_U • T_LC_E
+
+    T_LC_E  shift, and go to state 309
+
+
+State 256
+
+   10 S: S • B
+  177 singular_query_segment: S • name_segment
+  178                       | S • index_segment
+
+    T_TAB                  shift, and go to state 8
+    T_NEW_LINE             shift, and go to state 9
+    T_CARRIAGE_RETURN      shift, and go to state 10
+    T_SPACE                shift, and go to state 11
+    T_PERIOD               shift, and go to state 310
+    T_SQUARE_BRACKET_OPEN  shift, and go to state 311
+
+    B              go to state 14
+    name_segment   go to state 312
+    index_segment  go to state 313
+
+
+State 257
+
+  176 rep_singular_query_segment: rep_singular_query_segment singular_query_segment •
+
+    $default  reduce using rule 176 (rep_singular_query_segment)
+
+
+State 258
+
+  186 frac: T_PERIOD DIGIT • rep_DIGIT
+
+    $default  reduce using rule 121 (rep_DIGIT)
+
+    rep_DIGIT  go to state 314
+
+
+State 259
+
+  189 exp: T_LC_E • opt_signed DIGIT rep_DIGIT
+
+    T_PLUS    shift, and go to state 315
+    T_HYPHEN  shift, and go to state 316
+
+    $default  reduce using rule 190 (opt_signed)
+
+    opt_signed  go to state 317
+
+
+State 260
+
+  182 number: int opt_frac opt_exp •
+
+    $default  reduce using rule 182 (number)
+
+
+State 261
+
+  188 opt_exp: exp •
+
+    $default  reduce using rule 188 (opt_exp)
+
+
+State 262
+
+   10 S: S • B
+  138 rep_logical_and_expr: rep_logical_and_expr S • T_VERTICAL_BAR T_VERTICAL_BAR S logical_and_expr
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_VERTICAL_BAR     shift, and go to state 318
+
+    B  go to state 14
+
+
+State 263
+
+   10 S: S • B
+  141 rep_basic_expr: rep_basic_expr S • T_AMPERSAND T_AMPERSAND S basic_expr
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_AMPERSAND        shift, and go to state 319
+
+    B  go to state 14
+
+
+State 264
+
+   10 S: S • B
+  145 paren_expr: opt_not_op T_PAREN_OPEN S • logical_expr S T_PAREN_CLOSE
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_EXCLAMATION      shift, and go to state 167
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_DOLLAR           shift, and go to state 1
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_HYPHEN           shift, and go to state 168
+    T_ZERO             shift, and go to state 88
+    T_AT               shift, and go to state 169
+    T_LC_A             shift, and go to state 48
+    T_LC_B             shift, and go to state 49
+    T_LC_C             shift, and go to state 50
+    T_LC_D             shift, and go to state 51
+    T_LC_E             shift, and go to state 52
+    T_LC_F             shift, and go to state 170
+    T_LC_G             shift, and go to state 54
+    T_LC_H             shift, and go to state 55
+    T_LC_I             shift, and go to state 56
+    T_LC_J             shift, and go to state 57
+    T_LC_K             shift, and go to state 58
+    T_LC_L             shift, and go to state 59
+    T_LC_M             shift, and go to state 60
+    T_LC_N             shift, and go to state 171
+    T_LC_O             shift, and go to state 62
+    T_LC_P             shift, and go to state 63
+    T_LC_Q             shift, and go to state 64
+    T_LC_R             shift, and go to state 65
+    T_LC_S             shift, and go to state 66
+    T_LC_T             shift, and go to state 172
+    T_LC_U             shift, and go to state 68
+    T_LC_V             shift, and go to state 69
+    T_LC_W             shift, and go to state 70
+    T_LC_X             shift, and go to state 71
+    T_LC_Y             shift, and go to state 72
+    T_LC_Z             shift, and go to state 73
+
+    T_DOLLAR      [reduce using rule 146 (opt_not_op)]
+    T_PAREN_OPEN  reduce using rule 146 (opt_not_op)
+    T_AT          [reduce using rule 146 (opt_not_op)]
+    T_LC_A        [reduce using rule 146 (opt_not_op)]
+    T_LC_B        [reduce using rule 146 (opt_not_op)]
+    T_LC_C        [reduce using rule 146 (opt_not_op)]
+    T_LC_D        [reduce using rule 146 (opt_not_op)]
+    T_LC_E        [reduce using rule 146 (opt_not_op)]
+    T_LC_F        [reduce using rule 146 (opt_not_op)]
+    T_LC_G        [reduce using rule 146 (opt_not_op)]
+    T_LC_H        [reduce using rule 146 (opt_not_op)]
+    T_LC_I        [reduce using rule 146 (opt_not_op)]
+    T_LC_J        [reduce using rule 146 (opt_not_op)]
+    T_LC_K        [reduce using rule 146 (opt_not_op)]
+    T_LC_L        [reduce using rule 146 (opt_not_op)]
+    T_LC_M        [reduce using rule 146 (opt_not_op)]
+    T_LC_N        [reduce using rule 146 (opt_not_op)]
+    T_LC_O        [reduce using rule 146 (opt_not_op)]
+    T_LC_P        [reduce using rule 146 (opt_not_op)]
+    T_LC_Q        [reduce using rule 146 (opt_not_op)]
+    T_LC_R        [reduce using rule 146 (opt_not_op)]
+    T_LC_S        [reduce using rule 146 (opt_not_op)]
+    T_LC_T        [reduce using rule 146 (opt_not_op)]
+    T_LC_U        [reduce using rule 146 (opt_not_op)]
+    T_LC_V        [reduce using rule 146 (opt_not_op)]
+    T_LC_W        [reduce using rule 146 (opt_not_op)]
+    T_LC_X        [reduce using rule 146 (opt_not_op)]
+    T_LC_Y        [reduce using rule 146 (opt_not_op)]
+    T_LC_Z        [reduce using rule 146 (opt_not_op)]
+    $default      reduce using rule 110 (opt_hyphen)
+
+    B                        go to state 14
+    root_identifier          go to state 173
+    string_literal           go to state 174
+    int                      go to state 175
+    opt_hyphen               go to state 96
+    logical_expr             go to state 320
+    logical_or_expr          go to state 177
+    logical_and_expr         go to state 178
+    basic_expr               go to state 179
+    paren_expr               go to state 180
+    opt_not_op               go to state 181
+    logical_not_op           go to state 182
+    test_expr                go to state 183
+    current_node_identifier  go to state 184
+    comparison_expr          go to state 185
+    literal                  go to state 186
+    comparable               go to state 187
+    singular_query           go to state 188
+    rel_singular_query       go to state 189
+    abs_singular_query       go to state 190
+    number                   go to state 191
+    true                     go to state 192
+    false                    go to state 193
+    null                     go to state 194
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 198
+
+
+State 265
+
+    4 segments: segments • S segment
+  153 rel_query: current_node_identifier segments •
+
+    T_TAB                   reduce using rule 9 (S)
+    T_TAB                   [reduce using rule 153 (rel_query)]
+    T_NEW_LINE              reduce using rule 9 (S)
+    T_NEW_LINE              [reduce using rule 153 (rel_query)]
+    T_CARRIAGE_RETURN       reduce using rule 9 (S)
+    T_CARRIAGE_RETURN       [reduce using rule 153 (rel_query)]
+    T_SPACE                 reduce using rule 9 (S)
+    T_SPACE                 [reduce using rule 153 (rel_query)]
+    T_AMPERSAND             reduce using rule 153 (rel_query)
+    T_PAREN_CLOSE           reduce using rule 153 (rel_query)
+    T_COMMA                 reduce using rule 153 (rel_query)
+    T_SQUARE_BRACKET_CLOSE  reduce using rule 153 (rel_query)
+    T_VERTICAL_BAR          reduce using rule 153 (rel_query)
+    $default                reduce using rule 9 (S)
+
+    S  go to state 7
+
+
+State 266
+
+  165 comparison_op: T_EXCLAMATION • T_EQUALS
+
+    T_EQUALS  shift, and go to state 321
+
+
+State 267
+
+  166 comparison_op: T_LT • T_EQUALS
+  168              | T_LT •
+
+    T_EQUALS  shift, and go to state 322
+
+    $default  reduce using rule 168 (comparison_op)
+
+
+State 268
+
+  164 comparison_op: T_EQUALS • T_EQUALS
+
+    T_EQUALS  shift, and go to state 323
+
+
+State 269
+
+  167 comparison_op: T_GT • T_EQUALS
+  169              | T_GT •
+
+    T_EQUALS  shift, and go to state 324
+
+    $default  reduce using rule 169 (comparison_op)
+
+
+State 270
+
+  155 comparison_expr: comparable S comparison_op • S comparable
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 325
+
+
+State 271
+
+   10 S: S • B
+  229 function_expr: function_name T_PAREN_OPEN S • opt_func_args S T_PAREN_CLOSE
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_EXCLAMATION      shift, and go to state 167
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_DOLLAR           shift, and go to state 1
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_HYPHEN           shift, and go to state 168
+    T_ZERO             shift, and go to state 88
+    T_AT               shift, and go to state 169
+    T_LC_A             shift, and go to state 48
+    T_LC_B             shift, and go to state 49
+    T_LC_C             shift, and go to state 50
+    T_LC_D             shift, and go to state 51
+    T_LC_E             shift, and go to state 52
+    T_LC_F             shift, and go to state 170
+    T_LC_G             shift, and go to state 54
+    T_LC_H             shift, and go to state 55
+    T_LC_I             shift, and go to state 56
+    T_LC_J             shift, and go to state 57
+    T_LC_K             shift, and go to state 58
+    T_LC_L             shift, and go to state 59
+    T_LC_M             shift, and go to state 60
+    T_LC_N             shift, and go to state 171
+    T_LC_O             shift, and go to state 62
+    T_LC_P             shift, and go to state 63
+    T_LC_Q             shift, and go to state 64
+    T_LC_R             shift, and go to state 65
+    T_LC_S             shift, and go to state 66
+    T_LC_T             shift, and go to state 172
+    T_LC_U             shift, and go to state 68
+    T_LC_V             shift, and go to state 69
+    T_LC_W             shift, and go to state 70
+    T_LC_X             shift, and go to state 71
+    T_LC_Y             shift, and go to state 72
+    T_LC_Z             shift, and go to state 73
+
+    T_TAB              [reduce using rule 230 (opt_func_args)]
+    T_NEW_LINE         [reduce using rule 230 (opt_func_args)]
+    T_CARRIAGE_RETURN  [reduce using rule 230 (opt_func_args)]
+    T_SPACE            [reduce using rule 230 (opt_func_args)]
+    T_DOLLAR           [reduce using rule 146 (opt_not_op)]
+    T_PAREN_OPEN       reduce using rule 146 (opt_not_op)
+    T_PAREN_CLOSE      reduce using rule 230 (opt_func_args)
+    T_AT               [reduce using rule 146 (opt_not_op)]
+    T_LC_A             [reduce using rule 146 (opt_not_op)]
+    T_LC_B             [reduce using rule 146 (opt_not_op)]
+    T_LC_C             [reduce using rule 146 (opt_not_op)]
+    T_LC_D             [reduce using rule 146 (opt_not_op)]
+    T_LC_E             [reduce using rule 146 (opt_not_op)]
+    T_LC_F             [reduce using rule 146 (opt_not_op)]
+    T_LC_G             [reduce using rule 146 (opt_not_op)]
+    T_LC_H             [reduce using rule 146 (opt_not_op)]
+    T_LC_I             [reduce using rule 146 (opt_not_op)]
+    T_LC_J             [reduce using rule 146 (opt_not_op)]
+    T_LC_K             [reduce using rule 146 (opt_not_op)]
+    T_LC_L             [reduce using rule 146 (opt_not_op)]
+    T_LC_M             [reduce using rule 146 (opt_not_op)]
+    T_LC_N             [reduce using rule 146 (opt_not_op)]
+    T_LC_O             [reduce using rule 146 (opt_not_op)]
+    T_LC_P             [reduce using rule 146 (opt_not_op)]
+    T_LC_Q             [reduce using rule 146 (opt_not_op)]
+    T_LC_R             [reduce using rule 146 (opt_not_op)]
+    T_LC_S             [reduce using rule 146 (opt_not_op)]
+    T_LC_T             [reduce using rule 146 (opt_not_op)]
+    T_LC_U             [reduce using rule 146 (opt_not_op)]
+    T_LC_V             [reduce using rule 146 (opt_not_op)]
+    T_LC_W             [reduce using rule 146 (opt_not_op)]
+    T_LC_X             [reduce using rule 146 (opt_not_op)]
+    T_LC_Y             [reduce using rule 146 (opt_not_op)]
+    T_LC_Z             [reduce using rule 146 (opt_not_op)]
+    $default           reduce using rule 110 (opt_hyphen)
+
+    jsonpath_query           go to state 226
+    B                        go to state 14
+    root_identifier          go to state 326
+    string_literal           go to state 174
+    int                      go to state 175
+    opt_hyphen               go to state 96
+    logical_expr             go to state 327
+    logical_or_expr          go to state 177
+    logical_and_expr         go to state 178
+    basic_expr               go to state 179
+    paren_expr               go to state 180
+    opt_not_op               go to state 181
+    logical_not_op           go to state 182
+    test_expr                go to state 183
+    filter_query             go to state 328
+    rel_query                go to state 228
+    current_node_identifier  go to state 329
+    comparison_expr          go to state 185
+    literal                  go to state 330
+    comparable               go to state 187
+    singular_query           go to state 188
+    rel_singular_query       go to state 189
+    abs_singular_query       go to state 190
+    number                   go to state 191
+    true                     go to state 192
+    false                    go to state 193
+    null                     go to state 194
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 331
+    opt_func_args            go to state 332
+    function_argument        go to state 333
+
+
+State 272
+
+  201 function_name_char: T_UNDERSCORE •
+
+    $default  reduce using rule 201 (function_name_char)
+
+
+State 273
+
+  200 function_name_char: function_name_first •
+
+    $default  reduce using rule 200 (function_name_char)
+
+
+State 274
+
+  198 rep_function_name_char: rep_function_name_char function_name_char •
+
+    $default  reduce using rule 198 (rep_function_name_char)
+
+
+State 275
+
+  202 function_name_char: DIGIT •
+
+    $default  reduce using rule 202 (function_name_char)
+
+
+State 276
+
+   10 S: S • B
+  245 rep_selector: rep_selector S T_COMMA S • selector
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_ASTERISK         shift, and go to state 19
+    T_HYPHEN           shift, and go to state 87
+    T_ZERO             shift, and go to state 88
+    T_QUESTION         shift, and go to state 89
+
+    T_COLON   reduce using rule 124 (opt_start)
+    $default  reduce using rule 110 (opt_hyphen)
+
+    B                  go to state 14
+    selector           go to state 334
+    name_selector      go to state 91
+    string_literal     go to state 92
+    wildcard_selector  go to state 93
+    index_selector     go to state 94
+    int                go to state 95
+    opt_hyphen         go to state 96
+    slice_selector     go to state 97
+    opt_start          go to state 98
+    start              go to state 99
+    filter_selector    go to state 100
+
+
+State 277
+
+  129 opt_step: T_COLON • S step
+  130         | T_COLON •
+
+    T_TAB                   reduce using rule 9 (S)
+    T_TAB                   [reduce using rule 130 (opt_step)]
+    T_NEW_LINE              reduce using rule 9 (S)
+    T_NEW_LINE              [reduce using rule 130 (opt_step)]
+    T_CARRIAGE_RETURN       reduce using rule 9 (S)
+    T_CARRIAGE_RETURN       [reduce using rule 130 (opt_step)]
+    T_SPACE                 reduce using rule 9 (S)
+    T_SPACE                 [reduce using rule 130 (opt_step)]
+    T_COMMA                 reduce using rule 130 (opt_step)
+    T_SQUARE_BRACKET_CLOSE  reduce using rule 130 (opt_step)
+    $default                reduce using rule 9 (S)
+
+    S  go to state 335
+
+
+State 278
+
+  123 slice_selector: opt_start T_COLON S opt_end opt_step •
+
+    $default  reduce using rule 123 (slice_selector)
+
+
+State 279
+
+   10 S: S • B
+  127 opt_end: end S •
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+
+    T_TAB              [reduce using rule 127 (opt_end)]
+    T_NEW_LINE         [reduce using rule 127 (opt_end)]
+    T_CARRIAGE_RETURN  [reduce using rule 127 (opt_end)]
+    T_SPACE            [reduce using rule 127 (opt_end)]
+    $default           reduce using rule 127 (opt_end)
+
+    B  go to state 14
+
+
+State 280
+
+  100 HEXDIG: T_UC_A •
+
+    $default  reduce using rule 100 (HEXDIG)
+
+
+State 281
+
+  101 HEXDIG: T_UC_B •
+
+    $default  reduce using rule 101 (HEXDIG)
+
+
+State 282
+
+  102 HEXDIG: T_UC_C •
+
+    $default  reduce using rule 102 (HEXDIG)
+
+
+State 283
+
+  103 HEXDIG: T_UC_D •
+
+    $default  reduce using rule 103 (HEXDIG)
+
+
+State 284
+
+  104 HEXDIG: T_UC_E •
+
+    $default  reduce using rule 104 (HEXDIG)
+
+
+State 285
+
+  105 HEXDIG: T_UC_F •
+
+    $default  reduce using rule 105 (HEXDIG)
+
+
+State 286
+
+   78 non_surrogate: T_UC_A HEXDIG • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 336
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 287
+
+   99 HEXDIG: DIGIT •
+
+    $default  reduce using rule 99 (HEXDIG)
+
+
+State 288
+
+   79 non_surrogate: T_UC_B HEXDIG • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 337
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 289
+
+   80 non_surrogate: T_UC_C HEXDIG • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 338
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 290
+
+   83 non_surrogate: T_UC_D T_ZERO • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 339
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 291
+
+   84 non_surrogate: T_UC_D T_ONE • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 340
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 292
+
+   85 non_surrogate: T_UC_D T_TWO • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 341
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 293
+
+   86 non_surrogate: T_UC_D T_THREE • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 342
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 294
+
+   87 non_surrogate: T_UC_D T_FOUR • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 343
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 295
+
+   88 non_surrogate: T_UC_D T_FIVE • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 344
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 296
+
+   89 non_surrogate: T_UC_D T_SIX • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 345
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 297
+
+   90 non_surrogate: T_UC_D T_SEVEN • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 346
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 298
+
+   91 high_surrogate: T_UC_D T_EIGHT • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 347
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 299
+
+   92 high_surrogate: T_UC_D T_NINE • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 348
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 300
+
+   93 high_surrogate: T_UC_D T_UC_A • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 349
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 301
+
+   94 high_surrogate: T_UC_D T_UC_B • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 350
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 302
+
+   81 non_surrogate: T_UC_E HEXDIG • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 351
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 303
+
+   82 non_surrogate: T_UC_F HEXDIG • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 352
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 304
+
+   76 hexchar: high_surrogate T_BACKSLASH • T_LC_U low_surrogate
+
+    T_LC_U  shift, and go to state 353
+
+
+State 305
+
+   77 non_surrogate: DIGIT HEXDIG • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 354
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 306
+
+  183 number: T_HYPHEN T_ZERO opt_frac opt_exp •
+
+    $default  reduce using rule 183 (number)
+
+
+State 307
+
+  194 false: T_LC_F T_LC_A T_LC_L T_LC_S • T_LC_E
+
+    T_LC_E  shift, and go to state 355
+
+
+State 308
+
+  195 null: T_LC_N T_LC_U T_LC_L T_LC_L •
+
+    $default  reduce using rule 195 (null)
+
+
+State 309
+
+  193 true: T_LC_T T_LC_R T_LC_U T_LC_E •
+
+    $default  reduce using rule 193 (true)
+
+
+State 310
+
+  180 name_segment: T_PERIOD • member_name_shorthand
+
+    T_UC_A        shift, and go to state 21
+    T_UC_B        shift, and go to state 22
+    T_UC_C        shift, and go to state 23
+    T_UC_D        shift, and go to state 24
+    T_UC_E        shift, and go to state 25
+    T_UC_F        shift, and go to state 26
+    T_UC_G        shift, and go to state 27
+    T_UC_H        shift, and go to state 28
+    T_UC_I        shift, and go to state 29
+    T_UC_J        shift, and go to state 30
+    T_UC_K        shift, and go to state 31
+    T_UC_L        shift, and go to state 32
+    T_UC_M        shift, and go to state 33
+    T_UC_N        shift, and go to state 34
+    T_UC_O        shift, and go to state 35
+    T_UC_P        shift, and go to state 36
+    T_UC_Q        shift, and go to state 37
+    T_UC_R        shift, and go to state 38
+    T_UC_S        shift, and go to state 39
+    T_UC_T        shift, and go to state 40
+    T_UC_U        shift, and go to state 41
+    T_UC_V        shift, and go to state 42
+    T_UC_W        shift, and go to state 43
+    T_UC_X        shift, and go to state 44
+    T_UC_Y        shift, and go to state 45
+    T_UC_Z        shift, and go to state 46
+    T_UNDERSCORE  shift, and go to state 47
+    T_LC_A        shift, and go to state 48
+    T_LC_B        shift, and go to state 49
+    T_LC_C        shift, and go to state 50
+    T_LC_D        shift, and go to state 51
+    T_LC_E        shift, and go to state 52
+    T_LC_F        shift, and go to state 53
+    T_LC_G        shift, and go to state 54
+    T_LC_H        shift, and go to state 55
+    T_LC_I        shift, and go to state 56
+    T_LC_J        shift, and go to state 57
+    T_LC_K        shift, and go to state 58
+    T_LC_L        shift, and go to state 59
+    T_LC_M        shift, and go to state 60
+    T_LC_N        shift, and go to state 61
+    T_LC_O        shift, and go to state 62
+    T_LC_P        shift, and go to state 63
+    T_LC_Q        shift, and go to state 64
+    T_LC_R        shift, and go to state 65
+    T_LC_S        shift, and go to state 66
+    T_LC_T        shift, and go to state 67
+    T_LC_U        shift, and go to state 68
+    T_LC_V        shift, and go to state 69
+    T_LC_W        shift, and go to state 70
+    T_LC_X        shift, and go to state 71
+    T_LC_Y        shift, and go to state 72
+    T_LC_Z        shift, and go to state 73
+
+    LCALPHA                go to state 75
+    member_name_shorthand  go to state 356
+    name_first             go to state 77
+    ALPHA                  go to state 78
+    UCALPHA                go to state 79
+
+
+State 311
+
+  179 name_segment: T_SQUARE_BRACKET_OPEN • name_selector T_SQUARE_BRACKET_CLOSE
+  181 index_segment: T_SQUARE_BRACKET_OPEN • index_selector T_SQUARE_BRACKET_CLOSE
+
+    T_DOUBLE_QUOTE  shift, and go to state 85
+    T_SINGLE_QUOTE  shift, and go to state 86
+    T_HYPHEN        shift, and go to state 87
+    T_ZERO          shift, and go to state 88
+
+    $default  reduce using rule 110 (opt_hyphen)
+
+    name_selector   go to state 357
+    string_literal  go to state 92
+    index_selector  go to state 358
+    int             go to state 359
+    opt_hyphen      go to state 96
+
+
+State 312
+
+  177 singular_query_segment: S name_segment •
+
+    $default  reduce using rule 177 (singular_query_segment)
+
+
+State 313
+
+  178 singular_query_segment: S index_segment •
+
+    $default  reduce using rule 178 (singular_query_segment)
+
+
+State 314
+
+  122 rep_DIGIT: rep_DIGIT • DIGIT
+  186 frac: T_PERIOD DIGIT rep_DIGIT •
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+
+    $default  reduce using rule 186 (frac)
+
+    DIGIT1  go to state 111
+    DIGIT   go to state 238
+
+
+State 315
+
+  192 opt_signed: T_PLUS •
+
+    $default  reduce using rule 192 (opt_signed)
+
+
+State 316
+
+  191 opt_signed: T_HYPHEN •
+
+    $default  reduce using rule 191 (opt_signed)
+
+
+State 317
+
+  189 exp: T_LC_E opt_signed • DIGIT rep_DIGIT
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+
+    DIGIT1  go to state 111
+    DIGIT   go to state 360
+
+
+State 318
+
+  138 rep_logical_and_expr: rep_logical_and_expr S T_VERTICAL_BAR • T_VERTICAL_BAR S logical_and_expr
+
+    T_VERTICAL_BAR  shift, and go to state 361
+
+
+State 319
+
+  141 rep_basic_expr: rep_basic_expr S T_AMPERSAND • T_AMPERSAND S basic_expr
+
+    T_AMPERSAND  shift, and go to state 362
+
+
+State 320
+
+  145 paren_expr: opt_not_op T_PAREN_OPEN S logical_expr • S T_PAREN_CLOSE
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 363
+
+
+State 321
+
+  165 comparison_op: T_EXCLAMATION T_EQUALS •
+
+    $default  reduce using rule 165 (comparison_op)
+
+
+State 322
+
+  166 comparison_op: T_LT T_EQUALS •
+
+    $default  reduce using rule 166 (comparison_op)
+
+
+State 323
+
+  164 comparison_op: T_EQUALS T_EQUALS •
+
+    $default  reduce using rule 164 (comparison_op)
+
+
+State 324
+
+  167 comparison_op: T_GT T_EQUALS •
+
+    $default  reduce using rule 167 (comparison_op)
+
+
+State 325
+
+   10 S: S • B
+  155 comparison_expr: comparable S comparison_op S • comparable
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_DOLLAR           shift, and go to state 1
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_HYPHEN           shift, and go to state 168
+    T_ZERO             shift, and go to state 88
+    T_AT               shift, and go to state 169
+    T_LC_A             shift, and go to state 48
+    T_LC_B             shift, and go to state 49
+    T_LC_C             shift, and go to state 50
+    T_LC_D             shift, and go to state 51
+    T_LC_E             shift, and go to state 52
+    T_LC_F             shift, and go to state 170
+    T_LC_G             shift, and go to state 54
+    T_LC_H             shift, and go to state 55
+    T_LC_I             shift, and go to state 56
+    T_LC_J             shift, and go to state 57
+    T_LC_K             shift, and go to state 58
+    T_LC_L             shift, and go to state 59
+    T_LC_M             shift, and go to state 60
+    T_LC_N             shift, and go to state 171
+    T_LC_O             shift, and go to state 62
+    T_LC_P             shift, and go to state 63
+    T_LC_Q             shift, and go to state 64
+    T_LC_R             shift, and go to state 65
+    T_LC_S             shift, and go to state 66
+    T_LC_T             shift, and go to state 172
+    T_LC_U             shift, and go to state 68
+    T_LC_V             shift, and go to state 69
+    T_LC_W             shift, and go to state 70
+    T_LC_X             shift, and go to state 71
+    T_LC_Y             shift, and go to state 72
+    T_LC_Z             shift, and go to state 73
+
+    $default  reduce using rule 110 (opt_hyphen)
+
+    B                        go to state 14
+    root_identifier          go to state 173
+    string_literal           go to state 174
+    int                      go to state 175
+    opt_hyphen               go to state 96
+    current_node_identifier  go to state 184
+    literal                  go to state 186
+    comparable               go to state 364
+    singular_query           go to state 188
+    rel_singular_query       go to state 189
+    abs_singular_query       go to state 190
+    number                   go to state 191
+    true                     go to state 192
+    false                    go to state 193
+    null                     go to state 194
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 198
+
+
+State 326
+
+    1 jsonpath_query: root_identifier • segments
+    2               | root_identifier • segments T_NEW_LINE
+  173 abs_singular_query: root_identifier • singular_query_segments
+
+    T_TAB                  reduce using rule 3 (segments)
+    T_TAB                  [reduce using rule 175 (rep_singular_query_segment)]
+    T_NEW_LINE             reduce using rule 3 (segments)
+    T_NEW_LINE             [reduce using rule 175 (rep_singular_query_segment)]
+    T_CARRIAGE_RETURN      reduce using rule 3 (segments)
+    T_CARRIAGE_RETURN      [reduce using rule 175 (rep_singular_query_segment)]
+    T_SPACE                reduce using rule 3 (segments)
+    T_SPACE                [reduce using rule 175 (rep_singular_query_segment)]
+    T_EXCLAMATION          reduce using rule 175 (rep_singular_query_segment)
+    T_PERIOD               reduce using rule 3 (segments)
+    T_PERIOD               [reduce using rule 175 (rep_singular_query_segment)]
+    T_LT                   reduce using rule 175 (rep_singular_query_segment)
+    T_EQUALS               reduce using rule 175 (rep_singular_query_segment)
+    T_GT                   reduce using rule 175 (rep_singular_query_segment)
+    T_SQUARE_BRACKET_OPEN  reduce using rule 3 (segments)
+    T_SQUARE_BRACKET_OPEN  [reduce using rule 175 (rep_singular_query_segment)]
+    $default               reduce using rule 3 (segments)
+
+    segments                    go to state 5
+    singular_query_segments     go to state 218
+    rep_singular_query_segment  go to state 219
+
+
+State 327
+
+  236 function_argument: logical_expr •
+
+    $default  reduce using rule 236 (function_argument)
+
+
+State 328
+
+  235 function_argument: filter_query •
+
+    $default  reduce using rule 235 (function_argument)
+
+
+State 329
+
+  153 rel_query: current_node_identifier • segments
+  172 rel_singular_query: current_node_identifier • singular_query_segments
+
+    T_TAB                  reduce using rule 3 (segments)
+    T_TAB                  [reduce using rule 175 (rep_singular_query_segment)]
+    T_NEW_LINE             reduce using rule 3 (segments)
+    T_NEW_LINE             [reduce using rule 175 (rep_singular_query_segment)]
+    T_CARRIAGE_RETURN      reduce using rule 3 (segments)
+    T_CARRIAGE_RETURN      [reduce using rule 175 (rep_singular_query_segment)]
+    T_SPACE                reduce using rule 3 (segments)
+    T_SPACE                [reduce using rule 175 (rep_singular_query_segment)]
+    T_EXCLAMATION          reduce using rule 175 (rep_singular_query_segment)
+    T_PERIOD               reduce using rule 3 (segments)
+    T_PERIOD               [reduce using rule 175 (rep_singular_query_segment)]
+    T_LT                   reduce using rule 175 (rep_singular_query_segment)
+    T_EQUALS               reduce using rule 175 (rep_singular_query_segment)
+    T_GT                   reduce using rule 175 (rep_singular_query_segment)
+    T_SQUARE_BRACKET_OPEN  reduce using rule 3 (segments)
+    T_SQUARE_BRACKET_OPEN  [reduce using rule 175 (rep_singular_query_segment)]
+    $default               reduce using rule 3 (segments)
+
+    segments                    go to state 265
+    singular_query_segments     go to state 232
+    rep_singular_query_segment  go to state 219
+
+
+State 330
+
+  161 comparable: literal •
+  234 function_argument: literal •
+
+    T_TAB              reduce using rule 161 (comparable)
+    T_TAB              [reduce using rule 234 (function_argument)]
+    T_NEW_LINE         reduce using rule 161 (comparable)
+    T_NEW_LINE         [reduce using rule 234 (function_argument)]
+    T_CARRIAGE_RETURN  reduce using rule 161 (comparable)
+    T_CARRIAGE_RETURN  [reduce using rule 234 (function_argument)]
+    T_SPACE            reduce using rule 161 (comparable)
+    T_SPACE            [reduce using rule 234 (function_argument)]
+    T_PAREN_CLOSE      reduce using rule 234 (function_argument)
+    T_COMMA            reduce using rule 234 (function_argument)
+    $default           reduce using rule 161 (comparable)
+
+
+State 331
+
+  163 comparable: function_expr •
+  237 function_argument: function_expr •
+
+    T_TAB              reduce using rule 163 (comparable)
+    T_TAB              [reduce using rule 237 (function_argument)]
+    T_NEW_LINE         reduce using rule 163 (comparable)
+    T_NEW_LINE         [reduce using rule 237 (function_argument)]
+    T_CARRIAGE_RETURN  reduce using rule 163 (comparable)
+    T_CARRIAGE_RETURN  [reduce using rule 237 (function_argument)]
+    T_SPACE            reduce using rule 163 (comparable)
+    T_SPACE            [reduce using rule 237 (function_argument)]
+    T_PAREN_CLOSE      reduce using rule 237 (function_argument)
+    T_COMMA            reduce using rule 237 (function_argument)
+    $default           reduce using rule 163 (comparable)
+
+
+State 332
+
+  229 function_expr: function_name T_PAREN_OPEN S opt_func_args • S T_PAREN_CLOSE
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 365
+
+
+State 333
+
+  231 opt_func_args: function_argument • rep_function_argument
+
+    $default  reduce using rule 232 (rep_function_argument)
+
+    rep_function_argument  go to state 366
+
+
+State 334
+
+  245 rep_selector: rep_selector S T_COMMA S selector •
+
+    $default  reduce using rule 245 (rep_selector)
+
+
+State 335
+
+   10 S: S • B
+  129 opt_step: T_COLON S • step
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_HYPHEN           shift, and go to state 87
+    T_ZERO             shift, and go to state 88
+
+    $default  reduce using rule 110 (opt_hyphen)
+
+    B           go to state 14
+    int         go to state 367
+    opt_hyphen  go to state 96
+    step        go to state 368
+
+
+State 336
+
+   78 non_surrogate: T_UC_A HEXDIG HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 369
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 337
+
+   79 non_surrogate: T_UC_B HEXDIG HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 370
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 338
+
+   80 non_surrogate: T_UC_C HEXDIG HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 371
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 339
+
+   83 non_surrogate: T_UC_D T_ZERO HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 372
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 340
+
+   84 non_surrogate: T_UC_D T_ONE HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 373
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 341
+
+   85 non_surrogate: T_UC_D T_TWO HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 374
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 342
+
+   86 non_surrogate: T_UC_D T_THREE HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 375
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 343
+
+   87 non_surrogate: T_UC_D T_FOUR HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 376
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 344
+
+   88 non_surrogate: T_UC_D T_FIVE HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 377
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 345
+
+   89 non_surrogate: T_UC_D T_SIX HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 378
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 346
+
+   90 non_surrogate: T_UC_D T_SEVEN HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 379
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 347
+
+   91 high_surrogate: T_UC_D T_EIGHT HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 380
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 348
+
+   92 high_surrogate: T_UC_D T_NINE HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 381
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 349
+
+   93 high_surrogate: T_UC_D T_UC_A HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 382
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 350
+
+   94 high_surrogate: T_UC_D T_UC_B HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 383
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 351
+
+   81 non_surrogate: T_UC_E HEXDIG HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 384
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 352
+
+   82 non_surrogate: T_UC_F HEXDIG HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 385
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 353
+
+   76 hexchar: high_surrogate T_BACKSLASH T_LC_U • low_surrogate
+
+    T_UC_D  shift, and go to state 386
+
+    low_surrogate  go to state 387
+
+
+State 354
+
+   77 non_surrogate: DIGIT HEXDIG HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 388
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 355
+
+  194 false: T_LC_F T_LC_A T_LC_L T_LC_S T_LC_E •
+
+    $default  reduce using rule 194 (false)
+
+
+State 356
+
+  180 name_segment: T_PERIOD member_name_shorthand •
+
+    $default  reduce using rule 180 (name_segment)
+
+
+State 357
+
+  179 name_segment: T_SQUARE_BRACKET_OPEN name_selector • T_SQUARE_BRACKET_CLOSE
+
+    T_SQUARE_BRACKET_CLOSE  shift, and go to state 389
+
+
+State 358
+
+  181 index_segment: T_SQUARE_BRACKET_OPEN index_selector • T_SQUARE_BRACKET_CLOSE
+
+    T_SQUARE_BRACKET_CLOSE  shift, and go to state 390
+
+
+State 359
+
+  107 index_selector: int •
+
+    $default  reduce using rule 107 (index_selector)
+
+
+State 360
+
+  189 exp: T_LC_E opt_signed DIGIT • rep_DIGIT
+
+    $default  reduce using rule 121 (rep_DIGIT)
+
+    rep_DIGIT  go to state 391
+
+
+State 361
+
+  138 rep_logical_and_expr: rep_logical_and_expr S T_VERTICAL_BAR T_VERTICAL_BAR • S logical_and_expr
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 392
+
+
+State 362
+
+  141 rep_basic_expr: rep_basic_expr S T_AMPERSAND T_AMPERSAND • S basic_expr
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 393
+
+
+State 363
+
+   10 S: S • B
+  145 paren_expr: opt_not_op T_PAREN_OPEN S logical_expr S • T_PAREN_CLOSE
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_PAREN_CLOSE      shift, and go to state 394
+
+    B  go to state 14
+
+
+State 364
+
+  155 comparison_expr: comparable S comparison_op S comparable •
+
+    $default  reduce using rule 155 (comparison_expr)
+
+
+State 365
+
+   10 S: S • B
+  229 function_expr: function_name T_PAREN_OPEN S opt_func_args S • T_PAREN_CLOSE
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_PAREN_CLOSE      shift, and go to state 395
+
+    B  go to state 14
+
+
+State 366
+
+  231 opt_func_args: function_argument rep_function_argument •
+  233 rep_function_argument: rep_function_argument • S T_COMMA S function_argument
+
+    T_TAB              reduce using rule 9 (S)
+    T_TAB              [reduce using rule 231 (opt_func_args)]
+    T_NEW_LINE         reduce using rule 9 (S)
+    T_NEW_LINE         [reduce using rule 231 (opt_func_args)]
+    T_CARRIAGE_RETURN  reduce using rule 9 (S)
+    T_CARRIAGE_RETURN  [reduce using rule 231 (opt_func_args)]
+    T_SPACE            reduce using rule 9 (S)
+    T_SPACE            [reduce using rule 231 (opt_func_args)]
+    T_PAREN_CLOSE      reduce using rule 231 (opt_func_args)
+    $default           reduce using rule 9 (S)
+
+    S  go to state 396
+
+
+State 367
+
+  133 step: int •
+
+    $default  reduce using rule 133 (step)
+
+
+State 368
+
+  129 opt_step: T_COLON S step •
+
+    $default  reduce using rule 129 (opt_step)
+
+
+State 369
+
+   78 non_surrogate: T_UC_A HEXDIG HEXDIG HEXDIG •
+
+    $default  reduce using rule 78 (non_surrogate)
+
+
+State 370
+
+   79 non_surrogate: T_UC_B HEXDIG HEXDIG HEXDIG •
+
+    $default  reduce using rule 79 (non_surrogate)
+
+
+State 371
+
+   80 non_surrogate: T_UC_C HEXDIG HEXDIG HEXDIG •
+
+    $default  reduce using rule 80 (non_surrogate)
+
+
+State 372
+
+   83 non_surrogate: T_UC_D T_ZERO HEXDIG HEXDIG •
+
+    $default  reduce using rule 83 (non_surrogate)
+
+
+State 373
+
+   84 non_surrogate: T_UC_D T_ONE HEXDIG HEXDIG •
+
+    $default  reduce using rule 84 (non_surrogate)
+
+
+State 374
+
+   85 non_surrogate: T_UC_D T_TWO HEXDIG HEXDIG •
+
+    $default  reduce using rule 85 (non_surrogate)
+
+
+State 375
+
+   86 non_surrogate: T_UC_D T_THREE HEXDIG HEXDIG •
+
+    $default  reduce using rule 86 (non_surrogate)
+
+
+State 376
+
+   87 non_surrogate: T_UC_D T_FOUR HEXDIG HEXDIG •
+
+    $default  reduce using rule 87 (non_surrogate)
+
+
+State 377
+
+   88 non_surrogate: T_UC_D T_FIVE HEXDIG HEXDIG •
+
+    $default  reduce using rule 88 (non_surrogate)
+
+
+State 378
+
+   89 non_surrogate: T_UC_D T_SIX HEXDIG HEXDIG •
+
+    $default  reduce using rule 89 (non_surrogate)
+
+
+State 379
+
+   90 non_surrogate: T_UC_D T_SEVEN HEXDIG HEXDIG •
+
+    $default  reduce using rule 90 (non_surrogate)
+
+
+State 380
+
+   91 high_surrogate: T_UC_D T_EIGHT HEXDIG HEXDIG •
+
+    $default  reduce using rule 91 (high_surrogate)
+
+
+State 381
+
+   92 high_surrogate: T_UC_D T_NINE HEXDIG HEXDIG •
+
+    $default  reduce using rule 92 (high_surrogate)
+
+
+State 382
+
+   93 high_surrogate: T_UC_D T_UC_A HEXDIG HEXDIG •
+
+    $default  reduce using rule 93 (high_surrogate)
+
+
+State 383
+
+   94 high_surrogate: T_UC_D T_UC_B HEXDIG HEXDIG •
+
+    $default  reduce using rule 94 (high_surrogate)
+
+
+State 384
+
+   81 non_surrogate: T_UC_E HEXDIG HEXDIG HEXDIG •
+
+    $default  reduce using rule 81 (non_surrogate)
+
+
+State 385
+
+   82 non_surrogate: T_UC_F HEXDIG HEXDIG HEXDIG •
+
+    $default  reduce using rule 82 (non_surrogate)
+
+
+State 386
+
+   95 low_surrogate: T_UC_D • T_UC_C HEXDIG HEXDIG
+   96              | T_UC_D • T_UC_D HEXDIG HEXDIG
+   97              | T_UC_D • T_UC_E HEXDIG HEXDIG
+   98              | T_UC_D • T_UC_F HEXDIG HEXDIG
+
+    T_UC_C  shift, and go to state 397
+    T_UC_D  shift, and go to state 398
+    T_UC_E  shift, and go to state 399
+    T_UC_F  shift, and go to state 400
+
+
+State 387
+
+   76 hexchar: high_surrogate T_BACKSLASH T_LC_U low_surrogate •
+
+    $default  reduce using rule 76 (hexchar)
+
+
+State 388
+
+   77 non_surrogate: DIGIT HEXDIG HEXDIG HEXDIG •
+
+    $default  reduce using rule 77 (non_surrogate)
+
+
+State 389
+
+  179 name_segment: T_SQUARE_BRACKET_OPEN name_selector T_SQUARE_BRACKET_CLOSE •
+
+    $default  reduce using rule 179 (name_segment)
+
+
+State 390
+
+  181 index_segment: T_SQUARE_BRACKET_OPEN index_selector T_SQUARE_BRACKET_CLOSE •
+
+    $default  reduce using rule 181 (index_segment)
+
+
+State 391
+
+  122 rep_DIGIT: rep_DIGIT • DIGIT
+  189 exp: T_LC_E opt_signed DIGIT rep_DIGIT •
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+
+    $default  reduce using rule 189 (exp)
+
+    DIGIT1  go to state 111
+    DIGIT   go to state 238
+
+
+State 392
+
+   10 S: S • B
+  138 rep_logical_and_expr: rep_logical_and_expr S T_VERTICAL_BAR T_VERTICAL_BAR S • logical_and_expr
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_EXCLAMATION      shift, and go to state 167
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_DOLLAR           shift, and go to state 1
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_HYPHEN           shift, and go to state 168
+    T_ZERO             shift, and go to state 88
+    T_AT               shift, and go to state 169
+    T_LC_A             shift, and go to state 48
+    T_LC_B             shift, and go to state 49
+    T_LC_C             shift, and go to state 50
+    T_LC_D             shift, and go to state 51
+    T_LC_E             shift, and go to state 52
+    T_LC_F             shift, and go to state 170
+    T_LC_G             shift, and go to state 54
+    T_LC_H             shift, and go to state 55
+    T_LC_I             shift, and go to state 56
+    T_LC_J             shift, and go to state 57
+    T_LC_K             shift, and go to state 58
+    T_LC_L             shift, and go to state 59
+    T_LC_M             shift, and go to state 60
+    T_LC_N             shift, and go to state 171
+    T_LC_O             shift, and go to state 62
+    T_LC_P             shift, and go to state 63
+    T_LC_Q             shift, and go to state 64
+    T_LC_R             shift, and go to state 65
+    T_LC_S             shift, and go to state 66
+    T_LC_T             shift, and go to state 172
+    T_LC_U             shift, and go to state 68
+    T_LC_V             shift, and go to state 69
+    T_LC_W             shift, and go to state 70
+    T_LC_X             shift, and go to state 71
+    T_LC_Y             shift, and go to state 72
+    T_LC_Z             shift, and go to state 73
+
+    T_DOLLAR      [reduce using rule 146 (opt_not_op)]
+    T_PAREN_OPEN  reduce using rule 146 (opt_not_op)
+    T_AT          [reduce using rule 146 (opt_not_op)]
+    T_LC_A        [reduce using rule 146 (opt_not_op)]
+    T_LC_B        [reduce using rule 146 (opt_not_op)]
+    T_LC_C        [reduce using rule 146 (opt_not_op)]
+    T_LC_D        [reduce using rule 146 (opt_not_op)]
+    T_LC_E        [reduce using rule 146 (opt_not_op)]
+    T_LC_F        [reduce using rule 146 (opt_not_op)]
+    T_LC_G        [reduce using rule 146 (opt_not_op)]
+    T_LC_H        [reduce using rule 146 (opt_not_op)]
+    T_LC_I        [reduce using rule 146 (opt_not_op)]
+    T_LC_J        [reduce using rule 146 (opt_not_op)]
+    T_LC_K        [reduce using rule 146 (opt_not_op)]
+    T_LC_L        [reduce using rule 146 (opt_not_op)]
+    T_LC_M        [reduce using rule 146 (opt_not_op)]
+    T_LC_N        [reduce using rule 146 (opt_not_op)]
+    T_LC_O        [reduce using rule 146 (opt_not_op)]
+    T_LC_P        [reduce using rule 146 (opt_not_op)]
+    T_LC_Q        [reduce using rule 146 (opt_not_op)]
+    T_LC_R        [reduce using rule 146 (opt_not_op)]
+    T_LC_S        [reduce using rule 146 (opt_not_op)]
+    T_LC_T        [reduce using rule 146 (opt_not_op)]
+    T_LC_U        [reduce using rule 146 (opt_not_op)]
+    T_LC_V        [reduce using rule 146 (opt_not_op)]
+    T_LC_W        [reduce using rule 146 (opt_not_op)]
+    T_LC_X        [reduce using rule 146 (opt_not_op)]
+    T_LC_Y        [reduce using rule 146 (opt_not_op)]
+    T_LC_Z        [reduce using rule 146 (opt_not_op)]
+    $default      reduce using rule 110 (opt_hyphen)
+
+    B                        go to state 14
+    root_identifier          go to state 173
+    string_literal           go to state 174
+    int                      go to state 175
+    opt_hyphen               go to state 96
+    logical_and_expr         go to state 401
+    basic_expr               go to state 179
+    paren_expr               go to state 180
+    opt_not_op               go to state 181
+    logical_not_op           go to state 182
+    test_expr                go to state 183
+    current_node_identifier  go to state 184
+    comparison_expr          go to state 185
+    literal                  go to state 186
+    comparable               go to state 187
+    singular_query           go to state 188
+    rel_singular_query       go to state 189
+    abs_singular_query       go to state 190
+    number                   go to state 191
+    true                     go to state 192
+    false                    go to state 193
+    null                     go to state 194
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 198
+
+
+State 393
+
+   10 S: S • B
+  141 rep_basic_expr: rep_basic_expr S T_AMPERSAND T_AMPERSAND S • basic_expr
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_EXCLAMATION      shift, and go to state 167
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_DOLLAR           shift, and go to state 1
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_HYPHEN           shift, and go to state 168
+    T_ZERO             shift, and go to state 88
+    T_AT               shift, and go to state 169
+    T_LC_A             shift, and go to state 48
+    T_LC_B             shift, and go to state 49
+    T_LC_C             shift, and go to state 50
+    T_LC_D             shift, and go to state 51
+    T_LC_E             shift, and go to state 52
+    T_LC_F             shift, and go to state 170
+    T_LC_G             shift, and go to state 54
+    T_LC_H             shift, and go to state 55
+    T_LC_I             shift, and go to state 56
+    T_LC_J             shift, and go to state 57
+    T_LC_K             shift, and go to state 58
+    T_LC_L             shift, and go to state 59
+    T_LC_M             shift, and go to state 60
+    T_LC_N             shift, and go to state 171
+    T_LC_O             shift, and go to state 62
+    T_LC_P             shift, and go to state 63
+    T_LC_Q             shift, and go to state 64
+    T_LC_R             shift, and go to state 65
+    T_LC_S             shift, and go to state 66
+    T_LC_T             shift, and go to state 172
+    T_LC_U             shift, and go to state 68
+    T_LC_V             shift, and go to state 69
+    T_LC_W             shift, and go to state 70
+    T_LC_X             shift, and go to state 71
+    T_LC_Y             shift, and go to state 72
+    T_LC_Z             shift, and go to state 73
+
+    T_DOLLAR      [reduce using rule 146 (opt_not_op)]
+    T_PAREN_OPEN  reduce using rule 146 (opt_not_op)
+    T_AT          [reduce using rule 146 (opt_not_op)]
+    T_LC_A        [reduce using rule 146 (opt_not_op)]
+    T_LC_B        [reduce using rule 146 (opt_not_op)]
+    T_LC_C        [reduce using rule 146 (opt_not_op)]
+    T_LC_D        [reduce using rule 146 (opt_not_op)]
+    T_LC_E        [reduce using rule 146 (opt_not_op)]
+    T_LC_F        [reduce using rule 146 (opt_not_op)]
+    T_LC_G        [reduce using rule 146 (opt_not_op)]
+    T_LC_H        [reduce using rule 146 (opt_not_op)]
+    T_LC_I        [reduce using rule 146 (opt_not_op)]
+    T_LC_J        [reduce using rule 146 (opt_not_op)]
+    T_LC_K        [reduce using rule 146 (opt_not_op)]
+    T_LC_L        [reduce using rule 146 (opt_not_op)]
+    T_LC_M        [reduce using rule 146 (opt_not_op)]
+    T_LC_N        [reduce using rule 146 (opt_not_op)]
+    T_LC_O        [reduce using rule 146 (opt_not_op)]
+    T_LC_P        [reduce using rule 146 (opt_not_op)]
+    T_LC_Q        [reduce using rule 146 (opt_not_op)]
+    T_LC_R        [reduce using rule 146 (opt_not_op)]
+    T_LC_S        [reduce using rule 146 (opt_not_op)]
+    T_LC_T        [reduce using rule 146 (opt_not_op)]
+    T_LC_U        [reduce using rule 146 (opt_not_op)]
+    T_LC_V        [reduce using rule 146 (opt_not_op)]
+    T_LC_W        [reduce using rule 146 (opt_not_op)]
+    T_LC_X        [reduce using rule 146 (opt_not_op)]
+    T_LC_Y        [reduce using rule 146 (opt_not_op)]
+    T_LC_Z        [reduce using rule 146 (opt_not_op)]
+    $default      reduce using rule 110 (opt_hyphen)
+
+    B                        go to state 14
+    root_identifier          go to state 173
+    string_literal           go to state 174
+    int                      go to state 175
+    opt_hyphen               go to state 96
+    basic_expr               go to state 402
+    paren_expr               go to state 180
+    opt_not_op               go to state 181
+    logical_not_op           go to state 182
+    test_expr                go to state 183
+    current_node_identifier  go to state 184
+    comparison_expr          go to state 185
+    literal                  go to state 186
+    comparable               go to state 187
+    singular_query           go to state 188
+    rel_singular_query       go to state 189
+    abs_singular_query       go to state 190
+    number                   go to state 191
+    true                     go to state 192
+    false                    go to state 193
+    null                     go to state 194
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 198
+
+
+State 394
+
+  145 paren_expr: opt_not_op T_PAREN_OPEN S logical_expr S T_PAREN_CLOSE •
+
+    $default  reduce using rule 145 (paren_expr)
+
+
+State 395
+
+  229 function_expr: function_name T_PAREN_OPEN S opt_func_args S T_PAREN_CLOSE •
+
+    $default  reduce using rule 229 (function_expr)
+
+
+State 396
+
+   10 S: S • B
+  233 rep_function_argument: rep_function_argument S • T_COMMA S function_argument
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_COMMA            shift, and go to state 403
+
+    B  go to state 14
+
+
+State 397
+
+   95 low_surrogate: T_UC_D T_UC_C • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 404
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 398
+
+   96 low_surrogate: T_UC_D T_UC_D • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 405
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 399
+
+   97 low_surrogate: T_UC_D T_UC_E • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 406
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 400
+
+   98 low_surrogate: T_UC_D T_UC_F • HEXDIG HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 407
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 401
+
+  138 rep_logical_and_expr: rep_logical_and_expr S T_VERTICAL_BAR T_VERTICAL_BAR S logical_and_expr •
+
+    $default  reduce using rule 138 (rep_logical_and_expr)
+
+
+State 402
+
+  141 rep_basic_expr: rep_basic_expr S T_AMPERSAND T_AMPERSAND S basic_expr •
+
+    $default  reduce using rule 141 (rep_basic_expr)
+
+
+State 403
+
+  233 rep_function_argument: rep_function_argument S T_COMMA • S function_argument
+
+    $default  reduce using rule 9 (S)
+
+    S  go to state 408
+
+
+State 404
+
+   95 low_surrogate: T_UC_D T_UC_C HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 409
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 405
+
+   96 low_surrogate: T_UC_D T_UC_D HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 410
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 406
+
+   97 low_surrogate: T_UC_D T_UC_E HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 411
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 407
+
+   98 low_surrogate: T_UC_D T_UC_F HEXDIG • HEXDIG
+
+    T_ZERO   shift, and go to state 101
+    T_ONE    shift, and go to state 102
+    T_TWO    shift, and go to state 103
+    T_THREE  shift, and go to state 104
+    T_FOUR   shift, and go to state 105
+    T_FIVE   shift, and go to state 106
+    T_SIX    shift, and go to state 107
+    T_SEVEN  shift, and go to state 108
+    T_EIGHT  shift, and go to state 109
+    T_NINE   shift, and go to state 110
+    T_UC_A   shift, and go to state 280
+    T_UC_B   shift, and go to state 281
+    T_UC_C   shift, and go to state 282
+    T_UC_D   shift, and go to state 283
+    T_UC_E   shift, and go to state 284
+    T_UC_F   shift, and go to state 285
+
+    HEXDIG  go to state 412
+    DIGIT1  go to state 111
+    DIGIT   go to state 287
+
+
+State 408
+
+   10 S: S • B
+  233 rep_function_argument: rep_function_argument S T_COMMA S • function_argument
+
+    T_TAB              shift, and go to state 8
+    T_NEW_LINE         shift, and go to state 9
+    T_CARRIAGE_RETURN  shift, and go to state 10
+    T_SPACE            shift, and go to state 11
+    T_EXCLAMATION      shift, and go to state 167
+    T_DOUBLE_QUOTE     shift, and go to state 85
+    T_DOLLAR           shift, and go to state 1
+    T_SINGLE_QUOTE     shift, and go to state 86
+    T_HYPHEN           shift, and go to state 168
+    T_ZERO             shift, and go to state 88
+    T_AT               shift, and go to state 169
+    T_LC_A             shift, and go to state 48
+    T_LC_B             shift, and go to state 49
+    T_LC_C             shift, and go to state 50
+    T_LC_D             shift, and go to state 51
+    T_LC_E             shift, and go to state 52
+    T_LC_F             shift, and go to state 170
+    T_LC_G             shift, and go to state 54
+    T_LC_H             shift, and go to state 55
+    T_LC_I             shift, and go to state 56
+    T_LC_J             shift, and go to state 57
+    T_LC_K             shift, and go to state 58
+    T_LC_L             shift, and go to state 59
+    T_LC_M             shift, and go to state 60
+    T_LC_N             shift, and go to state 171
+    T_LC_O             shift, and go to state 62
+    T_LC_P             shift, and go to state 63
+    T_LC_Q             shift, and go to state 64
+    T_LC_R             shift, and go to state 65
+    T_LC_S             shift, and go to state 66
+    T_LC_T             shift, and go to state 172
+    T_LC_U             shift, and go to state 68
+    T_LC_V             shift, and go to state 69
+    T_LC_W             shift, and go to state 70
+    T_LC_X             shift, and go to state 71
+    T_LC_Y             shift, and go to state 72
+    T_LC_Z             shift, and go to state 73
+
+    T_DOLLAR      [reduce using rule 146 (opt_not_op)]
+    T_PAREN_OPEN  reduce using rule 146 (opt_not_op)
+    T_AT          [reduce using rule 146 (opt_not_op)]
+    T_LC_A        [reduce using rule 146 (opt_not_op)]
+    T_LC_B        [reduce using rule 146 (opt_not_op)]
+    T_LC_C        [reduce using rule 146 (opt_not_op)]
+    T_LC_D        [reduce using rule 146 (opt_not_op)]
+    T_LC_E        [reduce using rule 146 (opt_not_op)]
+    T_LC_F        [reduce using rule 146 (opt_not_op)]
+    T_LC_G        [reduce using rule 146 (opt_not_op)]
+    T_LC_H        [reduce using rule 146 (opt_not_op)]
+    T_LC_I        [reduce using rule 146 (opt_not_op)]
+    T_LC_J        [reduce using rule 146 (opt_not_op)]
+    T_LC_K        [reduce using rule 146 (opt_not_op)]
+    T_LC_L        [reduce using rule 146 (opt_not_op)]
+    T_LC_M        [reduce using rule 146 (opt_not_op)]
+    T_LC_N        [reduce using rule 146 (opt_not_op)]
+    T_LC_O        [reduce using rule 146 (opt_not_op)]
+    T_LC_P        [reduce using rule 146 (opt_not_op)]
+    T_LC_Q        [reduce using rule 146 (opt_not_op)]
+    T_LC_R        [reduce using rule 146 (opt_not_op)]
+    T_LC_S        [reduce using rule 146 (opt_not_op)]
+    T_LC_T        [reduce using rule 146 (opt_not_op)]
+    T_LC_U        [reduce using rule 146 (opt_not_op)]
+    T_LC_V        [reduce using rule 146 (opt_not_op)]
+    T_LC_W        [reduce using rule 146 (opt_not_op)]
+    T_LC_X        [reduce using rule 146 (opt_not_op)]
+    T_LC_Y        [reduce using rule 146 (opt_not_op)]
+    T_LC_Z        [reduce using rule 146 (opt_not_op)]
+    $default      reduce using rule 110 (opt_hyphen)
+
+    jsonpath_query           go to state 226
+    B                        go to state 14
+    root_identifier          go to state 326
+    string_literal           go to state 174
+    int                      go to state 175
+    opt_hyphen               go to state 96
+    logical_expr             go to state 327
+    logical_or_expr          go to state 177
+    logical_and_expr         go to state 178
+    basic_expr               go to state 179
+    paren_expr               go to state 180
+    opt_not_op               go to state 181
+    logical_not_op           go to state 182
+    test_expr                go to state 183
+    filter_query             go to state 328
+    rel_query                go to state 228
+    current_node_identifier  go to state 329
+    comparison_expr          go to state 185
+    literal                  go to state 330
+    comparable               go to state 187
+    singular_query           go to state 188
+    rel_singular_query       go to state 189
+    abs_singular_query       go to state 190
+    number                   go to state 191
+    true                     go to state 192
+    false                    go to state 193
+    null                     go to state 194
+    function_name            go to state 195
+    function_name_first      go to state 196
+    LCALPHA                  go to state 197
+    function_expr            go to state 331
+    function_argument        go to state 413
+
+
+State 409
+
+   95 low_surrogate: T_UC_D T_UC_C HEXDIG HEXDIG •
+
+    $default  reduce using rule 95 (low_surrogate)
+
+
+State 410
+
+   96 low_surrogate: T_UC_D T_UC_D HEXDIG HEXDIG •
+
+    $default  reduce using rule 96 (low_surrogate)
+
+
+State 411
+
+   97 low_surrogate: T_UC_D T_UC_E HEXDIG HEXDIG •
+
+    $default  reduce using rule 97 (low_surrogate)
+
+
+State 412
+
+   98 low_surrogate: T_UC_D T_UC_F HEXDIG HEXDIG •
+
+    $default  reduce using rule 98 (low_surrogate)
+
+
+State 413
+
+  233 rep_function_argument: rep_function_argument S T_COMMA S function_argument •
+
+    $default  reduce using rule 233 (rep_function_argument)

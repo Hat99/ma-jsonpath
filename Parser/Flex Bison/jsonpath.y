@@ -12,6 +12,11 @@ void yyerror(const char* s);
 
 
 
+//Generalisierter Parser, kann Alternativen parallel verfolgen
+%glr-parser
+
+
+
 
 
 %token T_TAB				//"\x09", "\t"
@@ -140,7 +145,7 @@ void yyerror(const char* s);
 /* siehe RFC-9535 Abschnitt 2.1.1 */
 
 jsonpath_query: 
-	root_identifier segments
+	root_identifier segments T_NEW_LINE	//T_NEW_LINE -> DEBUG
 ;
 
 segments: 
@@ -179,7 +184,7 @@ root_identifier:
 selector: 
 	name_selector
 	| wildcard_selector
-	| slice_seletor
+	| slice_selector
 	| index_selector
 	| filter_selector
 ;
@@ -253,7 +258,7 @@ unescaped:
 	| UCALPHA
 	| T_SQUARE_BRACKET_OPEN
 	| T_SQUARE_BRACKET_CLOSE
-	| T_CICRUMFLEX
+	| T_CIRCUMFLEX
 	| T_UNDERSCORE
 	| T_GRAVE
 	| LCALPHA
@@ -481,11 +486,11 @@ current_node_identifier:
 
 
 
-comparison_expr = 
+comparison_expr:
 	comparable S comparison_op S comparable
 ;
 
-literal = 
+literal: 
 	number
 	| string_literal
 	| true
@@ -569,11 +574,6 @@ exp:
 	T_LC_E opt_signed DIGIT rep_DIGIT
 ;
 
-rep_DIGIT:
-	
-	| rep_DIGIT DIGIT
-;
-
 opt_signed:
 
 	| T_HYPHEN
@@ -654,7 +654,7 @@ function_expr:
 
 opt_func_args:
 	
-	| function-argument rep_function_argument
+	| function_argument rep_function_argument
 ;
 
 rep_function_argument:
@@ -781,9 +781,10 @@ descendant_segment:
 int main() {
 	yyin = stdin;
 
-	do {
-		yyparse();
-	} while(!feof(yyin));
+	extern int yydebug;
+	yydebug = 1;
+
+	yyparse();
 
 	return 0;
 }

@@ -1,5 +1,8 @@
 %option noyywrap
 
+%option header-file="lex.yy.h"
+
+
 %{
 #include <stdio.h>
 
@@ -123,5 +126,7 @@
 "\x7F"	{return T_DEL;}
 
 
+
+.		//Default-Fall?
 
 %%
