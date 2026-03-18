@@ -179,17 +179,15 @@ void runParserTests(){
     
     int fails = 0;
     for(int i = 0; i < testCount; i++){
-        printf("Running case %d of %d... ", i+1, testCount);
+        std::cout << "Running case " << i+1 << " of " << testCount << "...";
         if(parse(testCases[i].test) == testCases[i].result){
-            printf("Success!\n");
+            std::cout << "Success!\n";
         }else{
             fails++;
-            printf("Failed! Case: ");
-            printf(testCases[i].test.c_str());
-            printf("\n");
+            std::cout << "Failed! Case: " << testCases[i].test << "\n";
         }
     }
-    printf("Tests completed. %d of %d were successful.\n", testCount - fails, testCount);
+    std::cout << "Tests completed. " << testCount - fails << " of " << testCount << " were successful.\n";
     
     parserVerbose = true;
 }
@@ -235,9 +233,24 @@ int main(int argc, const char * argv[]) {
         }
     }
     else{
-        //TODO: wie hier custom parse methode?
-        //manuell inputs readen, lexen, parsen
-        yyparse();
+        while(true){
+            std::cout << "Input a JSONPath query ('quit' or 'exit' to quit):\n";
+            
+            std::string input;
+            
+            std::cin >> input;
+            
+            if(input == "exit" || input == "quit"){
+                break;
+            }
+            
+            if(parse(input) == 0){
+                std::cout << "Success.\n";
+            }
+            else{
+                std::cout << "Error encountered for input " << input << "\n";
+            }
+        }
     }
     
     
