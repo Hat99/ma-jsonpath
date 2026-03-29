@@ -1,6 +1,13 @@
 %{
-    void yyerror(char *t);
-#include "lex.yy.h"
+     #include <iostream>
+     #include <string>
+     using namespace std;
+     
+     
+     
+     int yyerror(string s);
+     int yylex();
+     int yylex_2();
 %}
 
 //Generalisierter Parser, kann Alternativen parallel verfolgen
@@ -9,6 +16,15 @@
 //Debugging trace
 %define parse.trace
 
+//Bison Hack
+%code requires{
+#include "tree.hpp"
+typedef tree<string> syntaxTree;
+inline syntaxTree * syntaxTree_epsilon_node () {
+    return new syntaxTree("$\\epsilon$");
+}
+}
+%union {syntaxTree * tree;}
 
 
 %token T_TAB				//"\x09", "\t"
@@ -126,7 +142,13 @@
 
 %token T_ERR                //undefined input
 
+%{
+    syntaxTree * root;
+%}
+%initial-action {
+#include "syntaxtree-initial-action-bison-3.8.2.h"
 
+} // %initial-action
 
 %start jsonpath
 
@@ -904,3 +926,5 @@ normal_index_selector:
 
 
 %%
+//#include "lex.yy.c"
+

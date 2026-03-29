@@ -1,19 +1,34 @@
 #include <iostream>
 #include <string>
+#include "lex.yy.h"
+#include "jsonpath.tab.hpp"
 
 bool parserVerbose = true;
 
-extern "C"{
-void yyerror(char *t){
+
+int yyerror(std::string s) {
     if(parserVerbose){
-        printf("%s\n", t);
+        std::cout << s << std::endl;
     }
+    return 0;
 }
 int yyparse();
-void yy_scan_string(const char* str);
+//void yy_scan_string(const char* str);
 
 extern int yydebug;
+
+using namespace std;
+int yylex();
+int yylex_2();
+
+
+int yylex() {
+    int rc = yylex_2();
+    yylval.tree = new syntaxTree(yytext);
+    return rc;
 }
+
+extern syntaxTree * root;
 
 
 int parse(std::string input){
@@ -246,12 +261,16 @@ int main(int argc, const char * argv[]) {
             
             if(parse(input) == 0){
                 std::cout << "Success.\n";
+                if(root){
+                    std::cout << "AST erzeugt\n";
+                }
+                else{
+                    std::cout << "nix ast... weird... \n";
+                }
             }
             else{
                 std::cout << "Error encountered for input " << input << "\n";
             }
         }
     }
-    
-    
 }

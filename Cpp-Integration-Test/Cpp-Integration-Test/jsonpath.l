@@ -1,5 +1,6 @@
 %{
-#include "jsonpath.tab.h"
+#include "jsonpath.tab.hpp"
+#define YY_DECL int yylex_2()
 %}
 
 %%
@@ -119,6 +120,6 @@
 
 %%
     
-int yywrap(){
+int yywrap(void){
     return 1;
 }
