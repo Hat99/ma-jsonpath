@@ -16,6 +16,8 @@ int yyparse();
 //void yy_scan_string(const char* str);
 
 extern int yydebug;
+extern void setStateInitial();
+extern void setStateNormalized();
 
 using namespace std;
 int yylex();
@@ -33,13 +35,19 @@ extern syntaxTree * root;
 
 int parse(std::string input){
     //try normalized path first, then try "normal" jsonpath
-    yy_scan_string((std::string("n") + input).c_str());
+    YY_BUFFER_STATE buffer = yy_scan_string((std::string("n") + input).c_str());
+    setStateNormalized();
     if(yyparse() == 0){
         return 0;
     }
+    yy_delete_buffer(buffer);
     
-    yy_scan_string((std::string("j") + input).c_str());
-    return yyparse();
+    buffer = yy_scan_string((std::string("j") + input).c_str());
+    setStateInitial();
+    int res = yyparse();
+    yy_delete_buffer(buffer);
+    return res;
+    
 }
 
 

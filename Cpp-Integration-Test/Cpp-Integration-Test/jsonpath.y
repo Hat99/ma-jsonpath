@@ -24,121 +24,16 @@ inline syntaxTree * syntaxTree_epsilon_node () {
     return new syntaxTree("$\\epsilon$");
 }
 }
-%union {syntaxTree * tree;}
+%union {
+    syntaxTree * tree;
+    char * cval;
+    int ival;
+}
 
+%token<cval> T_STRING_LITERAL   //siehe RFC-9535 S.17
 
-%token T_TAB				//"\x09", "\t"
-%token T_NEW_LINE			//"\x0A", "\n"
-%token T_CARRIAGE_RETURN		//"\x0D", "\r"
-
-%token T_SPACE				//"\x20", " "
-%token T_EXCLAMATION		//"\x21", "!"
-%token T_DOUBLE_QUOTE		//"\x22", '"'
-%token T_HASHTAG			//"\x23", "#"
-%token T_DOLLAR			    //"\x24", "$"
-%token T_PERCENT			//"\x25", "%"
-%token T_AMPERSAND			//"\x26", "&"
-%token T_SINGLE_QUOTE		//"\x27", "'"
-
-%token T_PAREN_OPEN			//"\x28", "("
-%token T_PAREN_CLOSE		//"\x29", ")"
-%token T_ASTERISK			//"\x2A", "*"
-%token T_PLUS				//"\x2B", "+"
-%token T_COMMA				//"\x2C", ","
-%token T_HYPHEN			    //"\x2D", "-"
-%token T_PERIOD			    //"\x2E", "."
-%token T_FORWARD_SLASH		//"\x2F", "/"
-
-/* \x30-\x39 "0-9" */
-%token T_ZERO		
-%token T_ONE	
-%token T_TWO		
-%token T_THREE	
-%token T_FOUR		
-%token T_FIVE		
-%token T_SIX	
-%token T_SEVEN
-%token T_EIGHT
-%token T_NINE
-
-%token T_COLON		    //"\x3A", ":"
-%token T_SEMICOLON		//"\x3B", ";"
-%token T_LT			    //"\x3C", "<"
-%token T_EQUALS		    //"\x3D", "="
-%token T_GT			    //"\x3E", ">"
-%token T_QUESTION		//"\x3F", "?"
-%token T_AT			    //"\x40", "@"
-
-/* \x41-\x5A "A-Z" */
-%token T_UC_A
-%token T_UC_B
-%token T_UC_C
-%token T_UC_D
-%token T_UC_E
-%token T_UC_F
-%token T_UC_G
-%token T_UC_H
-%token T_UC_I
-%token T_UC_J
-%token T_UC_K
-%token T_UC_L
-%token T_UC_M
-%token T_UC_N
-%token T_UC_O
-%token T_UC_P
-%token T_UC_Q
-%token T_UC_R
-%token T_UC_S
-%token T_UC_T
-%token T_UC_U
-%token T_UC_V
-%token T_UC_W
-%token T_UC_X
-%token T_UC_Y
-%token T_UC_Z
-
-%token T_SQUARE_BRACKET_OPEN		//"\x5B", "["
-%token T_BACKSLASH				    //"\x5C", "\"
-%token T_SQUARE_BRACKET_CLOSE		//"\x5D", "]"
-%token T_CIRCUMFLEX				    //"\x5E", "^"
-%token T_UNDERSCORE				    //"\x5F", "_"
-%token T_GRAVE					    //"\x60", "`"
-
-/* \x61-\x7A "a-z" */
-%token T_LC_A
-%token T_LC_B
-%token T_LC_C
-%token T_LC_D
-%token T_LC_E
-%token T_LC_F
-%token T_LC_G
-%token T_LC_H
-%token T_LC_I
-%token T_LC_J
-%token T_LC_K
-%token T_LC_L
-%token T_LC_M
-%token T_LC_N
-%token T_LC_O
-%token T_LC_P
-%token T_LC_Q
-%token T_LC_R
-%token T_LC_S
-%token T_LC_T
-%token T_LC_U
-%token T_LC_V
-%token T_LC_W
-%token T_LC_X
-%token T_LC_Y
-%token T_LC_Z
-
-%token T_CURLY_BRACE_OPEN	//"\x7B", "{"
-%token T_VERTICAL_BAR		//"\x7C", "|"
-%token T_CURLY_BRACE_CLOSE	//"\x7D", "}"
-%token T_TILDE				//"\x7E", "~"
-%token T_DEL				//"\x7F"
-
-
+%token<cval> T_NORMAL_NAME_SELECTOR    //siehe RFC-9535 S.47
+%token<ival> T_NORMAL_INDEX_SELECTOR    //siehe RFC_9535 S.47
 
 %token T_ERR                //undefined input
 
@@ -159,10 +54,10 @@ inline syntaxTree * syntaxTree_epsilon_node () {
 /* Einstieg entweder in normalized_path (n/N) oder jsonpath_query (j/J) */
 
 jsonpath:
-    T_UC_J jsonpath_query
-    | T_LC_J jsonpath_query
-    | T_UC_N normalized_path
-    | T_LC_N normalized_path
+    'J' jsonpath_query
+    | 'j' jsonpath_query
+    | 'N' normalized_path
+    | 'n' normalized_path
 ;
     
 
@@ -181,10 +76,10 @@ segments:
 ;
 
 B:
-	T_SPACE
-	| T_TAB
-	| T_NEW_LINE
-	| T_CARRIAGE_RETURN
+	'\x20'
+	| '\x09'
+	| '\x0A'
+	| '\x0D'
 ;
 
 S:
@@ -199,7 +94,7 @@ S:
 /* siehe RFC-9535 Abschnitt 2.2.1 */
 
 root_identifier:
-	T_DOLLAR
+	'$'
 ;
 
 
@@ -223,135 +118,9 @@ selector:
 /* siehe RFC-9535 Abschnitt 2.3.1.1 */
 
 name_selector: 
-	string_literal
+    T_STRING_LITERAL
 ;
 
-string_literal: 
-	T_DOUBLE_QUOTE rep_double_quoted T_DOUBLE_QUOTE
-	| T_SINGLE_QUOTE rep_single_quoted T_SINGLE_QUOTE
-;
-
-rep_double_quoted:
-
-	| rep_double_quoted double_quoted
-;
-
-double_quoted: 
-	unescaped
-	| T_SINGLE_QUOTE
-	| ESC T_DOUBLE_QUOTE
-	| ESC escapable
-;
-
-rep_single_quoted:
-
-	| rep_single_quoted single_quoted
-;
-
-single_quoted: 
-	unescaped
-	| T_DOUBLE_QUOTE
-	| ESC T_SINGLE_QUOTE
-	| ESC escapable	
-;
-
-ESC:
-	T_BACKSLASH
-;
-
-unescaped: 
-	T_SPACE
-	| T_EXCLAMATION
-	| T_HASHTAG
-	| T_DOLLAR
-	| T_PERCENT
-	| T_AMPERSAND
-	| T_PAREN_OPEN
-	| T_PAREN_CLOSE
-	| T_ASTERISK
-	| T_PLUS
-	| T_COMMA
-	| T_HYPHEN
-	| T_PERIOD
-	| T_FORWARD_SLASH
-	| DIGIT
-	| T_COLON
-	| T_SEMICOLON
-	| T_LT
-	| T_EQUALS
-	| T_GT
-	| T_QUESTION 
-	| T_AT
-	| UCALPHA
-	| T_SQUARE_BRACKET_OPEN
-	| T_SQUARE_BRACKET_CLOSE
-	| T_CIRCUMFLEX
-	| T_UNDERSCORE
-	| T_GRAVE
-	| LCALPHA
-	| T_CURLY_BRACE_OPEN
-	| T_VERTICAL_BAR
-	| T_CURLY_BRACE_CLOSE
-	| T_TILDE
-	| T_DEL
-;
-
-escapable: 
-	T_LC_B
-	| T_LC_F
-	| T_LC_N
-	| T_LC_R
-	| T_LC_T
-	| T_FORWARD_SLASH
-	| T_BACKSLASH
-	| T_LC_U hexchar
-;
-
-hexchar: 
-	non_surrogate
-	| high_surrogate T_BACKSLASH T_LC_U low_surrogate
-;
-
-non_surrogate:
-	DIGIT HEXDIG HEXDIG HEXDIG
-	| T_UC_A HEXDIG HEXDIG HEXDIG
-	| T_UC_B HEXDIG HEXDIG HEXDIG
-	| T_UC_C HEXDIG HEXDIG HEXDIG
-	| T_UC_E HEXDIG HEXDIG HEXDIG
-	| T_UC_F HEXDIG HEXDIG HEXDIG
-	| T_UC_D T_ZERO HEXDIG HEXDIG
-	| T_UC_D T_ONE HEXDIG HEXDIG
-	| T_UC_D T_TWO HEXDIG HEXDIG
-	| T_UC_D T_THREE HEXDIG HEXDIG
-	| T_UC_D T_FOUR HEXDIG HEXDIG
-	| T_UC_D T_FIVE HEXDIG HEXDIG
-	| T_UC_D T_SIX HEXDIG HEXDIG
-	| T_UC_D T_SEVEN HEXDIG HEXDIG
-;
-
-high_surrogate:
-	T_UC_D T_EIGHT HEXDIG HEXDIG
-	| T_UC_D T_NINE HEXDIG HEXDIG
-	| T_UC_D T_UC_A HEXDIG HEXDIG
-	| T_UC_D T_UC_B HEXDIG HEXDIG
-;
-
-low_surrogate:
-	T_UC_D T_UC_C HEXDIG HEXDIG
-	| T_UC_D T_UC_D HEXDIG HEXDIG
-	| T_UC_D T_UC_E HEXDIG HEXDIG
-	| T_UC_D T_UC_F HEXDIG HEXDIG
-;
-
-HEXDIG:
-	DIGIT
-	| T_UC_A
-	| T_UC_B
-	| T_UC_C
-	| T_UC_D
-	| T_UC_E
-	| T_UC_F
-;
 
 
 
@@ -360,7 +129,7 @@ HEXDIG:
 /* siehe RFC-9535 Abschnitt 2.3.2.1 */
 
 wildcard_selector:
-	T_ASTERISK
+	'*'
 ;
 
 
@@ -374,25 +143,25 @@ index_selector:
 ;
 
 int: 
-	T_ZERO
+	'0'
 	| opt_hyphen DIGIT1 rep_DIGIT
 ;
 
 opt_hyphen:
 
-	| T_HYPHEN
+	| '-'
 ;
 
 DIGIT1:
-	T_ONE
-	| T_TWO
-	| T_THREE
-	| T_FOUR
-	| T_FIVE
-	| T_SIX
-	| T_SEVEN
-	| T_EIGHT
-	| T_NINE
+	'1'
+	| '2'
+	| '3'
+	| '4'
+	| '5'
+	| '6'
+	| '7'
+	| '8'
+	| '9'
 ;
 
 rep_DIGIT: 
@@ -407,7 +176,7 @@ rep_DIGIT:
 /* siehe RFC-9535 Abschnitt 2.3.4.1 */
 
 slice_selector: 
-	opt_start T_COLON S opt_end opt_step
+	opt_start ':' S opt_end opt_step
 ;
 
 opt_start:
@@ -422,8 +191,8 @@ opt_end:
 
 opt_step:
 
-	| T_COLON S step
-	| T_COLON
+	| ':' S step
+	| ':'
 ;
 
 start: 
@@ -445,7 +214,7 @@ step:
 /* siehe RFC-9535 Abschnitt 2.3.5.1 */
 
 filter_selector: 
-	T_QUESTION S logical_expr
+	'?' S logical_expr
 ;
 
 
@@ -460,7 +229,7 @@ logical_or_expr:
 
 rep_logical_and_expr: 
 
-	| rep_logical_and_expr S T_VERTICAL_BAR T_VERTICAL_BAR S logical_and_expr
+	| rep_logical_and_expr S '|' '|' S logical_and_expr
 ;
 
 logical_and_expr: 
@@ -469,7 +238,7 @@ logical_and_expr:
 
 rep_basic_expr:
 
-	| rep_basic_expr S T_AMPERSAND T_AMPERSAND S basic_expr
+	| rep_basic_expr S '&' '&' S basic_expr
 ;
 
 basic_expr: 
@@ -479,7 +248,7 @@ basic_expr:
 ;
 
 paren_expr: 
-	opt_not_op T_PAREN_OPEN S logical_expr S T_PAREN_CLOSE
+	opt_not_op '(' S logical_expr S ')'
 ;
 
 opt_not_op:
@@ -488,7 +257,7 @@ opt_not_op:
 ;
 
 logical_not_op:
-	T_EXCLAMATION
+	'!'
 ;
 
 
@@ -508,7 +277,7 @@ rel_query:
 ;
 
 current_node_identifier:
-	T_AT
+	'@'
 ;
 
 
@@ -519,7 +288,7 @@ comparison_expr:
 
 literal: 
 	number
-	| string_literal
+	| T_STRING_LITERAL
 	| true
 	| false
 	| null
@@ -532,13 +301,13 @@ comparable:
 ;
 
 comparison_op: 
-	T_EQUALS T_EQUALS
-	| T_EXCLAMATION T_EQUALS
-	| T_LT T_EQUALS
-	| T_GT T_EQUALS
-	| T_LT
-	| T_GT
-;	
+	'=''='
+	| '!' '='
+	| '<' '='
+	| '>' '='
+	| '<'
+	| '>'
+;
 
 singular_query: 
 	rel_singular_query
@@ -568,19 +337,19 @@ singular_query_segment:
 ;
 
 name_segment:
-	T_SQUARE_BRACKET_OPEN name_selector T_SQUARE_BRACKET_CLOSE
-	| T_PERIOD member_name_shorthand
+	'[' name_selector ']'
+	| '.' member_name_shorthand
 ;
 
 index_segment:
-	T_SQUARE_BRACKET_OPEN index_selector T_SQUARE_BRACKET_CLOSE
+	'[' index_selector ']'
 ;
 
 
 
 number:
 	int opt_frac opt_exp
-	| T_HYPHEN T_ZERO opt_frac opt_exp
+	| '-' '0' opt_frac opt_exp
 ;
 
 opt_frac:
@@ -589,7 +358,7 @@ opt_frac:
 ;
 
 frac:
-	T_PERIOD DIGIT rep_DIGIT
+	'.' DIGIT rep_DIGIT
 ;
 
 opt_exp:
@@ -598,25 +367,25 @@ opt_exp:
 ;
 
 exp:
-	T_LC_E opt_signed DIGIT rep_DIGIT
+	'e' opt_signed DIGIT rep_DIGIT
 ;
 
 opt_signed:
 
-	| T_HYPHEN
-	| T_PLUS
+	| '-'
+	| '+'
 ;
 
 true:
-	T_LC_T T_LC_R T_LC_U T_LC_E
+	't''r''u''e'
 ;
 
 false:
-	T_LC_F T_LC_A T_LC_L T_LC_S T_LC_E
+	'f''a''l''s''e'
 ;
 
 null:
-	T_LC_N T_LC_U T_LC_L T_LC_L
+	'n''u''l''l'
 ;
 
 
@@ -640,43 +409,43 @@ function_name_first:
 
 function_name_char:
 	function_name_first
-	| T_UNDERSCORE
+	| '_'
 	| DIGIT
 ;
 
 LCALPHA:
-	T_LC_A
-	| T_LC_B
-	| T_LC_C
-	| T_LC_D
-	| T_LC_E
-	| T_LC_F
-	| T_LC_G
-	| T_LC_H
-	| T_LC_I
-	| T_LC_J
-	| T_LC_K
-	| T_LC_L
-	| T_LC_M
-	| T_LC_N
-	| T_LC_O
-	| T_LC_P
-	| T_LC_Q
-	| T_LC_R
-	| T_LC_S
-	| T_LC_T
-	| T_LC_U
-	| T_LC_V
-	| T_LC_W
-	| T_LC_X
-	| T_LC_Y
-	| T_LC_Z
+	'a'
+	| 'b'
+    | 'c'
+    | 'd'
+    | 'e'
+    | 'f'
+    | 'g'
+    | 'h'
+    | 'i'
+    | 'j'
+    | 'k'
+    | 'l'
+    | 'm'
+    | 'n'
+    | 'o'
+    | 'p'
+    | 'q'
+    | 'r'
+    | 's'
+    | 't'
+    | 'u'
+    | 'v'
+    | 'w'
+    | 'x'
+    | 'y'
+    | 'z'
 ;
 
 
 
 function_expr:
-	function_name T_PAREN_OPEN S opt_func_args S T_PAREN_CLOSE
+	function_name '(' S opt_func_args S ')'
 ;
 
 opt_func_args:
@@ -686,7 +455,7 @@ opt_func_args:
 
 rep_function_argument:
 	
-	| rep_function_argument S T_COMMA S function_argument
+	| rep_function_argument S ',' S function_argument
 ;
 
 function_argument:
@@ -715,17 +484,17 @@ segment:
 
 child_segment: 
 	bracketed_selection
-	| T_PERIOD wildcard_selector
-	| T_PERIOD member_name_shorthand
+	| '.' wildcard_selector
+	| '.' member_name_shorthand
 ;
 
 bracketed_selection: 
-	T_SQUARE_BRACKET_OPEN S selector rep_selector S T_SQUARE_BRACKET_CLOSE
+	'[' S selector rep_selector S ']'
 ;
 
 rep_selector: 
 	
-	| rep_selector S T_COMMA S selector
+	| rep_selector S ',' S selector
 ;
 
 
@@ -736,7 +505,7 @@ member_name_shorthand:
 
 name_first: 
 	ALPHA
-	| T_UNDERSCORE
+	| '_'
 ;
 
 rep_name_char:
@@ -750,7 +519,7 @@ name_char:
 ;
 
 DIGIT: 
-	T_ZERO
+	'0'
 	| DIGIT1
 ;
 
@@ -760,32 +529,32 @@ ALPHA:
 ;
 
 UCALPHA:
-	T_UC_A
-	| T_UC_B
-	| T_UC_C
-	| T_UC_D
-	| T_UC_E
-	| T_UC_F
-	| T_UC_G
-	| T_UC_H
-	| T_UC_I
-	| T_UC_J
-	| T_UC_K
-	| T_UC_L
-	| T_UC_M
-	| T_UC_N
-	| T_UC_O
-	| T_UC_P
-	| T_UC_Q
-	| T_UC_R
-	| T_UC_S
-	| T_UC_T
-	| T_UC_U
-	| T_UC_V
-	| T_UC_W
-	| T_UC_X
-	| T_UC_Y
-	| T_UC_Z
+	'A'
+    | 'B'
+    | 'C'
+    | 'D'
+    | 'E'
+    | 'F'
+    | 'G'
+    | 'H'
+    | 'I'
+    | 'J'
+    | 'K'
+    | 'L'
+    | 'M'
+    | 'N'
+    | 'O'
+    | 'P'
+    | 'Q'
+    | 'R'
+    | 'S'
+    | 'T'
+    | 'U'
+    | 'V'
+    | 'W'
+    | 'X'
+    | 'Y'
+    | 'Z'
 ;
 
 
@@ -795,9 +564,9 @@ UCALPHA:
 /* siehe RFC-9535 Abschnitt 2.5.2.1 */
 
 descendant_segment: 
-	T_PERIOD T_PERIOD bracketed_selection
-	| T_PERIOD T_PERIOD wildcard_selector
-	| T_PERIOD T_PERIOD member_name_shorthand
+	'.' '.' bracketed_selection
+	| '.' '.' wildcard_selector
+	| '.' '.' member_name_shorthand
 ;
 
 
@@ -816,115 +585,13 @@ rep_normal_index_segment:
 ;
 
 normal_index_segment:
-    T_SQUARE_BRACKET_OPEN normal_selector T_SQUARE_BRACKET_CLOSE
+    '[' normal_selector ']'
 ;
 
 normal_selector:
-    normal_name_selector
-    | normal_index_selector
+    T_NORMAL_NAME_SELECTOR
+    | T_NORMAL_INDEX_SELECTOR
 ;
-
-normal_name_selector:
-    T_SINGLE_QUOTE rep_normal_single_quoted T_SINGLE_QUOTE
-;
-
-rep_normal_single_quoted:
-    
-    | normal_single_quoted
-;
-
-normal_single_quoted:
-    normal_unescaped
-    | ESC normal_escapable
-;
-
-normal_unescaped:
-    T_SPACE
-    | T_EXCLAMATION
-    | T_DOUBLE_QUOTE
-    | T_HASHTAG
-    | T_DOLLAR
-    | T_PERCENT
-    | T_AMPERSAND
-    | T_PAREN_OPEN
-    | T_PAREN_CLOSE
-    | T_ASTERISK
-    | T_PLUS
-    | T_COMMA
-    | T_HYPHEN
-    | T_PERIOD
-    | T_FORWARD_SLASH
-    | DIGIT
-    | T_COLON
-    | T_SEMICOLON
-    | T_LT
-    | T_EQUALS
-    | T_GT
-    | T_QUESTION
-    | T_AT
-    | UCALPHA
-    | T_SQUARE_BRACKET_OPEN
-    | T_SQUARE_BRACKET_CLOSE
-    | T_CIRCUMFLEX
-    | T_UNDERSCORE
-    | T_GRAVE
-    | LCALPHA
-    | T_CURLY_BRACE_OPEN
-    | T_VERTICAL_BAR
-    | T_CURLY_BRACE_CLOSE
-    | T_TILDE
-    | T_DEL
-;
-
-normal_escapable:
-    T_LC_B
-    | T_LC_F
-    | T_LC_N
-    | T_LC_R
-    | T_LC_T
-    | T_SINGLE_QUOTE
-    | T_BACKSLASH
-    | T_LC_U normal_hexchar
-;
-
-normal_hexchar:
-    T_ZERO T_ZERO opt_normal_hexchar_parts
-;
-
-opt_normal_hexchar_parts:
-    T_ZERO T_ZERO
-    | T_ZERO T_ONE
-    | T_ZERO T_TWO
-    | T_ZERO T_THREE
-    | T_ZERO T_FOUR
-    | T_ZERO T_FIVE
-    | T_ZERO T_SIX
-    | T_ZERO T_SEVEN
-    | T_ZERO T_LC_B
-    | T_ZERO T_LC_E
-    | T_ZERO T_LC_F
-    | T_ONE normal_HEXDIG
-;
-    
-normal_HEXDIG:
-    DIGIT
-    | T_LC_A
-    | T_LC_B
-    | T_LC_C
-    | T_LC_D
-    | T_LC_E
-    | T_LC_F
-;
-
-
-
-normal_index_selector:
-    T_ZERO
-    | DIGIT1 rep_DIGIT
-;
-
-
 
 %%
-//#include "lex.yy.c"
 
