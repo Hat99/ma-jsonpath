@@ -12,4 +12,4 @@ all:
 	${CPP} lex.yy.o jsonpath.tab.o main.o -o exec
 
 clean:
-	rm -f lex.yy.c lex.yy.h jsonpath.tab.cpp jsonpath.tab.hpp lex.yy.o jsonpath.tab.o main.o exec
+	rm -f lex.yy.c lex.yy.h jsonpath.tab.cpp jsonpath.tab.hpp lex.yy.o jsonpath.tab.o main.o exec *.tex *.pdf *.log *.aux

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 #include "lex.yy.h"
 #include "jsonpath.tab.hpp"
 
@@ -215,10 +216,35 @@ void runParserTests(){
     parserVerbose = true;
 }
 
+void root2pdf(){
+    
+    /* micro sekunden timestamp nach https://stackoverflow.com/questions/22203319/c-c-microsecond-timestamp */
+    //TODO: geht das auch schöner? wäre schön...
+    long microseconds_since_epoch = duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    std::string timeStamp = to_string(microseconds_since_epoch);
+    
+    
+    /*Umleitung in Outputdatei nach https://stackoverflow.com/questions/18086193/redirect-stdout-stderr-to-file-under-unix-c-again */
+    freopen((timeStamp + ".tex").c_str(), "a", stdout);
+    root->tikz();
+    freopen("/dev/tty", "w", stdout);
+    
+    std::string compileCmd ="pdflatex -interaction=batchmode " + timeStamp + " > /dev/null 2>&1";
+    std::system(compileCmd.c_str());
+    
+    std::remove((timeStamp + ".tex").c_str());
+    std::remove((timeStamp + ".log").c_str());
+    std::remove((timeStamp + ".aux").c_str());
+    
+    std::cout << "PDF created (" << timeStamp << ".pdf)\n";
+}
+
 
 int main(int argc, const char * argv[]) {
     yydebug = 0;
     parserVerbose = false;
+    bool visualize = false;
     
     bool inputProvided = false;
     
@@ -234,6 +260,9 @@ int main(int argc, const char * argv[]) {
             runParserTests();
             return EXIT_SUCCESS;
         }
+        else if(arg == "-visualize" || arg == "-vis"){
+            visualize = true;
+        }
         else{
             inputProvided = true;
         }
@@ -248,9 +277,14 @@ int main(int argc, const char * argv[]) {
             else if(arg == "-verbose" || arg == "-v"){
                 //already done
             }
+            else if (arg == "-visualize" || arg == "-vis"){
+                //already done
+            }
             else{
                 if(parse(arg) == 1){
                     std::cout << "Error encountered for input " << arg << "\n";
+                } else if(root && visualize){
+                    root2pdf();
                 }
             }
         }
@@ -261,7 +295,9 @@ int main(int argc, const char * argv[]) {
             
             std::string input;
             
-            std::cin >> input;
+            std::getline(std::cin, input);
+            
+            std::cout << "Parsing " << input << "...\n";
             
             if(input == "exit" || input == "quit"){
                 break;
@@ -269,11 +305,9 @@ int main(int argc, const char * argv[]) {
             
             if(parse(input) == 0){
                 std::cout << "Success.\n";
-                if(root){
-                    std::cout << "AST erzeugt\n";
-                }
-                else{
-                    std::cout << "nix ast... weird... \n";
+                if(root && visualize){
+                    root2pdf();
+                    
                 }
             }
             else{

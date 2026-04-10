@@ -195,6 +195,28 @@ template <class T> string tree<T>::to_latex() {
 	stringstream ss;
 	string s, r = "";
 	ss << v, getline(ss, s);
+    
+    //escape chars that can appear alone in jsonpath
+    if(s == "$") return "\\$";
+    if(s == "&") return "\\$";
+    
+    //escape chars appearing in strings in jsonpath
+    if(s[0] == '\'' || s[0] == '\"'){
+        for (int i = 0; i < s.length(); i++)
+            switch (s[i]) {
+                case '%': r += "\\%"; break;
+                case '$': r += "\\$"; break;
+                case '&': r += "\\&"; break;
+                case '_': r += "\\_"; break;
+                case '#': r += "\\#"; break;
+                case '{': r += "\\{"; break;
+                case '}': r += "\\}"; break;
+                default: r += s[i];
+            }
+        return r;
+    }
+    
+    //default escape behaviour
 	for (int i = 0; i < s.length(); i++)
 		switch (s[i]) {
 			case '_': r += "\\_"; break;
