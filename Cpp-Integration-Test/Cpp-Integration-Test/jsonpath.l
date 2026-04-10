@@ -6,6 +6,7 @@
 /*Start Conditions*/
 
 %s  NORMALIZED
+%x  MEMBER_NAME_SHORTHAND
 
 
 
@@ -62,8 +63,46 @@ NORMAL_SINGLE_QUOTED    ({NORMAL_UNESCAPED}|({ESC}{NORMAL_ESCAPABLE}))
     return T_STRING_LITERAL;
 }
 
+\.[0-9]+   {
+    yylval.cval = yytext;
+    return T_FRAC;
+}
 
-[\x09\x0A\x0D\x20-\x7F]     {return yytext[0];}
+e[-+]?[0-9]+    {
+    yylval.cval = yytext;
+    return T_EXP;
+}
+
+"-0"    {return T_MINUS_ZERO;}
+
+"0"|([-]?[1-9][0-9]*)   {
+    yylval.ival = atoi(yytext);
+    return T_INT;
+}
+
+[ \t\n\r]+  {return T_WHITESPACE;}
+
+[a-z][a-z_0-9]*/\(    {
+    yylval.cval = yytext;
+    return T_FUNCTION_NAME;
+}
+
+"true"  {return T_TRUE;}
+"false" {return T_FALSE;}
+"null"  {return T_NULL;}
+
+<MEMBER_NAME_SHORTHAND>[A-Za-z_][A-Za-z_0-9]*   {
+    BEGIN(INITIAL);
+    yylval.cval = yytext;
+    return T_MEMBER_NAME_SHORTHAND;
+}
+
+\./[A-Za-z_]    {
+    BEGIN(MEMBER_NAME_SHORTHAND);
+    return yytext[0];
+}
+
+[\x21-\x7F]     {return yytext[0];}
 
 .		{return T_ERR;}
 

@@ -11,7 +11,7 @@
 %}
 
 //Generalisierter Parser, kann Alternativen parallel verfolgen
-%glr-parser
+//%glr-parser
 
 //Debugging trace
 %define parse.trace
@@ -30,12 +30,29 @@ inline syntaxTree * syntaxTree_epsilon_node () {
     int ival;
 }
 
-%token<cval> T_STRING_LITERAL   //siehe RFC-9535 S.17
+%token T_WHITESPACE                     //siehe RFC-9535 S.13
 
-%token<cval> T_NORMAL_NAME_SELECTOR    //siehe RFC-9535 S.47
+%token<cval> T_STRING_LITERAL           //siehe RFC-9535 S.17
+
+%token<cval> T_MEMBER_NAME_SHORTHAND
+%token<cval> T_FUNCTION_NAME
+
+%token T_TRUE
+%token T_FALSE
+%token T_NULL
+
+
+%token<ival> T_INT                      //TODO: woher?
+%token T_MINUS_ZERO                     //TODO: woher?
+%token<cval> T_FRAC                     //TODO: woher?
+%token<cval> T_EXP                      //TODO: woher?
+
+%token<cval> T_NORMAL_NAME_SELECTOR     //siehe RFC-9535 S.47
 %token<ival> T_NORMAL_INDEX_SELECTOR    //siehe RFC_9535 S.47
 
-%token T_ERR                //undefined input
+
+
+%token T_ERR                            //undefined input
 
 %{
     syntaxTree * root;
@@ -59,6 +76,16 @@ jsonpath:
     | 'N' normalized_path
     | 'n' normalized_path
 ;
+
+
+
+
+
+/* leere Ableitung (für optionale Regeln) */
+
+epsilon:
+    /* leer */
+;
     
 
 
@@ -71,20 +98,13 @@ jsonpath_query:
 ;
 
 segments: 
-
+    epsilon
 	| segments S segment
 ;
 
-B:
-	'\x20'
-	| '\x09'
-	| '\x0A'
-	| '\x0D'
-;
-
 S:
-
-	| S B
+    epsilon
+	| T_WHITESPACE
 ;
 
 
@@ -139,34 +159,7 @@ wildcard_selector:
 /* siehe RFC-9535 Abschnitt 2.3.3.1 */
 
 index_selector: 
-	int
-;
-
-int: 
-	'0'
-	| opt_hyphen DIGIT1 rep_DIGIT
-;
-
-opt_hyphen:
-
-	| '-'
-;
-
-DIGIT1:
-	'1'
-	| '2'
-	| '3'
-	| '4'
-	| '5'
-	| '6'
-	| '7'
-	| '8'
-	| '9'
-;
-
-rep_DIGIT: 
-
-	| rep_DIGIT DIGIT
+	T_INT
 ;
 
 
@@ -180,31 +173,31 @@ slice_selector:
 ;
 
 opt_start:
-
+    epsilon
 	| start S
 ;
 
 opt_end:
-
+    epsilon
 	| end S
 ;
 
 opt_step:
-
+    epsilon
 	| ':' S step
 	| ':'
 ;
 
 start: 
-	int
+	T_INT
 ;
 
 end: 
-	int
+	T_INT
 ;
 
 step: 
-	int
+	T_INT
 ;
 
 
@@ -228,7 +221,7 @@ logical_or_expr:
 ;
 
 rep_logical_and_expr: 
-
+    epsilon
 	| rep_logical_and_expr S '|' '|' S logical_and_expr
 ;
 
@@ -237,7 +230,7 @@ logical_and_expr:
 ;
 
 rep_basic_expr:
-
+    epsilon
 	| rep_basic_expr S '&' '&' S basic_expr
 ;
 
@@ -252,7 +245,7 @@ paren_expr:
 ;
 
 opt_not_op:
-	
+    epsilon
 	| logical_not_op S
 ;
 
@@ -289,9 +282,9 @@ comparison_expr:
 literal: 
 	number
 	| T_STRING_LITERAL
-	| true
-	| false
-	| null
+	| T_TRUE
+	| T_FALSE
+	| T_NULL
 ;
 
 comparable: 
@@ -327,7 +320,7 @@ singular_query_segments:
 ;
 
 rep_singular_query_segment:
-	
+    epsilon
 	| rep_singular_query_segment singular_query_segment
 ;
 
@@ -338,7 +331,7 @@ singular_query_segment:
 
 name_segment:
 	'[' name_selector ']'
-	| '.' member_name_shorthand
+	| '.' T_MEMBER_NAME_SHORTHAND
 ;
 
 index_segment:
@@ -348,44 +341,18 @@ index_segment:
 
 
 number:
-	int opt_frac opt_exp
-	| '-' '0' opt_frac opt_exp
+	T_INT opt_frac opt_exp
+	| T_MINUS_ZERO opt_frac opt_exp
 ;
 
 opt_frac:
-
-	| frac
-;
-
-frac:
-	'.' DIGIT rep_DIGIT
+    epsilon
+	| T_FRAC
 ;
 
 opt_exp:
-
-	| exp
-;
-
-exp:
-	'e' opt_signed DIGIT rep_DIGIT
-;
-
-opt_signed:
-
-	| '-'
-	| '+'
-;
-
-true:
-	't''r''u''e'
-;
-
-false:
-	'f''a''l''s''e'
-;
-
-null:
-	'n''u''l''l'
+    epsilon
+	| T_EXP
 ;
 
 
@@ -394,67 +361,17 @@ null:
 
 /* siehe RFC-9535 Abschnitt 2.4 */
 
-function_name:
-	function_name_first rep_function_name_char
-;
-
-rep_function_name_char:
-
-	| rep_function_name_char function_name_char
-;
-
-function_name_first:
-	LCALPHA
-;
-
-function_name_char:
-	function_name_first
-	| '_'
-	| DIGIT
-;
-
-LCALPHA:
-	'a'
-	| 'b'
-    | 'c'
-    | 'd'
-    | 'e'
-    | 'f'
-    | 'g'
-    | 'h'
-    | 'i'
-    | 'j'
-    | 'k'
-    | 'l'
-    | 'm'
-    | 'n'
-    | 'o'
-    | 'p'
-    | 'q'
-    | 'r'
-    | 's'
-    | 't'
-    | 'u'
-    | 'v'
-    | 'w'
-    | 'x'
-    | 'y'
-    | 'z'
-;
-
-
-
 function_expr:
-	function_name '(' S opt_func_args S ')'
+	T_FUNCTION_NAME '(' S opt_func_args S ')'
 ;
 
 opt_func_args:
-	
+    epsilon
 	| function_argument rep_function_argument
 ;
 
 rep_function_argument:
-	
+    epsilon
 	| rep_function_argument S ',' S function_argument
 ;
 
@@ -485,7 +402,7 @@ segment:
 child_segment: 
 	bracketed_selection
 	| '.' wildcard_selector
-	| '.' member_name_shorthand
+	| '.' T_MEMBER_NAME_SHORTHAND
 ;
 
 bracketed_selection: 
@@ -493,68 +410,8 @@ bracketed_selection:
 ;
 
 rep_selector: 
-	
+    epsilon
 	| rep_selector S ',' S selector
-;
-
-
-
-member_name_shorthand: 
-	name_first rep_name_char
-;
-
-name_first: 
-	ALPHA
-	| '_'
-;
-
-rep_name_char:
-
-	| rep_name_char name_char
-;
-
-name_char: 
-	name_first
-	| DIGIT
-;
-
-DIGIT: 
-	'0'
-	| DIGIT1
-;
-
-ALPHA: 
-	UCALPHA
-	| LCALPHA
-;
-
-UCALPHA:
-	'A'
-    | 'B'
-    | 'C'
-    | 'D'
-    | 'E'
-    | 'F'
-    | 'G'
-    | 'H'
-    | 'I'
-    | 'J'
-    | 'K'
-    | 'L'
-    | 'M'
-    | 'N'
-    | 'O'
-    | 'P'
-    | 'Q'
-    | 'R'
-    | 'S'
-    | 'T'
-    | 'U'
-    | 'V'
-    | 'W'
-    | 'X'
-    | 'Y'
-    | 'Z'
 ;
 
 
@@ -566,7 +423,7 @@ UCALPHA:
 descendant_segment: 
 	'.' '.' bracketed_selection
 	| '.' '.' wildcard_selector
-	| '.' '.' member_name_shorthand
+	| '.' '.' T_MEMBER_NAME_SHORTHAND
 ;
 
 
@@ -580,7 +437,7 @@ normalized_path:
 ;
 
 rep_normal_index_segment:
-
+    epsilon
     | rep_normal_index_segment normal_index_segment
 ;
 
