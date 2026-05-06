@@ -7,6 +7,8 @@
 
 %s  NORMALIZED
 %x  MEMBER_NAME_SHORTHAND
+%x  NUMBER_FRAC
+%x  NUMBER_EXP
 
 
 
@@ -46,7 +48,13 @@ NORMAL_SINGLE_QUOTED    ({NORMAL_UNESCAPED}|({ESC}{NORMAL_ESCAPABLE}))
 
 
 
+
+
 %%
+    
+    
+    
+    /* Verarbeitung von normalisierten Strings und Indizes */
     
 <NORMALIZED>'{NORMAL_SINGLE_QUOTED}*'  {
     yylval.cval = yytext;
@@ -57,39 +65,79 @@ NORMAL_SINGLE_QUOTED    ({NORMAL_UNESCAPED}|({ESC}{NORMAL_ESCAPABLE}))
     yylval.ival = atoi(yytext);
     return T_NORMAL_INDEX_SELECTOR;
 }
+
+
+
+    /* Verarbeitung von allgemeinen Strings */
     
 (\"{DOUBLE_QUOTED}*\")|('{SINGLE_QUOTED}*')   {
     yylval.cval = yytext;
     return T_STRING_LITERAL;
 }
 
-\.[0-9]+   {
+
+
+    /* Verarbeitung von Number (optionale Fraction, optionaler Exponent, "-0" erlaubt) bzw. Int */
+
+<NUMBER_FRAC>\.[0-9]+/"e"   {
+    BEGIN(NUMBER_EXP);
     yylval.cval = yytext;
     return T_FRAC;
 }
 
-e[-+]?[0-9]+    {
+<NUMBER_FRAC>\.[0-9]+   {
+    BEGIN(INITIAL);
+    yylval.cval = yytext;
+    return T_FRAC;
+}
+
+<NUMBER_EXP>e[-+]?[0-9]+    {
+    BEGIN(INITIAL);
     yylval.cval = yytext;
     return T_EXP;
 }
 
+"-0"/"."    {
+    BEGIN(NUMBER_FRAC);
+    return T_MINUS_ZERO;
+}
+
+"-0"/"e"    {
+    BEGIN(NUMBER_EXP);
+    return T_MINUS_ZERO;
+}
+
 "-0"    {return T_MINUS_ZERO;}
+
+"0"|([-]?[1-9][0-9]*)/"."   {
+    BEGIN(NUMBER_FRAC);
+    yylval.ival = atoi(yytext);
+    return T_INT;
+}
+
+"0"|([-]?[1-9][0-9]*)/"e"   {
+    BEGIN(NUMBER_EXP);
+    yylval.ival = atoi(yytext);
+    return T_INT;
+}
 
 "0"|([-]?[1-9][0-9]*)   {
     yylval.ival = atoi(yytext);
     return T_INT;
 }
 
-[ \t\n\r]+  {return T_WHITESPACE;}
+
+
+    /* Verarbeitung von Funktionsnamen (wenn Klammer folgt) */
 
 [a-z][a-z_0-9]*/\(    {
     yylval.cval = yytext;
     return T_FUNCTION_NAME;
 }
 
-"true"  {return T_TRUE;}
-"false" {return T_FALSE;}
-"null"  {return T_NULL;}
+
+
+    /* Verarbeitung von Member Name Shorthand */
 
 <MEMBER_NAME_SHORTHAND>[A-Za-z_][A-Za-z_0-9]*   {
     BEGIN(INITIAL);
@@ -97,21 +145,82 @@ e[-+]?[0-9]+    {
     return T_MEMBER_NAME_SHORTHAND;
 }
 
-\./[A-Za-z_]    {
+
+
+    /* Sicherstellen, dass kein Leerzeichen zwischen Punkt und Segment ist und ggf Einleiten von Member Name Shorthand Verarbeitung */
+
+".."/[A-Za-z_]    {
+    BEGIN(MEMBER_NAME_SHORTHAND);
+    return T_DESC_OP;
+}
+".."/"["   {
+    return T_DESC_OP;
+}
+".."/"*"   {
+    return T_DESC_OP;
+}
+
+"."/[A-Za-z_]    {
     BEGIN(MEMBER_NAME_SHORTHAND);
     return yytext[0];
 }
+"."/"*" {
+    return yytext[0];
+}
+
+
+
+    /* Verarbeiten von Keywords und Operatoren */
+
+"true"  {return T_TRUE;}
+"false" {return T_FALSE;}
+"null"  {return T_NULL;}
+
+"||"    {return T_LOGICAL_OR;}
+"&&"    {return T_LOGICAL_AND;}
+
+"=="    {return T_CMP_EQ;}
+"!="    {return T_CMP_NEQ;}
+"<="    {return T_CMP_LTE;}
+">="    {return T_CMP_GTE;}
+"<"     {return T_CMP_LT;}
+">"     {return T_CMP_GT;}
+
+
+
+    /* Überlesen von Whitespaces (korrekte Behandlung muss anderweits sichergestellt werden) */
+
+[ \t\n\r]+  {/*return T_WHITESPACE;*/}
+
+
+
+    /* Weiterreichen von übrigen einzelnen Characters */
 
 [\x21-\x7F]     {return yytext[0];}
 
+
+
+    /* Fehlerfall: undefiniertes Zeichen */
+    
 .		{return T_ERR;}
 
+
+
+
+
 %%
+    
+    
+    
+    
     
 int yywrap(void){
     return 1;
 }
     
+    
+/* set state from main program */
+
 void setStateInitial(void){
     BEGIN(INITIAL);
 }
