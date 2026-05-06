@@ -56,6 +56,9 @@ inline syntaxTree * syntaxTree_epsilon_node () {
 %token T_CMP_LT
 %token T_CMP_GT
 
+//siehe RFC-9535 S.41
+%token T_CHILD_OP
+
 //siehe RFC-9535 S.43
 %token T_DESC_OP
 
@@ -351,7 +354,7 @@ singular_query_segment:
 
 name_segment:
 	'[' name_selector ']'
-	| '.' T_MEMBER_NAME_SHORTHAND
+	| T_CHILD_OP T_MEMBER_NAME_SHORTHAND
 ;
 
 index_segment:
@@ -421,8 +424,8 @@ segment:
 
 child_segment: 
 	bracketed_selection
-	| '.' wildcard_selector
-	| '.' T_MEMBER_NAME_SHORTHAND
+	| T_CHILD_OP wildcard_selector
+	| T_CHILD_OP T_MEMBER_NAME_SHORTHAND
 ;
 
 bracketed_selection: 

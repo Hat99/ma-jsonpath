@@ -162,10 +162,10 @@ NORMAL_SINGLE_QUOTED    ({NORMAL_UNESCAPED}|({ESC}{NORMAL_ESCAPABLE}))
 
 "."/[A-Za-z_]    {
     BEGIN(MEMBER_NAME_SHORTHAND);
-    return yytext[0];
+    return T_CHILD_OP;
 }
 "."/"*" {
-    return yytext[0];
+    return T_CHILD_OP;
 }
 
 
