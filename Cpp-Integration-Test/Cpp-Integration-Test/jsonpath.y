@@ -401,8 +401,8 @@ rep_function_argument:
 function_argument:
 	literal
     | logical_expr
-	//| filter_query        -> TODO: RFC-konform?
-	//| function_expr       -> TODO: RFC-Konform?
+	| filter_query        //-> TODO: RFC-konform?
+	| function_expr       //-> TODO: RFC-Konform?
 ;
 
 
