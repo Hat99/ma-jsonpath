@@ -1,0 +1,1043 @@
+\documentclass[oneside]{ausarbeitung}
+\bibliography{latexlit}
+
+
+% ----------------------------------------------------------------------
+
+\begin{document}
+
+%--- Sprachauswahl
+% Erlaubte Werte:
+%   \selectlanguage{english}
+%   \selectlanguage{ngerman}
+\selectlanguage{ngerman}
+
+%--- Art der Arbeit
+% Erlaubte Werte:
+%   \Praxissemesterbericht
+%   \Projektbericht
+%   \Bachelorarbeit
+%   \Seminararbeit
+ \Masterarbeit
+
+%\Bachelorarbeit
+
+%--- Studiengang:
+% Erlaubte Werte:
+%   \IN % Informatik (Bachelor/Master)
+%   \Elektronik
+%   \AI % Artificial Intelligence and Data Science (Bachelor)
+%   \MLD % Machine Learning and Data Analytics (Master)
+\IN
+
+\title{JSONPath-Schnittstelle für NoSQL-Datenbanken}
+
+\author{Paul Mayr}
+\matrikelnr{77868}
+
+%--- Ist der Erstbetreuer (\examinerA) an der Hochschule ein Professor?
+% Erlaubte Werte:
+%   \examinerIsAProfessortrue   % Ja
+%   \examinerIsAProfessorfalse  % Nein
+\examinerIsAProfessortrue   % Ja
+
+%--- Betreuer
+\examinerA{Prof.~Dr.~Winfried~Bantel}
+\examinerB{Prof.~Dr.~habil.~Christian~Heinlein}
+
+%--- Einreichungsdatum
+\date{01. Juni 2026}
+
+%--- Angaben zur Firma
+% Auskommentieren, wenn die Arbeit nicht bei einer ext. Firma gemacht wurde.
+%\companyname{Beispielfirma}
+%\industrialsector{Beispielbranche}
+%\department{Beispielabteilung}
+%\companystreet{Beispielstr. 1}
+%\companycity{12345 Musterstadt}
+
+%--- Angaben zum Betreuer bei dieser Firma
+%\advisorname{Name des Betreuers}
+%\advisorphone{(01234) 567-890}
+%\advisoremail{name@company.xxx}
+
+%--- Titelseite Anzeigen
+\maketitle
+\cleardoublepage
+
+%---
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+%--- Firmendaten Anzeigen
+% Auskommentieren, wenn die Arbeit nicht bei einer ext. Firma gemacht wurde.
+%\makeworkplace
+%\cleardoublepage
+
+%--- Eidesstattliche Erklärung anzeigen
+\makeaffirmation
+\cleardoublepage
+
+%--- Sperrvermerk (Funktioniert nur bei externen Bachelor- oder Masterarbeiten.)
+%\makeconfidentialclause
+%\cleardoublepage
+
+
+\chapter*{Vorwort}
+
+TODO!!!
+
+%Die vorliegende Bachelorthesis wurde als Abschluss meines Studiums an der Hochschule Aalen im Studiengang Allgemeine Informatik verfasst. Die Arbeit wurde zwischen dem 25. April und dem 25. August 2023 unter der Betreuung von Herrn Prof. Dr. Gregor Grambow verfasst.
+
+%Mein besonderer Dank gilt Herrn Prof. Dr. Johannes Schobel und Herrn Daniel Hieber für die Möglichkeit, diese Arbeit in Kooperation mit der Hochschule Neu-Ulm zu verfassen, sowie für die freundliche und zuverlässige Betreuung und Unterstützung.
+
+\vspace{3cm}
+
+Paul Mayr
+
+\vspace{1cm}
+
+Heidenheim, 1. Juni 2026
+
+\addcontentsline{toc}{chapter}{Vorwort}
+
+%---
+\begin{abstract}
+  Ziel der Kurzfassung ist es, einen (eiligen) Leser zu informieren, so
+  dass dieser entscheiden kann, ob der Bericht für ihn hilfreich ist oder
+  nicht (neudeutsch: Management Summary). Die Kurzfassung gibt daher eine
+  kurze Darstellung
+
+  \begin{itemize}
+    \item des in der Arbeit angegangenen Problems
+    \item der verwendeten Methode(n)
+    \item des in der Arbeit erzielten Fortschritts.
+  \end{itemize}
+
+  Dabei sollte nicht auf die Struktur der Arbeit eingegangen werden, also
+  Kapitel~\ref{cha:grundlagen} etc. denn die Kurzfassung soll ja gerade
+  das Wichtigste der Arbeit vermitteln, ohne dass diese gelesen werden muss.
+  Eine Kapitelbezogene Darstellung sollte sich in Kapitel~%
+  \ref{cha:einleitung} unter Vorgehen befinden.
+
+  Länge: Maximal 1 Seite.
+\end{abstract}
+%-----------------------------------------------------------------------
+\cleardoublepage
+\tableofcontents
+
+%---
+\listoffigures
+
+%---
+%\listoftables
+
+%---
+%\lstlistoflistings
+
+%---
+\listofabbreviations
+\begin{acronym}[JSON]  % Längstes Kürzel in der nachfolgenden
+                       % Liste um die Breite der Spalte für die
+                       % Abkürzungen zu bestimmen.
+
+%% Eintrag: \acro{Referenzname}[Kürzel]{Langform}
+%% Im Text wird die Abkürzung dann mit \ac{Referenzname} benutzt.
+\acro{json}[JSON]{\textit{JavaScript Object Notation}}
+\acro{xml}[XML]{\textit{Extensible Markup Language}}
+\acro{abnf}[ABNF]{\textit{Angereicherte Backus-Naur-Form}}
+\acro{ebnf}[EBNF]{\textit{Erweiterte Backus-Naur-Form}}
+\acro{gtm}[GT.M]{\textit{Greystone Technology Mumps}}
+%\acro{bsp}[Bsp.]{Beispiel}
+\end{acronym}
+%---
+
+
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% ----------------------------------------------------------------------
+
+
+
+
+
+\chapter{Einleitung}
+\label{cha:einleitung}
+
+
+TODO!
+…Einstieg?
+
+Die Einleitung dient dazu, beim Leser Interesse für die Inhalte
+Praxissemesterberichts zu wecken, die behandelten Probleme aufzuzeigen
+und die zu ihrer Lösung entwickelten Konzepte zu beschreiben.
+
+
+
+
+
+\section{Motivation}
+\label{sec:motivation}
+
+Das \ac{json}-Datenaustauschformat hat sich vielerorts als Ersatz für \ac{xml} für die Übertragung von Daten beziehungsweise die Kommunikation zwischen Systemen eingebürgert. Bereits 2007 wurde hierfür, angelehnt an die pfadbasierte \ac{xml}-Abfragesprache \textit{XPath}, die Abfragesprache \textit{JSONPath} vorgeschlagen. Erst 17 Jahre später wurde diese 2024 als \textit{RFC-9535} normiert. 
+	
+%TODO quelle: ?
+	
+Trotz der zunehmend weiten Verbreitung von \ac{json} und JSONPath ist deren Verwendung an einigen Stellen noch nicht unterstützt. Eine solche Stelle ist die \textit{NoSQL}-Datenbank \textit{YottaDB}, welche aufgrund der intern verwendeten Objektstrukturen für die gespeicherten Daten dem Aufbau von \ac{json}-Daten ähnelt. Die Möglichkeit, JSONPath-Abfragen für NoSQL-Datenobjekte wie die von YottaDB verwenden zu können, wäre also eine naheliegende Vereinfachung im Umgang mit diesen Daten.
+	
+%TODO quelle: ?
+
+
+
+
+
+\section{Problemstellung und -abgrenzung}
+\label{sec:problemstellung}
+
+In dieser Arbeit wird ein System entwickelt, welches Abfragen auf die NoSQL-Datenbank YottaDB in Form von JSONPath-Abfragen nach RFC-9535 ermöglichen soll. 
+	
+Das System soll dafür eingehende JSONPath-Abfragen zunächst validieren und fehlerhafte Abfragen zurückweisen, um anschließend die validen Abfragen in Syntaxbäume zu überführen und anhand dieser die Abfragen unter Verwendung eines in YottaDB gespeicherten Datensatzes auszuwerten. Das Zielsystem kann also aufgrund seiner Funktionsweise als ein \textit{Compiler} und \textit{Interpreter} für JSONPath zu YottaDB betrachtet werden.
+	
+Um Abfragen auf großen Datensätzen performant zu halten, soll das System den Datensatz beispielsweise über geeignete Indizierung erweitern, um schnellere Suchen zu ermöglichen.
+	
+Die Erzeugung und Validierung der Datensätze, gegen welche das System eingehende Abfragen auswerten soll, sind nicht Teil dieser Arbeit. 
+	
+Ebenso gliedert sich das System in keine bestehenden Arbeitsabläufe ein und entspricht daher keinen vordefinierten Schnittstellen. Innerhalb dieser Arbeit wird das System als alleinstehendes Konsolenprogramm entwickelt; eine Weiterentwicklung des Systems für beispielsweise die Einbindung in einen Arbeitsablauf soll jedoch durch klar abgetrennte Komponenten und übersichtliche interne Schnittstellen ermöglicht werden.
+
+\section{Ziel der Arbeit}
+\label{sec:ziel}
+
+Nachfolgend werden die Ziele dieser Arbeit definiert und anschließend formalisiert zusammengefasst.
+	
+Ziel dieser Arbeit ist die Entwicklung einer zu RFC-9535 konformen Anwendung zur Auswertung von JSONPath-Abfragen auf in einer YottaDB NoSQL-Datenbank gespeicherte Datenobjekte. Die Anwendung soll dabei den vollständigen Funktionsumfang von JSONPath, abbilden können, wie dieser in RFC-9535 definiert wird.
+	
+Hierfür muss die entwickelte Anwendung Eingaben anhand der Anforderungen von RFC-9535 überprüfen und Abfragen, die keine wohlgeformten und validen JSONPath-Abfragen darstellen, verwerfen. 
+	
+Das System muss die validen JSONPath-Abfragen anschließend gegen das gegebene Datenobjekt auswerten und das Ergebnis der Auswertung zurückgeben. Für diese Auswertung sollen die Abfragen zunächst in Syntaxbäume überführt werden, anhand welcher die Auswertung stattfinden kann.
+	
+Damit das System auch bei größeren Datenmengen performante Auswertung von JSONPath-Abfragen erbringen kann, soll über geeignete Indizierung der Datensätze die Suche innerhalb dieser beschleunigt werden. 
+	
+Um die Anpassbarkeit, Wartbarkeit und Erweiterbarkeit des Systems für weitere Arbeiten zu ermöglichen, soll dieses sich in klar getrennte Komponenten unterteilen. Außerdem sollen die Komponenten durch eine einfache Dokumentation leicht nachvollziehbar gemacht werden.
+
+Zusammengefasst sind die Ziele dieser Arbeit also:
+	
+\begin{itemize}
+	\item \textit{Primärziel P}: Entwicklung einer Anwendung zur Auswertung von JSONPath-Abfragen auf YottaDB-Datenobjekten
+	\item \textit{Sekundärziel S1}: Vollständige Umsetzung des JSONPath-Funktionsumfangs nach RFC-9535
+	\item \textit{Sekundärziel S2}: Überprüfung der Eingaben auf Konformität zu RFC-9535 
+	\item \textit{Sekundärziel S3}: Überführung der Abfragen in Syntaxbäume
+	\item \textit{Sekundärziel S4}: Auswertung der Syntaxbäume gegen die Datenobjekte
+	\item \textit{Sekundärziel S5}: Beschleunigen der Auswertung durch Indizierung
+	\item \textit{Sekundärziel S6}: Komponentenbasierte Systemarchitektur für zukünftige Erweiterungen
+\end{itemize}
+
+
+
+
+
+\section{Vorgehen}
+\label{sec:vorgehen}
+
+Für die Erreichung der in \ref{sec:ziel} genannten Ziele werden zunächst die verwendeten Technologien und für das Verständnis dieser Arbeit relevanten Konzepte vorgestellt. 
+	
+In der darauf folgenden Problemanalyse werden die Ziele genauer untersucht und daraus entstehende Anforderungen ermittelt, welche in einer Anforderungsliste zusammengefasst werden.
+	
+Ausgehend von dieser Anforderungsliste wird ein Lösungskonzept erarbeitet und verschiedene Entscheidungen und alternative Ansätze werden betrachtet und abgewogen.
+	
+Daraufhin wird die Umsetzung der im Lösungskonzept erarbeiteten Ansätze dargestellt und einzelne Implementationsdetails werden illustrativ herausgegriffen und genauer betrachtet.
+	
+Die Ergebnisse werden anschließend anhand der definierten Ziele und Anforderungen evaluiert und bewertet, inwiefern diese den Zielen und Anforderungen gerecht werden.
+	
+Zuletzt werden die erreichten Ergebnisse nochmals zusammengefasst und ein Ausblick auf mögliche Ansätze zur Übertragung und Erweiterung dieser Ergebnisse gegeben.
+
+
+
+
+
+
+
+
+
+
+% ---
+\chapter{Grundlagen}
+\label{cha:grundlagen}
+
+Im Folgenden werden die für das Verständnis dieser Arbeit relevanten Technologien und Konzepte vorgestellt. Ziel hiervon ist nicht eine erschöpfende Definition aller verwendeten Begriffe, sondern vielmehr eine Übersicht und oberflächliche Klärung einiger relevanter Begriffe.
+	
+Eine ausführlichere Betrachtung von JSONPath, insbesondere dem in RFC-9535 definierten Funktionsumfang dieser Abfragesprache, erfolgt in \ref{chapt_problemanalyse}, da diese stark prägend für die ermittelten Anforderungen ist.
+
+\section{JSON}
+	
+\ac{json} ist ein einfaches, text-basiertes und sprachunabhängiges Austauschformat für strukturierte Daten, welches in RFC-8259 vereinheitlicht wurde. \ac{json}-Daten beziehungsweise -Objekte können als eine Baumstruktur aus Schlüssel-Wert-Paaren betrachtet werden, wobei der Wurzelknoten der Knoten ist, dessen Wert das gesamte \ac{json}-Objekt ausmacht.
+	
+Der Schlüssel eines Schlüssel-Wert-Paars, der auch als Name des Paars bezeichnet wird, ist vom primitiven Typ \textit{String}. Der Wert des Paars kann von einem der primitiven Typen \textit{String}, \textit{Zahl}, \textit{Boolean} und \textit{null} oder einem der komplexen Typen \textit{Objekt} und \textit{Array} sein.
+	
+Ein \ac{json}-Objekt ist eine ungeordnete Sammlung beliebig vieler Schlüssel-Wert-Paare. Jedes \ac{json}-Objekt kann einzeln betrachtet auch der Wert des Wurzelknotens eines Baums sein, der das Objekt abbildet. 
+	
+Ein Array ist eine geordnete Sequenz von beliebig vielen Werten. Diese Werte haben selbst keinen zugeordneten Namen, können aber wiederum Objekte mit Namen sein beziehungsweise beinhalten.  
+	
+%TODO quelle: json rfc 8259
+	
+\section{JSONPath}
+	
+Inspiriert von der pfadbasierten \ac{xml}-Abfragesprache \textit{XPath} stellt \textit{JSONPath} nach RFC-9535 eine String-Syntax für die Auswahl und Extraktion von \ac{json}-Werten aus einem gegebenen \ac{json}-Objekt dar. JSONPath-Ausdrücke werden auf valide \ac{json}-Objekte angewendet, um daraus Werte oder Knoten auszuwählen. Das Ergebnis einer JSONPath-Abfrage ist eine Knotenliste, welche im Falle, dass die Abfrage zu einem oder mehreren Knoten im \ac{json}-Objekt führt, diese Knoten enthält.
+	
+JSONPath-Ausdrücke starten vom Wurzelknoten des \ac{json}-Objekts und definieren über eine beliebige Anzahl von Segmenten, welche Kind- oder Nachfolgeknoten auf der jeweiligen Ebene des \ac{json}-Objekts für die weitere Verarbeitung auszuwählen sind.
+	
+\begin{lstlisting}
+	$.store.book
+\end{lstlisting}
+	
+So werden zum Beispiel im obigen JSONPath-Ausdruck alle Kindknoten des Wurzelknotens \textit{\$} ausgewählt, die \textit{store} heißen, und von diesen wiederum alle Kindknoten, die \textit{book} heißen. Konkret bedeutet das, dass alle Bücher der im \ac{json}-Objekt aufgeführten Läden aufgelistet werden sollen.
+	
+%TODO quelle: rfc 9535
+	
+	
+	
+\section{NoSQL-Datenbanken}
+	
+\textit{NoSQL}-Datenbanken oder auch \textit{Not only SQL}-Datenbanken unterscheiden sich von den relationalen Datenbanken durch die Form ihres Datenspeichers. Die wichtigsten Typen von NoSQL-Datenbanken sind \textit{dokumentbasiert}, \textit{Schlüssel-Wert-basiert}, \textit{spaltenübergreifend} und \textit{Graphdatenbanken}. Sie unterscheiden sich primär in den verwendeten Datenmodellen, alle bieten jedoch flexible Schemata zur Datenspeicherung an und sind meist gut für große Datenmengen skalierbar.
+	
+%quelle: https://www.mongodb.com/de-de/resources/basics/databases/nosql-explained
+	
+	
+	
+\section{YottaDB}
+	
+\textit{YottaDB} ist eine 2017 aus \ac{gtm} hervorgegangene NoSQL-Datenbank, die Daten als Schlüssel-Wert-Tupel abspeichert. Jedes Schlüssel-Wert-$n$-Tupel wird als ein Knoten betrachtet. Die ersten $n-1$ Elemente dieser $n$-Tupel sind die Schlüssel und das letzte Element ist der Wert. 
+	
+\begin{lstlisting}
+	["Capital","Belgium","Brussels"]
+	["Capital","Thailand","Bangkok"]
+\end{lstlisting}
+	
+Wie das obige Beispiel illustriert, sind die Schlüssel in einer Art hierarchischen Sortierung, in welcher der erste Schlüssel (in diesem Fall \textit{Capital}) den Inhaltstyp des Wertes vorgibt und die weiteren Schlüssel den Wert eindeutig identifizieren. Der erste Schlüssel wird in YottaDB als \textit{Variable} bezeichnet, unter welchem sich die anderen Schlüssel einordnen.
+	
+Die Menge aller Knoten unter einer Variablen können als Baum betrachtet werden, dessen Wurzel die Variable selbst ist. In YottaDB-Bäumen können auch Knoten mit Werten Nachfahren haben, wodurch sich YottaDB-Bäume von \ac{json} unterscheiden. Alle \ac{json}-Strukturen können in YottaDB-Bäumen abgebildet werden, jedoch können nicht alle YottaDB-Bäume in \ac{json}-Strukturen abgebildet werden.
+	
+Da YottaDB kein Schema für die zu speichernden Daten vorgibt, kann für Kompatibilität zu \ac{json} ein Schema verwendet werden, in welchem Knoten entweder Werte oder Nachfolger haben können.
+	
+%quelle: https://yottadb.com/about-us/
+%quelle: https://yottadb.com/product/how-it-works/
+	
+	
+	
+\section{Phasen von Compilern}
+
+Ein Compiler übersetzt Code von seiner Ausgangssprache in eine andere formale Sprache. Um Compiler möglichst flexibel und wartbar aufzubauen, werden diese im Normalfall in verschiedene Phasen unterteilt.
+	
+TODO: Grafik einbinden!
+	
+Die in Abbildung TODO: ref! dargestellten Phasen können je nach Compiler teilweise zusammengefasst oder übersprungen werden, bieten jedoch einen sinnvollen Anhaltspunkt für den Aufbau eines Compilers.
+	
+Da der Schwerpunkt dieser Arbeit auf der lexikalischen und syntaktischen Analyse liegt, werden diese Phasen im Folgenden etwas genauer hervorgehoben.
+%TODO quelle: lex & yacc buch!
+%TODO quelle: bantel folien!
+	
+	
+\subsection{Lexikalische Analyse}
+	
+In der \textit{lexikalischen Analyse} wird die Eingabe in die von der Grammatik erwarteten Tokens zerlegt. Die genaue Aufteilung beziehungsweise Definition, welche Eingabeteile in welche Tokens übersetzt werden, muss abhängig von der Grammatik und den Anforderungen an das System passend gewählt werden.
+	
+Die Unterteilung der Eingabe erfolgt anhand von Regeln, die zum Beispiel die Form von regulären Ausdrücken annehmen können. 
+%TODO quelle: lex & yacc buch!
+
+	 
+	
+\subsection{Syntaktische Analyse}
+	
+Die \textit{syntaktische Analyse} untersucht die Eingabe, beziehungsweise die aus der lexikalischen Analyse hervorgehenden Tokens, anhand einer vorgegebenen Grammatik, ob diese als Syntax aus der Grammatik hervorgehen können. 
+	
+Für die Angabe der Grammatik wird oft eine Art der Backus-Naur-Form wie die \ac{abnf} oder die {ebnf} verwendet. Diese definiert Produktionsregeln, mit welchen nichtterminale Symbole zu einer Folge von terminalen oder nichtterminalen Symbolen abgebildet werden können. 
+	
+Die syntaktische Analyse versucht, für die in der Eingabe gefundenen Tokens eine Folge von Produktionsregeln zu finden, durch welche die Eingabe entstehen kann. Wird keine solche Folge gefunden, lässt sich die Eingabe nicht aus der Grammatik herleiten und wird verworfen.
+	
+%TODO quelle: lex & yacc buch!
+%TODO quelle: bantel folien!
+	
+\section{flex}
+	
+\textit{flex}, oder \textit{the fast lexical analyzer generator}, ist ein Generatortool für Scanner, also Programme, welche lexikalische Analyse anhand von regulären Ausdrücken durchführen können. 
+	
+TODO!
+	
+%TODO quelle: https://github.com/westes/flex
+	
+\section{Bison}
+	
+\subsection{GLR}
+	
+	
+GLR!!!
+	
+TODO!
+
+
+
+
+
+
+
+
+%---
+\chapter{Problemanalyse}
+\label{cha:problemanalyse}
+
+Im Folgenden werden die in \ref{sec:ziel} definierten Ziele genauer betrachtet und die daraus entstehenden Anforderungen für diese Arbeit beziehungsweise das in dieser Arbeit zu entwickelnde System erörtert. Die ermittelten Anfordungen werden anschließend in ein Anforderungsverzeichnis überführt, anhand dessen sich die restliche Arbeit orientieren und strukturieren kann.
+	
+Das Primärziel P erfordert auf oberster Ebene, dass das System die Rolle eines sogenannten \textit{Interpreters} erfüllt, also die Auswertung einer in einer formalen Sprache notierten Eingabe durchführt. Um die Anwendung im Sinne von der in Sekundärziel S6 beschriebenen Erweiterbarkeit möglichst flexibel zu halten, bietet es sich jedoch an, dem Interpreter einen \textit{Compiler} vorzusetzen, welcher die Eingabeüberprüfung übernimmt und die Eingabe in einen geeigneten Zwischencode überführt. Dadurch lassen sich Eingabevalidierung und -auswertung voneinander isoliert behandeln und durch eventuelle optimierungen am Zwischencode auch die Auswertung vereinfachen.
+	
+In dieser Aufteilung ist der Compiler für die Realisierung von Sekundärzielen S1, S2 und S3 verantwortlich, während der Interpreter indirekt für Sekundärziel S1 und direkt für Sekundärziele S4 und S5 verantwortlich ist. Mit anderen Worten bedeutet das, dass der Compiler den vollständigen JSONPath-Funktionsumfang nach RFC-9535 in Zwischencode überführen können muss und dabei die Eingabe auf Wohlgeformtheit und Validität untersucht, während der Interpreter inhaltlich die JSONPath-Funktionen aus dem Zwischencode auf den YottaDB-Datenobjekten auswerten muss und auch für eventuelle Beschleunigungen für große Datensätze verantwortlich ist.
+	
+Compiler und Interpreter sind dabei an dieser Stelle nur vorübergehende Abschnitte, in welche die Anwendung sich inhaltlich unterteilen lässt. Eine genauere Verteilung der Komponenten und deren Verantwortlichkeitsbereiche erfolgt in \ref{cha:loesungskonzept}.
+	
+	
+	
+\section{JSONPath-Funktionsumfang}
+Um die in Sekundärziel S1 definierte vollständige Umsetzung der JSONPath-Funktionalitäten nach RFC-9535 zu ermöglichen, müssen zunächst alle im RFC aufgeführten Funktionalitäten betrachtet werden. Diese lassen sich übersichtlich anhand der jeweils zugehörigen Komponenten von JSONPath-Queries aufführen.
+	
+\subsection{Allgemein}
+	
+Eine JSONPath-Abfrage oder -Query ist ein Ausdruck, der aus einem gegebenen \ac{json}-Objekt eine Anzahl an Knoten auswählt und diese als Knotenliste ausgibt. Hierbei sind sowohl leere Listen als auch Listen mit nur einem Knoten mögliche Ergebnisse.
+	
+Eine JSONPath-Query setzt sich aus dem Wurzel-Identifier und beliebig vielen Segmenten zusammen. Für die Auswertung eines JSONPath-Ausdrucks kann der Ausdruck ausgehend vom Wurzel-Identifier segmentweise abgearbeitet werden, wobei jedes Segment als Rückgabewert eine Knotenliste liefert, die als Eingangswert des darauf folgenden Segments verwendet wird. 
+
+	
+\subsection{Wurzel}
+	
+Der Wurzel-Identifier ist der Ausgangspunkt für den im JSONPath-Ausdruck beschriebenen Pfad. JSONPath-Ausdrücke müssen immer an der Wurzel starten und können davon ausgehend durch die Baumstruktur des \ac{json}-Objekts navigieren.
+	
+\begin{lstlisting}
+	$
+\end{lstlisting}
+	
+Der allein stehende Wurzel-Identifier ist der kürzest mögliche JSONPath-Ausdruck und hat als Rückgabe eine Knotenliste mit dem Wurzelknoten des \ac{json}-Objekts.
+	
+	
+	
+\subsection{Segmente}
+	
+Segmente können entweder Kinder- oder Nachfahrensegmente sein. Kindersegmente betrachten die direkten Kindknoten des aktuellen \ac{json}-Wertes und geben null oder mehr dieser Kindknoten in der Rückgabeliste zurück. Nachfahrensemgente betrachten zusätzlich zu den Kindknoten des aktuellen Wertes auch alle weiteren Nachfahren der Knoten.
+	
+JSONPath-Ausdrücke können eine beliebige Kombination aus Kinder- und Nachfahrensegmenten beinhalten.
+	
+\begin{lstlisting}
+	$['a']
+	$..['a']
+\end{lstlisting}
+	
+Der erste der obigen Ausdrücke liefert einen Kindknoten des Wurzelknotens mit Namen \textit{a}, sofern dieser vorhanden ist. Der zweite Ausdruck liefert einen Nachfahren des Wurzelknotens mit Namen \textit{a} zurück, sofern mindestens einer hiervon vorhanden ist.
+	
+Segmente können in Klammernotation oder Punktnotation geschrieben werden und die Notation kann innerhalb eines JSONPath-Ausdrucks beliebig wechseln. Inhaltlich führt die Notation zu keiner Änderung an der Auswertung des jeweiligen Segments.
+	
+Die Punktnotation ist eine vereinfachte Schreibweise, die einen eingeschränkteren Funktionsumfang aufweist. So können Namen und Wildcards sowohl in Klammernotation als auch in Punktnotation verwendet werden, während Indizes, Array-Slices und Filter nur in der Klammernotation verwendet werden können.
+	
+\begin{lstlisting}
+	$['a']
+	$.a
+	$..['a']
+	$..a
+\end{lstlisting}
+	
+Die Punktnotation ist außerdem insofern eingeschränkt, dass jeweils nur ein Selektor pro Segment verwendet werden kann, während die Klammernotation einen oder mehr Selektoren pro Segment unterstützt.
+	
+\begin{lstlisting}
+	$['a', 'b', 'c']
+\end{lstlisting}
+	
+Das obige Beispiel zeigt ein Segment in Klammernotation, welches die Kindknoten mit Namen \textit{a}, \textit{b} und \textit{c} des Wurzelknotens auswählt, sofern diese vorhanden sind. Eine solche Mehrfachauswahl ist in der vereinfachten Punktnotation nicht möglich.
+	
+	
+	
+\subsection{Selektoren}
+	
+Selektoren werden innerhalb von Segmenten verwendet und wählen null oder mehr Kindknoten des Eingangswertes aus, die sie zurückgeben. Konkret werden für JSONPath-Ausdrücke fünf Selektoren definiert:
+	
+\begin{itemize}
+	\item Namensselektoren
+	\item der Wildcard-Selektor
+	\item Slice-Selektoren
+	\item Index-Selektoren
+	\item Filterselektoren
+\end{itemize}
+	
+	
+	
+\subsubsection{Namensselektoren}
+	
+Namensselektoren wählen maximal einen Kindknoten anhand seines Namens aus. 
+	
+\begin{lstlisting}
+	$['a']
+	$["a"]
+\end{lstlisting}
+	
+Für die Verwendung innerhalb von Segmenten in Klammernotation können Namensselektoren mit einfachen oder doppelten Anführungszeichen als Strings angegeben werden. Diese Strings können die meisten Unicode-Zeichen beinhalten und über Escape-Sequenzen auch Sonderzeichen und Hex-Zeichen abbilden. 
+	
+\begin{lstlisting}
+	$.a
+	$..a
+\end{lstlisting}
+	
+Segmente in Punktnotation können nur eine vereinfachte Form von Namensselektoren verwenden, welche einen eingeschränkten Zeichensatz ermöglicht. Konkret sind hier außer dem Alphabet in Groß- und Kleinschreibung, Unterstrichen und Zahlen keine der ersten 128 Unicode-Zeichen erlaubt und es werden keine Escape-Sequenzen unterstützt. Außerdem darf die vereinfachte Form Zahlen nur ab dem zweiten Zeichen beinhalten.
+	
+	
+	
+\subsubsection{Der Wildcard-Selektor}
+	
+\begin{lstlisting}
+	$[*]
+	$.*
+\end{lstlisting}
+	
+Der Wildcard-Selector wird durch ein Multiplikationszeichen dargestellt und wählt alle Kindknoten des aktuellen Knotens aus.
+	
+	
+	
+\subsubsection{Slice-Selektoren}
+	
+\begin{lstlisting}
+	$[1:5:2]
+\end{lstlisting}
+	
+Slice-Selektoren wählen eine Teilmenge der Elemente eines Arrays anhand eines Anfangs- und Endindexes sowie einer Schrittgröße aus. Alle dieser Werte haben Standardwerte und müssen dementsprechend nur angegeben werden, wenn der Slice von diesen abweichen soll. Ein Slice wählt keine Elemente aus, wenn der Eingangswert kein Array ist.
+	
+Der Anfangsindex stellt die einschließende Anfangsgrenze der Ergebnismenge dar, während der Endindex die ausschließende Endgrenze des Ergebnisses darstellt. Werden keine Werte angegeben, wird das komplette Eingangsarray betrachtet.
+	 
+Die Schrittgröße gibt an, wieviele der Elemente übernommen werden sollen und, über ihr Vorzeichen, in welcher Richtung das Array durchlaufen wird. Standardmäßig ist die Schrittgröße \textit{1}, sodass jedes Element in den definierten Grenzen in der Ergebnismenge landet. Eine Schrittgröße von \textit{2} würde zum Beispiel nur jedes zweite Element in die Ergebnismenge übernehmen und eine negative Schrittgröße von beispielsweise \textit{-1} würde das Array rückwärts entsprechend dem Betrag der Schrittgröße durchlaufen. 
+	 
+Im obigen Beispiel würde der Slice-Selektor von dem Element an Stelle 1 bis zu dem Element an Stelle 5 das Array mit einer Schrittgröße von 2 durchlaufen. Aus einem ausreichend langen Array würden also die Elemente an Stelle 1 und 3 ausgewählt. 
+	  
+	
+	
+\subsubsection{Index-Selektoren}
+	
+Index-Selektoren wählen aus einem Array einen Wert anhand seiner Position im Array aus. Es sind sowohl positive als auch negative Indizes erlaubt, wobei positive Indizes die Position im Array beginnend bei \textit{0} vom Anfang des Arrays zählen und negative Indizes beginnend bei \textit{-1} vom Ende des Arrays zählen.
+	
+Indizes, die außerhalb des Arrays liegen, führen zu einer leeren Rückgabeliste. Ein Index-Selektor wählt kein Element aus, wenn der Eingangswert kein Array ist.
+	
+\begin{lstlisting}
+	$[0]
+	$[-1]
+\end{lstlisting}
+	
+Die obigen Beispiele wählen jeweils das erste beziehungsweise das letzte Element aus, sofern die Wurzel des \ac{json}-Objekts ein Array aus mindestens einem Element ist. 
+	
+	
+	
+\subsubsection{Filterselektoren}
+	
+Ein Filterselektor definiert einen logischen Ausdruck, anhand dessen die Knoten auf der aktuellen Objektebene oder die Elemente eines Arrays gefiltert werden. Dieser logische Ausdruck, auch Filterausdruck genannt, wird für jeden betrachteten Knoten beziehungsweise jedes betrachtete Element evaluiert und entscheidet, ob dieses ausgewählt wird. 
+	
+Während der Auswertung kann der Ausdruck auf den aktuell betrachteten Knoten beziehungsweise das aktuell betrachtete Element als \textit{aktuellen Knoten} (\textit{current node}) zugreifen. Dieser aktuelle Knoten kann als Ausgangspunkt für eine oder mehrere JSONPath-Abfragen für Teilausdrücke des Filterausdrucks verwendet werden.
+	
+Jede JSONPath-Abfrage kann als Existenztest, zum Auslesen eines spezifischen Wertes oder als Funktionsargument verwendet werden.
+	
+\begin{lstlisting}
+	$[?@.a == 1]
+\end{lstlisting}
+	
+Das obige Beispiel zeigt einen Filterausdruck, welcher aus einem Vergleichsausdruck zwischen einem potenziellen Kindknoten des aktuellen Knotens und der Zahl \textit{1} besteht.
+	
+Filterausdrücke bestehen auf oberster Ebene zunächst aus logischen Ausdrücken, welche entsprechend der booleschen Algebra dis- und konjugiert, sowie negiert und geklammert werden können. Grundelement dieser Ausdrücke bilden Vergleichs- und Testausdrücke.
+	
+Ein Testausdruck überprüft entweder, ob ein Knoten durch eine eingebettete JSONPath-Abfrage gefunden wird, oder ob das Ergebnis eines Funktionsausdrucks entsprechend des Rückgabetyps der Funktion ein logisches \textit{wahr} oder eine nicht leere Knotenliste ist. Funktionen, die nicht entweder einen logischen Wert oder eine Knotenliste zurückgeben, dürfen nicht in Testausdrücken verwendet werden.
+	
+Vergleichsausdrücke ermöglichen Vergleiche zwischen primitiven Werten der Typen \textit{Zahl}, \textit{String}, \textit{true}, \textit{false} und \textit{null}. Diese können als Literale angegeben werden, das Ergebnis einer singulären Abfrage sein, oder als Ergebnis eines Funktionsaufrufs mit entsprechendem Rückgabewert übergeben werden.
+	
+\subsubsection{Funktionsausdrücke}
+	
+TODO
+	
+		
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+\subsection{Whitespaces}
+	
+JSONPath erlaubt an vielen Stellen beliebige Benutzung der Whitespaces Leerzeichen, Tabulator, Zeilenumbruch und Wagenrücklauf. Whitespaces tragen nicht zum Informationsgehalt der Ausdrücke bei und können nur zur übersichtlicheren Formatierung dieser verwendet werden. 
+	
+In den hier aufgeführten Beispielen werden zur Vereinfachung nur Leerzeichen betrachtet; nahezu jede Stelle, an der Leerzeichen in JSONPath-Queries erlaubt sind, erlaubt auch die anderen bereits aufgeführten Whitespace-Zeichen.
+	
+Beispielsweise erlaubt sind Whitespaces zwischen Segmenten und Selektoren innerhalb von geklammerten Segmenten. So sind zum Beispiel beide folgende Ausdrücke gleichermaßen erlaubt und inhaltlich identisch.
+	
+\begin{lstlisting}
+	$['a']['b',1].c
+	$ [ 'a' ] [ 'b' , 1 ] .c
+\end{lstlisting}
+		
+Da die Whitespaces in JSONPath explizit deklariert werden, sind neben den Stellen, an denen sie beliebig erlaubt sind, auch solche Stellen erkennbar, an denen kein Whitespace stehen darf. Eine RFC-konforme Implementierung muss also an diesen Stellen darauf achten, dass die Eingabe keine Whitespaces aufweist. 
+	
+Konkret sind die Stellen, an denen die Eingabe keine Whitespaces enthalten darf:
+	
+\begin{itemize}
+	\item vor dem Wurzel-Identifier und nach dem letzten Segment
+	\item zwischen Punkt- beziehungsweise Nachfahren-Operator und Selektoren
+	\item innerhalb von geschlossenen Definitionen, einschließlich Strings
+	\item zwischen Funktionsnamen und -klammern
+	\item innerhalb der Klammern von Singular Queries
+\end{itemize}
+	
+	
+	
+\subsubsection{Whitespaces vor und nach der JSONPath-Abfrage}
+	
+Whitespaces vor beziehungsweise nach der JSONPath-Abfrage können potenziell ignoriert werden, indem diese einfach nicht als Teil des Ausdrucks betrachtet und bei Bedarf vor der Verarbeitung entfernt werden. \\
+Diese Verwendung lässt sich auch mit der Definition im RFC vereinen, da dieser sich nur auf die Ausdrücke selbst und nicht deren eventuell sie umgebende Whitespaces eingeht. Es obliegt also einer gewissen freien Interpretation, ob diese Whitespaces explizit zu beachten sind oder nicht. 
+	
+	
+	
+\subsubsection{Whitespaces in geschlossenen Definitionen}
+	
+Unter geschlossenen Definitionen sind in diesem Kontext meist kleinere Definitionen zu verstehen, die einen atomaren Baustein des JSONPath-Ausdrucks beschreiben. Beispiele hierfür sind Strings, Zahlen, Namen und Operatoren, insbesondere solche, die aus mehreren Zeichen bestehen. Diese Bausteine dürfen nicht durch Whitespaces aufgetrennt werden, auch wenn es sich hierbei oft mehr um eine Stilkonvention und weniger um technische Notwendigkeit handelt.
+	
+Obgleich in Strings keine Whitespaces im allgemeinen Sinne erlaubt sind, können Leerzeichen in Strings weiterhin beliebig verwendet werden. Diese Leerzeichen sind jedoch von inhaltlicher Relevanz, so sind beispielsweise die folgenden beiden Ausdrücke nicht inhaltlich deckungsgleich und verweisen auf unterschiedlich benannte Kindknoten des Wurzelknotens.
+	
+\begin{lstlisting}
+	$['a']
+	$['a ']
+\end{lstlisting}
+	
+In Strings dürfen keine tatsächlichen Tabulatoren, Zeilenumbrüche und Wagenrückläufe verwendet werden. Um diese darzustellen, können die Escape-Sequenzen \textit{\textbackslash t}, "\textbackslash{}n" und "\textbackslash{}c" verwendet werden.
+	
+	
+	
+\subsubsection{Whitespaces in singulären Abfragen}
+	
+	
+Singuläre Abfragen ähneln in ihrer Definition stark allgemeinen JSONPath-Abfragen, jedoch dürfen sie anders als allgemeine Abfragen keine Whitespaces innerhalb ihrer geklammerten Segmente enthalten.
+Dies führt zu interessanten Randfällen, wie zum Beispiel:
+	
+\begin{lstlisting}
+	$[?@[ 'a' ]]
+	$[?@['a']==1]
+\end{lstlisting}
+	
+Im oberen Ausdruck ist die innere Unterabfrage \textit{\$[ 'a' ]} teil eines Testausdrucks, bei welchem auf die Existenz eines Kindknoten mit Namen a unter dem aktuellen Knoten geprüft wird. Dadurch handelt es sich bei der inneren Abfrage um eine relative Filterabfrage, innerhalb von welcher unter anderem die im Beispiel verwendeten Leerzeichen erlaubt sind. 
+	
+Der untere Ausdruck hingegen enthält einen Vergleichsausdruck und betrachtet den Wert von einem eventuellen Kindknoten des aktuellen Knotens mit Namen a und vergleicht diesen mit dem Wert 1. \textit{\$['a']} muss also eine singuläre Abfrage sein und erlaubt folglich keine Whitespaces innerhalb ihrer Klammern.
+	
+	
+	
+	
+\subsection{Normalisierte JSONPath-Ausdrücke}
+	
+\begin{lstlisting}
+	$.a
+	$['a']
+	$["a"]
+\end{lstlisting}
+	
+Die Knoten eines \ac{json}-Objekts können, wie im Beispiel oben illustriert, oft durch verschiedene JSONPath-Ausdrücke beschrieben werden. Um eine eindeutige Beschreibung für Knoten zu ermöglichen, mithilfe welcher zum Beispiel einfacher doppelte Einträge aus Knotenlisten gefiltert werden können, definiert RFC-9535 normalisierte JSONPath-Ausdrücke.
+	
+Normalisierte JSONPath-Ausdrücke sind JSONPath-Ausdrücke mit eingeschränkter Funktionalität, sodass diese, wenn sie auf das zugehörige \ac{json}-Objekt angewendet werden, genau den einen Knoten zurückliefern, auf den sie verweisen. So existiert für jeden Knoten in einem \ac{json}-Objekt genau ein normalisierter JSONPath-Ausdruck, der auf diesen Knoten verweist. 
+	
+Konkret verwenden normalisierte JSONPath-Ausdrücke nur Namen- und Indexsegmente in der Klammernotation und verwenden einfache Anführungszeichen für die Namen. Ein Segment in einem normalized Path kann außerdem nur jeweils einen Selektor beinhalten und es können nicht wie in allgemeinen Ausdrücken Whitespaces verwendet werden. 
+	
+Um eine eindeutige Schreibweise für Namensselektoren zu ermöglichen, wird außerdem definiert, welche Zeichen mit einer Escapesequenz darzustellen sind und welche Escapesequenz genau zu verwenden ist. Alle anderen Zeichen sind ohne Escapesequenz darzustellen.
+	
+Indizes können nicht wie in allgemeinen JSONPath-Ausdrücken negativ sein, um das betrachtete Array von hinten zu traversieren, sondern müssen mit positiven Werten die Position des Elements vom Anfang des Arrays aus betrachtet angeben.
+	
+Hex-Character-Escapes können in normalisierten Ausdrücken nur Zahlen und Kleinbuchstaben enthalten und nicht auch Großbuchstaben, wie dies in allgemeinen JSONPath-Ausdrücken der Fall ist.
+	
+	
+	
+	
+\subsection{Erlaubte Eingangszeichen}
+	
+Obgleich alle für JSONPath benötigten Sonderzeichen im Bereich der 128 \textit{7-Bit-ASCII}-Zeichen liegen, erlauben JSONPath-Ausdrücke in den meisten Stellen, die eine Form von Strings beinhalten, die Verwendung von \textit{Unicode}-Zeichen. Dies bedeutet, dass für die vollständige Erkennung und Verarbeitung aller möglichen JSONPath-Ausdrücke die Verarbeitung von Unicodezeichen notwendig ist.
+	
+Eine Reduktion des Zeichenraums auf die 7-Bit-ASCII-Zeichen schränkt die Verarbeitung von JSONPath-Ausdrücken jedoch nicht in ihrem Funktionsumfang ein, sondern reduziert lediglich den verfügbaren Namensraum für Strings innerhalb des Ausdrucks und damit indirekt auch innerhalb des zugrundeliegenden \ac{json}-Objekts. 
+	
+\subsubsection{Beachtung von Groß- und Kleinschreibung}
+	
+Für die Verarbeitung von JSONPath-Abfragen müssen Groß- und Kleinbuchstaben unterschieden werden können (die Grammatik ist \textit{case sensitive}). 
+	
+Wie die der Auswertung eines JSONPath-Ausdrucks zugrundeliegende \ac{json}-Struktur müssen auch Verweise darauf im Ausdruck - zum Beispiel in Form von Schlüsseln oder Strings - dieselbe Groß- beziehungsweise Kleinschreibung enthalten, um erfolgreich zugeordnet werden zu können. 
+	
+Darüber hinaus gibt es auch für die Überprüfung von JSONPath-Ausdrücken auf deren Wohlgeformtheit und Validität Stellen, an denen Groß- und Kleinschreibung relevant sind. Die Schlüsselwörter \textit{true}, \textit{false} und \textit{null} in logischen Ausdrücken müssen beispielsweise immer in Kleinbuchstaben geschrieben werden und Funktionsnamen dürfen keine Großbuchstaben enthalten.
+	
+Es gibt außerdem mehrere Stellen, in welchen die im RFC angegebene \ac{abnf} explizite Unicode-Codes für einzelne Buchstaben angibt, wodurch diese nur in der gegebenen Groß- beziehungsweise Kleinschreibung erlaubt sind. Dies betrifft beispielsweise die meisten Escape-Sequenzen, welche nur für die jeweiligen Kleinbuchstaben definiert sind, und normalisierte Hex-Character, in welchen nur Kleinbuchstaben erlaubt sind.
+	
+Die Angabe eines Exponenten bei Zahlen in logischen Ausdrücken beispielsweise erlaubt hingegen sowohl ein großes als auch ein kleines \textit{E}. 
+	
+	
+	
+\subsection{Fehlerbehandlung}
+	
+RFC-9535 definiert für JSONPath-Implementierungen, dass diese Fehlermeldungen für nicht wohlgeformte und valide JSONPath-Ausdrücke ausgeben müssen. Wohlgeformtheit und Validität eines JSONPath-Ausdrucks lassen sich unabhängig von den \ac{json}-Objekten auf die der Ausdruck angewendet werden soll bestimmen. 
+	
+Ein JSONPath-Ausdruck ist wohlgeformt, wenn er der im RFC definierten, in \ac{abnf} notierten Grammatik entspricht. Des Weiteren ist ein wohlgeformter JSONPath-Ausdruck valide, wenn die in ihm vorkommenden Integer-Werte, die für die Verarbeitung des Ausdrucks verwendet werden - Indizes und Schrittgrößen - im Bereich der in RFC-7493 definierten Integer-Werte liegen und im Ausdruck verwendete Funktionen wohl-typisiert sind. 
+	
+JSONPath-Implementierungen dürfen nicht ohne Angabe eines Fehlers fehlschlagen. Ein JSONPath-Ausdruck, der von einer anderen Struktur ausgeht als das \ac{json}-Objekt, auf das er angewendet wird, kann zu einer leeren Ergebnismenge führen, wobei es sich nicht um einen Fehler der Implementierung handeln muss.
+	
+	
+	
+	
+	
+	
+	
+\section{Aufbau des Compilers}
+	
+\subsection{Lexikalische Analyse}
+Welche Anforderungen? (UTF-8?)
+	
+\subsection{Syntaktische Analyse}
+	
+\subsection{Zwischencode}
+AST
+	
+	
+\section{Aufbau des Interpreters}
+	
+	
+	
+	
+	
+\section{Beschleunigung der Suche in YottaDB}
+	
+Um die Suche in großen Datensätzen in YottaDB beschleunigen zu können, müssen mögliche Lösungsansätze zunächst theoretisch betrachtet werden, um ihre prinzipielle Eignung zu überprüfen. Hierfür muss zunächst die Ausgangssituation genauer betrachtet werden.
+	
+Prinzipiell kann zwischen zwei Arten der Suche unterschieden werden, die durch die Auswertung eines JSONPath-Ausdrucks auftreten können: die Suche nach einem Eintrag mit exakter Übereinstimmung, wie dies beispielsweise bei Namensselektoren der Fall ist, und die Suche nach einer Übereinstimmung zwischen einem Teil eines Eintrags und einem regulären Ausdruck, wie dies zum Beispiel in den in JSONPath-Ausdrücken verwendbaren Funktionen \textit{search} und \textit{match} auftritt. 
+	
+Da die Suche nach exakten Übereinstimmungen der für JSONPath-Ausdrücke kritischere und häufiger auftretende Fall ist, werden im Weiteren Ansätze zu deren möglicher Beschleunigung auf großen Datensätzen genauer betrachtet. Die Beschleunigung der Suche nach Übereinstimmungen zwischen einem Teil des Eintrags und einem regulären Ausdruck wird hier nicht weiter verfolgt. 
+	
+	
+	
+\subsection{Laufzeit von Suchen nach exakter Übereinstimmung}
+	
+Eine einfache lineare Suche in einem Datensatz aus $n$ Einträgen hat eine Laufzeit von $\mathcal{O}(n)$, da jeder Eintrag nacheinander betrachtet wird und im schlimmsten Fall alle $n$ Einträge durchsucht werden müssen, bevor der gesuchte Eintrag gefunden wurde.
+	
+Da YottaDB sich selbst als \textit{die schnellste Schlüssel-Wert-Datenbank der Welt} bezeichnet, %quelle: https://yottadb.com
+und Schlüssel in YottaDB immer sortiert behandelt werden, kann davon ausgegangen werden, dass YottaDB binäre Suche oder einen Algorithmus mit ähnlicher Laufzeit verwendet und somit eine Laufzeit von $\mathcal{O}(\log(n))$ erreicht. Solange YottaDB als eine \textit{Black Box} behandelt wird, können ohne genauere Angaben oder konkrete Laufzeitmessungen keine präziseren Annahmen aufgestellt werden.
+	
+Konkret bedeutet das, dass ein Algorithmus, der die Suche in YottaDB beschleunigen soll, die Laufzeit von $\mathcal{O}(\log(n))$ weiter reduzieren muss, um für weitere Betrachtungen relevant zu sein. Im Allgemeinen kann ein Laufzeitgewinn durch erhöhten Speicherbedarf \textit{erkauft} werden, weshalb auch der Speicherbedarf eine relevante Größe für die Bewertung von Algorithmuskandidaten darstellt.
+	
+	
+	
+\subsection{Speicherkomplexität von Suchen nach exakter Übereinstimmung}
+	
+Für den Speicherbedarf ist neben der Anzahl $n$ der zu durchsuchenden Einträge auch die Länge $m$ dieser Einträge relevant. Da die Einträge unterschiedliche Längen aufweisen können, wird in dieser Betrachtung davon ausgegangen, dass $m$ die Maximallänge und die Länge aller Einträge darstellt. Einträge mit einer Länge, die kleiner als $m$ ist, können als effizienter betrachtet werden, da diese andernfalls einfach auf Länge $m$ aufgefüllt werden könnten.
+	
+Unter der Annahme, dass YottaDB die Einträge ohne nennenswerten Überhang abspeichern kann, ist die Speicherkomplexität in der Ausgangssituation $n*m$, da $n$ Einträge der Länge $m$ gespeichert werden müssen. Wie auch bei der Laufzeit können präzisere Angaben ohne konkrete Speichermessungen nicht getroffen werden, jedoch ist die tatsächliche genaue Speichergröße in der Ausgangssituation nicht relevant, da die Speicherkomplexität lediglich als zusätzliches Entscheidungskriterium für die Auswahl eines Algorithmus verwendet wird.
+	
+Die eventuelle Optimierung der Speicherkomplexität ist nicht das Ziel der Beschleunigung der Suche, jedoch sollte die Speicherkomplexität nicht komplett ausarten, da die Beschleunigung immer noch realistisch umsetzbar bleiben muss.
+	
+	
+	
+\subsection{Parametrisierung der Suchalgorithmen}
+	
+Sofern es sich für den jeweiligen Ansatz anbietet, kann dieser über geeignete Parametrisierung sinnvoll gesteuert und an die tatsächlichen Umstände des Datensatzes besser angepasst werden. Dadurch kann sich das Einsatzgebiet des jeweiligen Ansatzes über dessen grundlegende Annahmen hinaus etwas erweitern lassen. Hierbei muss für jeden Parameter dessen Auswirkungen auf Speicherkomplexität und Laufzeit abhängig ergründet werden und sofern möglich müssen Geltungsbereiche und sinnvolle Standardwerte für jeden Parameter definiert werden.
+	
+	
+	
+\subsection{Zusammenfassung}
+	
+Zusammenfassend lässt sich also als Auswahlkriterium für betrachtete Algorithmen zur Beschleunigung der Suche in YottaDB festhalten, dass diese eine Laufzeitverbesserung gegenüber von $\mathcal{O}(\log(n))$ erbringen müssen und gleichzeitig nicht unrealistisch weit mehr Speicherkomplexität als $n*m$ mit sich bringen dürfen.
+	
+Nach der Implementierung eines oder mehrerer geeigneter Algorithmen können durch praktische Messungen genauere Vergleiche zwischen den verschiedenen Ansätzen in diversen Szenarien gezogen werden. 
+	
+	
+	
+	
+	
+	
+\section{Anforderungsverzeichnis}
+
+Im Folgenden werden die in diesem Kapitel beschriebenen Aspekte in einer Anforderungsliste zusammengefasst. 
+	
+\begin{enumerate}
+	\item Beschleunigen der Suche in YottaDB
+	\begin{enumerate}
+		\item Auswahl geeigneter Algorithmen 
+		\item Theoretische Bewertung anhand Laufzeit und Speicherkomplexität
+		\item Parametrisierung der Algorithmen 
+		\begin{enumerate}
+			\item Bewertung der jeweiligen Einflüsse auf den Algorithmus
+			\item Definition von Geltungsbereichen und Standardwerten
+		\end{enumerate}
+		\item Implementation eines oder mehrerer Algorithmen
+		\item Vergleich verschiedener Ansätze anhand von Laufzeit- und Speichermessungen
+	\end{enumerate}
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+%---
+\chapter{Lösungskonzept}
+\label{cha:loesungskonzept}
+
+TODO: Einstieg
+
+\section{Gesamtsystem}
+Welche Anforderungen hat das Gesamtsystem zu erfüllen?
+
+in welche Komponenten kann es zerlegt werden?
+	
+	
+	
+\subsection{Systemarchitektur}
+	
+	
+\subsection{Kompetenzverteilung Scanner / Parser}
+	
+Die in RFC-9535 definierte \ac{abnf}-Grammatik bricht JSONPath-Ausdrücke von ihrer Gesamtheit ebenenweise in kleinere Komponenten herunter, bis diese zeichenweise anhand von Unicode-Zeichen präzise definiert werden können. Eine Umsetzung dieser Grammatik mittels eines Scanners für die lexikalische Analyse und eines Parsers für die syntaktische Analyse muss also eine sinnvolle Aufteilung der \ac{abnf}-Regeln definieren, anhand welcher die Schnittstelle von Scanner und Parser vollzogen wird.
+	
+Wohl die einfachsten Lösungen für die Regelverteilung sind die beiden Extreme, nämlich die vollständige Umsetzung der Regeln in entweder Scanner oder Parser. Beide Fälle haben den Vorteil, dass die Regeln aus dem RFC mit minimalen Umformungen verwendbar sind, wodurch die Umformung als potenzielle Fehlerquelle eingeschränkt werden kann. Außerdem ist der jeweils unterbelastete Teil des Systems so einfach wie möglich in der jeweiligen Implementierung - so muss zum Beispiel der Scanner nur alle erlaubten Eingangszeichen unverändert an den Parser weiterleiten, wenn alle Regeln im Parser auf Zeichenebene behandelt werden sollen. 
+	
+Im Falle der vollständigen Umsetzung der Regeln im Scanner, wie dies beispielsweise über reguläre Ausdrücke möglich wäre, können die Angaben des RFCs zu den erlaubten Zeichen sehr präzise realisiert werden. Jedoch kann dieser Scanner nur zum Annehmen beziehungsweise Ablehnen von Ausdrücken verwendet werden und erfordert intensivere Nachbearbeitung eines akzeptierten Ausdrucks, um diesen letztlich ausführen zu können.
+	
+Der gegenteilige Ansatz hierzu, die Regeln auf Zeichenebene im Parser zu realisieren, bietet prinzipiell auch die Möglichkeit, die einzelnen Zeichen sehr präzise zu verarbeiten und kann durch die Erzeugung eines Syntaxbaums die Weiterverarbeitung der Eingabe zusätzlich zur Verwerfung falscher Eingaben unterstützen. Dieser Ansatz führt jedoch zu sehr vielen Regeln im Parser, wodurch dieser erheblich fehleranfälliger und schwerer zu warten wird. Weiterhin erhöht sich die Komplexität des entstehenden Syntaxbaums, da auch dieser auf Zeichenebene aufgestellt wird, sodass mehr Aufwand in einem folgenden Vereinfachungsschritt des Syntaxbaums nötig wird.
+	
+Es gilt also, einen sinnvollen Kompromiss zu finden, der die jeweiligen Vorzüge von Scanner und Parser möglichst gut ausnützt und die jeweiligen Schwächen wo möglich kompensiert. Da die Weiterverarbeitung des Ausdrucks beziehungsweise seine Ausführung oder Auswertung ermöglicht werden soll, wird die Aufteilung aus einer \textit{Parser-First}-Perspektive angegangen. Hierbei werden alle für die weitere Verarbeitung relevanten Teile im Parser gehalten, damit diese in den entstehenden Syntaxbaum überführt werden können, während der Scanner alle in sich geschlossenen Bausteine nach Möglichkeit über reguläre Ausdrücke zusammenfasst und als atomare Einheit an den Parser übergibt.
+	
+Um diese Verteilung zu ermöglichen, muss in der Implementierung für jedes definierte Element betrachtet werden, ob es sich dabei um ein in sich geschlossenes oder atomares Element handelt, welches über reguläre Ausdrücke im Scanner bedient wird, oder ob es ein komplexes Element ist, dessen Zusammensetzung die Auswertung des Ausdrucks beeinflusst.
+		
+	
+	
+\subsection{Anpassungen der Grammatik}
+	
+Über Umformungen der im RFC definierten Ausgangsgrammatik kann diese an die Implementierungsumgebung angepasst und potenziell stellenweise vereinfacht werden, wodurch die weitere Verarbeitung einfacher und weniger rechenaufwändig gestaltet werden kann. Umformungen der Ausgangsgrammatik stellen jedoch auch eine große potenzielle Fehlerquelle dar, da für RFC-Konformität die von der umgeformten Grammatik akzeptierten und verworfenen Ausdrücke mit denen der Ausgangsgrammatik übereinstimmen müssen.
+	
+Um die Konformität zum RFC zu gewährleisten, muss also für jede Umformung überprüft werden, ob diese inhaltlich noch der Ausgangsgrammatik entspricht. Da diese Überprüfung je nach Komplexität der Umformung selbst an Komplexität gewinnen kann, werden Umformungen der Ausgangsgrammatik auf das Nötigste beschränkt. 
+	
+Daraus ergibt sich das Ziel der in dieser Arbeit verwendeten Umformungen, möglichst nah an der Ausgangsgrammatik zu bleiben und Änderungen systematisch und nachvollziehbar zu gestalten. Hierfür wird im Weiteren zunächst eine Systematik definiert, anhand welcher die Umformungen vollzogen werden können.
+	
+\subsubsection{Umformungssystematik}
+	
+Teile der Ausgangsgrammatik, welche ohne Umformungen übernommen werden können, werden ohne Umformungen übernommen. Umformungen werden auf das kleinstmögliche sinnvolle Maß beschränkt.
+	
+Grammatikumformungen, die derselben Ursache geschuldet werden beziehungsweise dasselbe Ziel verfolgen, müssen nach demselben Prinzip und mit einheitlicher Namensgebung realisiert werden. Wenn zum Beispiel zwei Regeln eine Stelle derselben Art beinhalten, die für den Parser umgeformt werden muss, so werden beide Stellen nach dem gleichen Schema umgeformt und wo nötig umbenannt. Dieses Schema muss gleichermaßen auch für weitere Stellen dieser Art verwendbar sein.
+	
+Abweichungen von einem verwendeten Umformungsschema müssen begründet werden. Wenn ein anderorts verwendetes Umformungsschema auf eine weitere Stelle anwendbar ist, muss dieses andernfalls angewendet werden. 
+	
+\subsubsection{Weitere Umformungsüberlegungen}
+	
+Im Sinne einer minimalumgeformten Grammatik werden große Teile verbatim aus RFC-9535 übernommen. Um dies erkennbar zu machen und gleichzeitig die Überprüfung beziehungsweise Wartung der Grammatik zu vereinfachen, werden die verwendeten Regeln anhand der Reihenfolge des RFCs notiert und enthalten Verweise auf den jeweiligen Abschnitt des RFC-Dokuments, welchem sie entnommen werden können. 
+	
+	
+	
+\subsection{Technologie-Auswahl}
+	
+\section{Controller}
+Das Hauptprogramm bzw Controller (C++) nimmt Nutzerinputs entgegen (Konsole) und steuert die Komponenten Scanner, Parser, usw an
+	
+\section{JSONPath-Grammatik in EBNF}
+	
+Um eine 
+	
+\section{flex-Scanner}
+Lexikalische Analyse
+	
+Whitespace Verarbeitung
+	
+\section{Bison-Parser}
+Syntaktische Analyse
+	
+nach welchem system umformungen? 
+wie validieren, ob noch RFC-konform?
+	
+\section{Bisonhack-AST}
+	
+\section{Beschleunigte Suche in YottaDB}
+	
+	
+	
+\subsection{Erweiterung der Schlüssel}
+	
+\begin{lstlisting}
+	["Hallo", "Welt", 1]
+\end{lstlisting}
+	
+Ein möglicher Ansatz, um die Suche nach exakt übereinstimmenden Schlüsseln in einem YottaDB-Datensatz zu beschleunigen ist es, die verwendeten Schlüssel in kleinere Schlüssel zu unterteilen. Dies kann dank der hierarchischen Strukturierung der Schlüssel in YottaDB ohne inhaltliche Änderungen am Datensatz umgesetzt werden, da YottaDB die ersten $n-1$ Elemente des Schlüssel-Wert-$n$-Tupels als Schlüssel betrachtet und der Anzahl der Schlüssel keine Grenze setzt.
+	
+Wenn also die aufrufende Stelle die Zerlegung der Schlüssel kennt, entsteht kein Unterschied zwischen dem obigen Beispiel mit Schlüsseln \textit{Hallo} und \textit{Welt} und folgendem Tupel:
+	
+\begin{lstlisting}
+	["H", "a", "l", "l", "o", "W", "e", "l", "t", 1]
+\end{lstlisting}
+	
+Darüber hinaus muss nicht die komplette Schlüsselsequenz zerlegt werden, da alle Schlüssel im Schlüsselraum des ihnen vorgestellten Schlüssels funktionieren. Im Ausgangsbeispiel ist der Schlüssel \textit{Welt} ein Schlüssel im Schlüsselraum von \textit{Hallo}, der auf den Wert 1 verweist. Wenn der Schlüssel \textit{Hallo} in einzelne Schlüssel der Länge 1 zerlegt wird, verweist der Schlüssel \textit{Welt} nach wie vor auf den Wert 1, bezieht sich aber nun auf den Schlüsselraum von \textit{o}. 
+	
+Auf dieselbe Weise müssen einzelne Schlüssel nicht vollständig unterteilt werden. Wenn beispielsweise ein Schlüsselraum mit zahlreichen Schlüsseln wie \textit{Hallo Welt}, \textit{Hallo Peter}, und so weiter vorhanden ist, reicht es die Schlüssel in \textit{Hallo} und den restlichen Schlüssel zu unterteilen. 
+	
+Da die Zerlegung der Schlüssel nach Bedarf entschieden werden kann, muss zunächst geklärt werden, ab wann sich die Zerlegung einer Schlüsselebene lohnt. Um die Komplexität der Betrachtungen etwas zu reduzieren, wird vorerst davon ausgegangen, dass die Schlüsselzerlegung auf einer Ebene ausgeführt wird und diese vollständig in einzelne Zeichen zerlegt wird. Wenn die Zerlegung einer Schlüsselebene einen Laufzeitvorteil bringt, dann lässt sich derselbe Vorteil auch auf anderen Ebenen erzielen, wenn diese ausreichend viele Schlüssel beinhalten.
+	
+\subsubsection{Vollständige Zerlegung einer Schlüsselebene}
+	
+Um die Auswirkungen der Zerlegung einer Schlüsselebene auf Laufzeit und Speicherkomplexität bestimmen zu können, werden zunächst einige Variablen definiert:
+\begin{itemize}
+	\item die Anzahl \textit{n} der Schlüssel auf der betrachteten Ebene,
+	\item die Länge \textit{m} dieser Schlüssel und
+	\item die Größe \textit{c} des für die Schlüssel verwendeten Zeichensatzes.
+\end{itemize}
+	
+Im Ausgangsdatensatz müssen bei linearer Suche im schlimmsten Fall alle n Schlüssel der Ebene durchsucht werden. Wenn davon ausgegangen wird, dass die Laufzeit für die Betrachtung eines Schlüssels konstant ist, also weder von der Schlüssellänge m noch der Größe des verwendeten Zeichensatzes c nennenswert beeinflusst wird, ergibt sich daraus eine lineare Laufzeit von \textit{n}. 
+	
+Da YottaDB sortierte Datensätze verwendet, kann wie in \ref{chapt_problemanalyse} besprochen wurde von einer verbesserten Laufzeit von \textit{log(n)} ausgegangen werden, welche beispielsweise über binäre Suche erreicht werden kann. Da diese Verbesserung auch auf den geänderten Datensatz zutrifft, wird sie jedoch erst später betrachtet und zunächst von einer Laufzeit von \textit{n} ausgegangen.
+	
+Im geänderten Datensatz müssen m-1 zusätzliche Ebenen durchsucht werden, welche im schlimmsten Fall jeweils c Schlüssel enthalten. Dementsprechend müssen bei linearer Suche im schlimmsten Fall m*c Schlüssel durchsucht werden. Da davon ausgegangen wird, dass der Vergleich eines einzelnen Schlüssels mit dem Zielschlüssel in konstanter Zeit erfolgen kann, bringt die Schlüssellänge von 1 keine Vorteile, jedoch ändert sich dies sobald diese Annahme wegfallen sollte natürlich entsprechend.
+	
+Zusammenfassend lässt sich also festhalten, dass der geänderte Datensatz in der Laufzeit der Suche unabhängig von der Anzahl n der Schlüssel im Ausgangsdatensatz ist. Folglich gilt für jedes n, das größer als m*c ist, dass die Zerlegung der Schlüssel einen Vorteil für die Laufzeit darstellt. 
+	
+
+\(m*n\)
+\(m^n\)
+
+
+	
+Der Speicherbedarf im Ausgangsdatensatz für n Schlüssel der Länge m lässt sich als n*m zusammenfassen. Wenn davon ausgegangen wird, dass YottaDB für jeden Schlüssel denselben Speicheroverhead \textit{o} benötigt, ist der Overhead für n Schlüssel n*o. Daraus ergibt sich ein Gesamtspeicherbedarf von n*m + n*o = n*(m+o).
+	
+Der geänderte Datensatz benötigt m Schlüsselebenen mit einem Verzweigungsgrad von maximal c. Daraus ergibt sich ein Speicherbedarf ohne Overhead von c hoch m, auf welchen ein Overhead von (c hoch m)*o addiert wird. 
+	
+	
+Speicher muss geprüft werden!!!
+	
+	
+	
+Um auf allen Ebenen den maximalen Verzweigungsgrad zu erreichen, muss die Schlüsselmenge im Ausgangsdatensatz den verfügbaren Namensraum von Schlüsseln der Länge m im Zeichensatz der Größe c vollständig ausschöpfen, in welchem Falle die Zahl der Schlüssel im Ausgangsdatensatz c m ist. Daraus ergibt sich ein Speicherbedarf für den Ausgangsdatensatz von (c hoch m)*(m+o) oder m*(choch m) + o*(c hoch m). Der Overhead o*(c hoch m) ist damit gleich dem Overhead des geänderten Datensatzes, 
+	
+	
+	
+Wenn davon ausgegangen wird, dass der Speicheroverhead von YottaDB null ist, ist der Speicherbedarf im Ausgangsdatensatz für n Schlüssel der Länge m n*m. Im geänderten Datensatz müssen auf m Ebenen jeweils bis zu c Schlüssel der Länge 1 gespeichert werden, woraus sich 
+	
+	
+abcde
+abcdf
+abcdg
+bcdef
+	
+	
+	%Überlegungen!
+	%evtl erweitertes keying?
+	%also wenn keys "hallo" und "welt" sind, dann zwischenebene einfügen mit keys "h" und "w" -> 26 einträge max durchsuchen, nicht alle. wiederholen, wenn "h" + "allo" / "elmut" etc mehr als x einträge sind -> n schlüssel der länge m können in 26*m suchen gefunden werden statt n (was bei millionen von n schnell noice werden kann)
+	%-> aber: speicher steigt von n schlüsseln mit länge m zu 26^m schlüssel der länge 1, also teuer teuer.. balance finden könnte helfen
+	
+	%abwägung: 26 einträge alphabetisch -> direktzugriff möglich (zb a=1, b=2, etc) -> keine suche nötig
+	
+	%alternative ansätze? (google scholar "effiziente suche" zb)
+
+
+
+
+
+
+
+
+
+
+
+%---
+\chapter{Implementierung}
+\label{cha:implementierung}
+
+\section{Gesamtsystem}
+	
+	\section{Controller}
+	wie umgesetzt
+	
+	\section{flex-Scanner}
+	welche tokens
+	welche regexe
+	welche zustände (graph)
+	
+		
+	\section{Bison-Parser}
+	Syntaktische Analyse
+	
+	\section{Bisonhack-AST}
+
+
+
+
+
+
+
+
+
+%---
+\chapter{Evaluierung}
+
+\section{Erreichte Ergebnisse anhand Anforderungsliste}
+	\label{sect_erreichte_ergebnisse_anforderung}
+	
+	insbesondere
+	\section{RFC-Konformität}
+	\label{sect_rfc_konformitaet}
+	
+	welche probleme sind bekannt?
+	
+	\section{Automatisierte Tests}
+	\label{sect_automatisierte_tests}
+	
+	was it abgedeckt, was ist ausbaufähig?
+	
+	
+	\section{Performance}
+	\label{sect_performance}
+	
+	was funktioniert?
+	was sind erwartete problemstellen? (doppeltes parsing!)
+
+
+
+
+
+
+
+
+%---
+\chapter{Zusammenfassung und Ausblick}
+\label{cha:zusammenfassung}
+
+\section{Erreichte Ergebnisse}
+\label{sec:ergebnisse}
+
+Die Zusammenfassung dient dazu, die wesentlichen Ergebnisse des
+Praktikums und vor allem die entwickelte Problemlösung und den
+erreichten Fortschritt darzustellen. (Sie haben Ihr Ziel erreicht und
+dies nachgewiesen).
+
+\section{Ausblick}
+\label{sec:ausblick}
+
+Beschleunigung regex suche!
+	
+	letzter satz ca:
+	man hat jetzt den syntaxbaum und kann mit diesem im nächsten schritt eine spezifische datenbank ansprechen
+
+%-----------------------------------------------------------------------
+\appendix
+
+%---
+\printbibliography[heading=bibintoc]
+
+%---
+\chapter{Anhang A}
+
+
+
+%---
+\chapter{Anhang B}
+
+
+\end{document}
