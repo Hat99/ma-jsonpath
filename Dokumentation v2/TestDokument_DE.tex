@@ -876,7 +876,7 @@ Wenn also die aufrufende Stelle die Zerlegung der Schlüssel kennt, entsteht kei
 	["H", "a", "l", "l", "o", "W", "e", "l", "t", 1]
 \end{lstlisting}
 	
-Darüber hinaus muss nicht die komplette Schlüsselsequenz zerlegt werden, da alle Schlüssel im Schlüsselraum des ihnen vorgestellten Schlüssels funktionieren. Im Ausgangsbeispiel ist der Schlüssel \textit{Welt} ein Schlüssel im Schlüsselraum von \textit{Hallo}, der auf den Wert 1 verweist. Wenn der Schlüssel \textit{Hallo} in einzelne Schlüssel der Länge 1 zerlegt wird, verweist der Schlüssel \textit{Welt} nach wie vor auf den Wert 1, bezieht sich aber nun auf den Schlüsselraum von \textit{o}. 
+Darüber hinaus muss nicht die komplette Schlüsselsequenz zerlegt werden, da alle Schlüssel im Schlüsselraum des ihnen vorgestellten Schlüssels funktionieren. Im Ausgangsbeispiel ist der Schlüssel \textit{Welt} ein Schlüssel im Schlüsselraum von \textit{Hallo}, der auf den Wert $1$ verweist. Wenn der Schlüssel \textit{Hallo} in einzelne Schlüssel der Länge $1$ zerlegt wird, verweist der Schlüssel \textit{Welt} nach wie vor auf den Wert $1$, bezieht sich aber nun auf den Schlüsselraum von \textit{o}. 
 	
 Auf dieselbe Weise müssen einzelne Schlüssel nicht vollständig unterteilt werden. Wenn beispielsweise ein Schlüsselraum mit zahlreichen Schlüsseln wie \textit{Hallo Welt}, \textit{Hallo Peter}, und so weiter vorhanden ist, reicht es die Schlüssel in \textit{Hallo} und den restlichen Schlüssel zu unterteilen. 
 	
@@ -886,53 +886,92 @@ Da die Zerlegung der Schlüssel nach Bedarf entschieden werden kann, muss zunäc
 	
 Um die Auswirkungen der Zerlegung einer Schlüsselebene auf Laufzeit und Speicherkomplexität bestimmen zu können, werden zunächst einige Variablen definiert:
 \begin{itemize}
-	\item die Anzahl \textit{n} der Schlüssel auf der betrachteten Ebene,
-	\item die Länge \textit{m} dieser Schlüssel und
-	\item die Größe \textit{c} des für die Schlüssel verwendeten Zeichensatzes.
+	\item die Anzahl $n$ der Schlüssel auf der betrachteten Ebene,
+	\item die Länge $m$ dieser Schlüssel und
+	\item die Größe $c$ des für die Schlüssel verwendeten Zeichensatzes.
 \end{itemize}
 	
-Im Ausgangsdatensatz müssen bei linearer Suche im schlimmsten Fall alle n Schlüssel der Ebene durchsucht werden. Wenn davon ausgegangen wird, dass die Laufzeit für die Betrachtung eines Schlüssels konstant ist, also weder von der Schlüssellänge m noch der Größe des verwendeten Zeichensatzes c nennenswert beeinflusst wird, ergibt sich daraus eine lineare Laufzeit von \textit{n}. 
+Im Ausgangsdatensatz müssen bei linearer Suche im schlimmsten Fall alle $n$ Schlüssel der Ebene durchsucht werden. Wenn davon ausgegangen wird, dass die Laufzeit für die Betrachtung eines Schlüssels konstant ist, also weder von der Schlüssellänge $m$ noch der Größe des verwendeten Zeichensatzes $c$ nennenswert beeinflusst wird, ergibt sich daraus eine lineare Laufzeit von $\mathcal{O}(n)$. 
 	
-Da YottaDB sortierte Datensätze verwendet, kann wie in \ref{chapt_problemanalyse} besprochen wurde von einer verbesserten Laufzeit von \textit{log(n)} ausgegangen werden, welche beispielsweise über binäre Suche erreicht werden kann. Da diese Verbesserung auch auf den geänderten Datensatz zutrifft, wird sie jedoch erst später betrachtet und zunächst von einer Laufzeit von \textit{n} ausgegangen.
+Da YottaDB sortierte Datensätze verwendet, kann wie in \ref{chap:problemanalyse} besprochen wurde von einer verbesserten Laufzeit von $\mathcal{O}(\log(n))$ ausgegangen werden, welche beispielsweise über binäre Suche erreicht werden kann. Da diese Verbesserung auch auf den geänderten Datensatz zutrifft, wird sie jedoch erst später betrachtet und zunächst von einer Laufzeit von $\mathcal{O}(n)$ ausgegangen.
 	
-Im geänderten Datensatz müssen m-1 zusätzliche Ebenen durchsucht werden, welche im schlimmsten Fall jeweils c Schlüssel enthalten. Dementsprechend müssen bei linearer Suche im schlimmsten Fall m*c Schlüssel durchsucht werden. Da davon ausgegangen wird, dass der Vergleich eines einzelnen Schlüssels mit dem Zielschlüssel in konstanter Zeit erfolgen kann, bringt die Schlüssellänge von 1 keine Vorteile, jedoch ändert sich dies sobald diese Annahme wegfallen sollte natürlich entsprechend.
+Im geänderten Datensatz müssen $m-1$ zusätzliche Ebenen durchsucht werden, welche im schlimmsten Fall jeweils $c$ zu durchsuchende Schlüssel enthalten. Dementsprechend müssen bei linearer Suche im schlimmsten Fall $m*c$ Schlüssel durchsucht werden. Da davon ausgegangen wird, dass der Vergleich eines einzelnen Schlüssels mit dem Zielschlüssel in konstanter Zeit erfolgen kann, bringt die Schlüssellänge von $1$ keine Vorteile, jedoch ändert sich dies sobald diese Annahme wegfallen sollte natürlich entsprechend.
 	
-Zusammenfassend lässt sich also festhalten, dass der geänderte Datensatz in der Laufzeit der Suche unabhängig von der Anzahl n der Schlüssel im Ausgangsdatensatz ist. Folglich gilt für jedes n, das größer als m*c ist, dass die Zerlegung der Schlüssel einen Vorteil für die Laufzeit darstellt. 
+Zusammenfassend lässt sich also festhalten, dass der geänderte Datensatz in der Laufzeit der Suche unabhängig von der Anzahl n der Schlüssel im Ausgangsdatensatz ist. Folglich gilt für jedes $n$, das größer als $m*c$ ist, dass die Zerlegung der Schlüssel einen Vorteil für die Laufzeit darstellt. 
 	
 
-\(m*n\)
-\(m^n\)
+	
+Der Speicherbedarf im Ausgangsdatensatz für $n$ Schlüssel der Länge $m$ lässt sich als $n*m$ zusammenfassen. Wenn davon ausgegangen wird, dass YottaDB für jeden Schlüssel denselben Speicheroverhead $o$ benötigt, ist der Overhead für n Schlüssel $n*o$. Daraus ergibt sich ein Gesamtspeicherbedarf von $n*m + n*o$.
+
+Da für den geänderten Datensatz aus jedem Zeichen in einem Schlüssel im Ausgangsdatensatz ein Knoten mit diesem Zeichen geformt wird, liegt der Speicherbedarf ohne Overhead ebenfalls bei $n*m$. Wenn einzelne dieser Knoten zusammenlaufen, wie dies beispielsweise der Fall bei mehreren Schlüsseln mit demselben Anfangsbuchstaben ist, kann sich der Speicherbedarf weiter reduzieren.
+
+Der Overhead im geänderten Datensatz steigt jedoch mit der Anzahl der einzelnen Knoten zu $n*m*o$. Insgesamt ergibt sich also ein Speicherbedarf für den geänderten Datensatz von $n*m + n*m*o$. 
+
+Die tatsächliche erwartete Auswirkung kann an einem Rechenbeispiel nachvollzogen werden:
+
+\begin{lstlisting}
+	n = 5.000			// 5.000 zu durchsuchende Schlüssel
+	m = 16				// Schlüssel der Länge 16
+	c = 127				// 7-Bit-ASCII-Zeichensatz
+	o = 2					// Overhead der Größe 2
+	
+	Erwartete Laufzeit im Ausgangsdatensatz:
+	n = 5.000
+	
+	Erwartete Laufzeit im geänderten Datensatz:
+	m*c = 2.032
+	
+	
+	Erwarteter Speicherbedarf im Ausgangsdatensatz:
+	n*m + n*o = 90.000
+	
+	Erwarteter Speicherbedarf im geänderten Datensatz:
+	n*m + n*m*o = 240.000
+\end{lstlisting}
+	
+
+\subsubsection{Anpassung an verbesserte Laufzeit}
+
+Wie in Kapitel \ref{cha:problemanalyse} besprochen, ist die Annahme, dass YottaDB eine lineare Suche einsetzt und dadurch eine Laufzeit von $\mathcal{O}(n)$ erreicht, nicht unbedingt korrekt. Es muss daher die Auswirkung auf die Laufzeit betrachtet werden, wenn beispielsweise über binäre Suche die Dauer einer einzelnen Suche auf einer Ebene auf $\mathcal{O}(\log(n))$ reduziert wird. 
+
+Im Ausgangsdatensatz ändert sich die Zahl der betrachteten Einträge von $n$ zu $\log(n)$.
+
+Der geänderte Datensatz muss nach wie vor $m$ Ebenen durchsuchen, kann jedoch die einzelnen Ebenen ebenso von $c$ maximal betrachteten Einträgen auf $\log(c)$ Einträge reduzieren. Daraus ergibt sich eine Gesamtlaufzeit im geänderten Datensatz von $m*\log(c)$.
+
+Dementsprechend lohnt sich der Einsatz der Schlüsselzerlegung nur, wenn $\log(n)$ größer ist als $m*\log(c)$. Unter der Annahme, dass binäre Suche zum Einsatz kommt, und der verwendete Logarithmus dementsprechend $\log_2$ ist, reduziert sich im vorigen Rechenbeispiel die Laufzeit im Ausgangsdatensatz auf circa $12$, während sich die Laufzeit beim geänderten Datensatz nur auf circa $112$ reduziert. Bei $n=5.000$ betrachteten Schlüsseln lohnt sich dementsprechend der Aufwand, den Datensatz umzuformen, nicht mehr.
+
+Um zu bestimmen, ab wann sich die Schlüsselzerlegung unter Anbetracht der verbesserten Suchlaufzeit lohnt, kann folgende Gleichung betrachtet werden:
+
+\begin{center}
+	$\log_2(n) > m*\log_2(c)$
+	
+	$n > 2^{m*\log_2(c)}$
+\end{center}
+
+Beim vorigen Rechenbeispiel mit Schlüsseln der Länge $16$ und einem Zeichensatz der Größe $127$ ergibt sich daraus circa $n > 5,2*10^{33}$, also mit anderen Worten müssten mehr als $5,2$ \textit{Quintilliarden} Schlüssel im Ausgangsdatensatz zu durchsuchen sein. Die vollständige Zerlegung einer Schlüsselebene bringt also keinen realistischen Mehrwert gegenüber der wahrscheinlich von YottaDB eingesetzten binären Suche.
+
+Um die Schlüsselzerlegung möglicherweise konkurrenzfähig zu machen müssten idealerweise sowohl die Schlüssellänge $m$ als auch die Größe $c$ des verwendeten Zeichensatzes verkleinert werden. Beide dieser Ansätze werden im Folgenden weiter untersucht.
+
+\subsubsection{Reduktion des Zeichensatzes}
+
+Eine Reduktion des verwendeten Zeichensatzes ist problemlos möglich, wenn der ursprüngliche Zeichensatz nicht vollständig ausgeschöpft wird. Wenn zum Beispiel der Ausgangsdatensatz von einem 7-Bit-ASCII-Zeichensatz ausgeht, aber Schlüssel tatsächlich nur aus Groß- und Kleinbuchstaben bestehen, würde die Einschränkung des Zeichensatzes auf diese Buchstaben keine Änderungen an den bestehenden Schlüsseln erfordern, könnte aber bereits nennenswerte Einsparungen in der Laufzeit bewirken.
+
+Wenn der Datensatz zukünftig erweiterbar bleiben soll, müssten neue Einträge entweder auch zur Verwendung des reduzierten Zeichensatzes gezwungen werden, oder die Reduktion müsste um die neuen Zeichen zurückgenommen werden und die Laufzeit entsprechend verschlechtert werden. 
+
+Eine Reduktion des Zeichensatzes jenseits der tatsächlich verwendeten Zeichen ist möglich und kann weitere Ersparnisse bringen. Beispielsweise könnten Schlüssel, die nur aus Buchstaben bestehen, auf entweder nur Groß- oder nur Kleinbuchstaben reduziert werden. Jedoch können hierbei Konflikte zwischen Schlüsseln entstehen, wenn die Schlüssel bewusst abhängig von Groß- und Kleinschreibung gewählt wurden. Im Falle einer Kollision müssten die kollidierenden Schlüssel durch zusätzliche Zeichen unterscheidbar gemacht werden, wodurch sich die Schlüssellänge erhöhen würde.
+
+Da jedoch die Schlüssellänge einen deutlich größeren Einfluss auf die Gesamtlaufzeit als der verwendete Zeichensatz hat, empfiehlt sich keine bewusste Verlängerung der Schlüssel. Im Umkehrschluss wäre es sogar eine mögliche Überlegung, durch bewusste Vergrößerung des Zeichensatzes die Schlüssellängen zu reduzieren. Die Lesbarkeit der Schlüssel für Menschen würde dabei verschlechtert werden, jedoch könnten erhebliche Laufzeitverbesserungen erzielt werden.
 
 
-	
-Der Speicherbedarf im Ausgangsdatensatz für n Schlüssel der Länge m lässt sich als n*m zusammenfassen. Wenn davon ausgegangen wird, dass YottaDB für jeden Schlüssel denselben Speicheroverhead \textit{o} benötigt, ist der Overhead für n Schlüssel n*o. Daraus ergibt sich ein Gesamtspeicherbedarf von n*m + n*o = n*(m+o).
-	
-Der geänderte Datensatz benötigt m Schlüsselebenen mit einem Verzweigungsgrad von maximal c. Daraus ergibt sich ein Speicherbedarf ohne Overhead von c hoch m, auf welchen ein Overhead von (c hoch m)*o addiert wird. 
-	
-	
-Speicher muss geprüft werden!!!
-	
-	
-	
-Um auf allen Ebenen den maximalen Verzweigungsgrad zu erreichen, muss die Schlüsselmenge im Ausgangsdatensatz den verfügbaren Namensraum von Schlüsseln der Länge m im Zeichensatz der Größe c vollständig ausschöpfen, in welchem Falle die Zahl der Schlüssel im Ausgangsdatensatz c m ist. Daraus ergibt sich ein Speicherbedarf für den Ausgangsdatensatz von (c hoch m)*(m+o) oder m*(choch m) + o*(c hoch m). Der Overhead o*(c hoch m) ist damit gleich dem Overhead des geänderten Datensatzes, 
+
+\subsubsection{Vergrößern des Zeichensatzes}
+
+
+Ansätze: m reduzieren -> nicht volle schlüssel cutten
+c reduzieren -> schlüsselzeichensatz verringern (kann mehrdeutigkeiten bringen)
 	
 	
 	
-Wenn davon ausgegangen wird, dass der Speicheroverhead von YottaDB null ist, ist der Speicherbedarf im Ausgangsdatensatz für n Schlüssel der Länge m n*m. Im geänderten Datensatz müssen auf m Ebenen jeweils bis zu c Schlüssel der Länge 1 gespeichert werden, woraus sich 
-	
-	
-abcde
-abcdf
-abcdg
-bcdef
-	
-	
-	%Überlegungen!
-	%evtl erweitertes keying?
-	%also wenn keys "hallo" und "welt" sind, dann zwischenebene einfügen mit keys "h" und "w" -> 26 einträge max durchsuchen, nicht alle. wiederholen, wenn "h" + "allo" / "elmut" etc mehr als x einträge sind -> n schlüssel der länge m können in 26*m suchen gefunden werden statt n (was bei millionen von n schnell noice werden kann)
-	%-> aber: speicher steigt von n schlüsseln mit länge m zu 26^m schlüssel der länge 1, also teuer teuer.. balance finden könnte helfen
-	
-	%abwägung: 26 einträge alphabetisch -> direktzugriff möglich (zb a=1, b=2, etc) -> keine suche nötig
 	
 	%alternative ansätze? (google scholar "effiziente suche" zb)
 
