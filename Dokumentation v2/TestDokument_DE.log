@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  22 MAY 2026 14:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  22 MAY 2026 15:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2003,49 +2003,53 @@ chapter 4.
 
 [24]
 
-LaTeX Warning: Reference `chapt_problemanalyse' on page 25 undefined on input l
-ine 896.
+LaTeX Warning: Reference `chap:problemanalyse' on page 25 undefined on input li
+ne 896.
 
 
 
 [25]
 
 [26]
+
+[27{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+
+[28]
 chapter 5.
-
-
-[27
-
-
-]
-chapter 6.
-
-
-[28
-
-
-]
-chapter 7.
-
-LaTeX Warning: Empty bibliography on input line 1032.
-
 
 
 [29
 
 
 ]
-chapter A.
+chapter 6.
 
 
 [30
 
 
 ]
-chapter B.
+chapter 7.
+
+LaTeX Warning: Empty bibliography on input line 1071.
+
 
 
 [31
+
+
+]
+chapter A.
+
+
+[32
+
+
+]
+chapter B.
+
+
+[33
 
 
 ] (./TestDokument_DE.aux)
@@ -2057,6 +2061,9 @@ L3 programming layer <2020/03/25>
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `TestDokument_DE.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package logreq Info: Writing requests to 'TestDokument_DE.run.xml'.
@@ -2064,26 +2071,29 @@ Package logreq Info: Writing requests to 'TestDokument_DE.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45536 strings out of 473190
- 922850 string characters out of 5715800
- 1934098 words of memory out of 5000000
- 67537 multiletter control sequences out of 15000+600000
- 648308 words of font info for 317 fonts, out of 8000000 for 9000
+ 45639 strings out of 473190
+ 924083 string characters out of 5715800
+ 1976098 words of memory out of 5000000
+ 67607 multiletter control sequences out of 15000+600000
+ 648654 words of font info for 321 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  122i,21n,121p,10934b,3045s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/loc
-al/texlive/2025/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive
-/2025/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb></usr/local/texlive/2025/t
-exmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb></usr/local/texlive/2025/texmf-di
-st/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts
-/type1/urw/ncntrsbk/uncb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/
-urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/ncn
-trsbk/uncr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/ncntrsbk/u
-ncri8a.pfb>
-Output written on TestDokument_DE.pdf (39 pages, 772998 bytes).
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/lo
+cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive
+/2025/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2025/texmf-
+dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/t
+ype1/public/lm/lmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publi
+c/lm/lmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/avantgar/uag
+d8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/urw/ncntrsbk/uncb8a.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2
+025/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/tex
+mf-dist/fonts/type1/urw/ncntrsbk/uncri8a.pfb>
+Output written on TestDokument_DE.pdf (41 pages, 829162 bytes).
 PDF statistics:
- 769 PDF objects out of 1000 (max. 8388607)
- 701 compressed objects within 8 object streams
- 202 named destinations out of 1000 (max. 500000)
+ 830 PDF objects out of 1000 (max. 8388607)
+ 752 compressed objects within 8 object streams
+ 228 named destinations out of 1000 (max. 500000)
  84546 words of extra memory for PDF output out of 89155 (max. 10000000)
 

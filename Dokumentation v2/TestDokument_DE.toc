@@ -67,20 +67,23 @@
 \contentsline {section}{\numberline {4.7}Beschleunigte Suche in YottaDB}{24}{section.4.7}%
 \contentsline {subsection}{\numberline {4.7.1}Erweiterung der Schlüssel}{24}{subsection.4.7.1}%
 \contentsline {subsubsection}{\nonumberline Vollständige Zerlegung einer Schlüsselebene}{25}{subsubsection*.35}%
-\contentsline {chapter}{\numberline {5}Implementierung}{27}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Gesamtsystem}{27}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Controller}{27}{section.5.2}%
-\contentsline {section}{\numberline {5.3}flex-Scanner}{27}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Bison-Parser}{27}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Bisonhack-AST}{27}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Evaluierung}{28}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Erreichte Ergebnisse anhand Anforderungsliste}{28}{section.6.1}%
-\contentsline {section}{\numberline {6.2}RFC-Konformität}{28}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Automatisierte Tests}{28}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Performance}{28}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{29}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Erreichte Ergebnisse}{29}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Ausblick}{29}{section.7.2}%
-\contentsline {chapter}{\numberline {A}Anhang A}{30}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Anhang B}{31}{appendix.B}%
+\contentsline {subsubsection}{\nonumberline Anpassung an verbesserte Laufzeit}{27}{subsubsection*.37}%
+\contentsline {subsubsection}{\nonumberline Reduktion des Zeichensatzes}{28}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline Vergrößern des Zeichensatzes}{28}{subsubsection*.41}%
+\contentsline {chapter}{\numberline {5}Implementierung}{29}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Gesamtsystem}{29}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Controller}{29}{section.5.2}%
+\contentsline {section}{\numberline {5.3}flex-Scanner}{29}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Bison-Parser}{29}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Bisonhack-AST}{29}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Evaluierung}{30}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Erreichte Ergebnisse anhand Anforderungsliste}{30}{section.6.1}%
+\contentsline {section}{\numberline {6.2}RFC-Konformität}{30}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Automatisierte Tests}{30}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Performance}{30}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{31}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Erreichte Ergebnisse}{31}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Ausblick}{31}{section.7.2}%
+\contentsline {chapter}{\numberline {A}Anhang A}{32}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Anhang B}{33}{appendix.B}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
