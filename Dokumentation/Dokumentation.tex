@@ -143,11 +143,19 @@ Heidenheim, 1. Juni 2026
 
 %% Eintrag: \acro{Referenzname}[Kürzel]{Langform}
 %% Im Text wird die Abkürzung dann mit \ac{Referenzname} benutzt.
-\acro{json}[JSON]{\textit{JavaScript Object Notation}}
-\acro{xml}[XML]{\textit{Extensible Markup Language}}
+
+%%TODO: ALPHABETISCH SORTIEREN!!!
 \acro{abnf}[ABNF]{\textit{Angereicherte Backus-Naur-Form}}
+\acro{bnf}[BNF]{\textit{Backus-Naur-Form}}
 \acro{ebnf}[EBNF]{\textit{Erweiterte Backus-Naur-Form}}
+\acro{glr}[GLR]{\textit{Generalized LR} parser}
 \acro{gtm}[GT.M]{\textit{Greystone Technology Mumps}}
+\acro{json}[JSON]{\textit{JavaScript Object Notation}}
+\acro{rr}[RR]{\textit{Reduziere / Reduziere}}
+\acro{sr}[SR]{\textit{Schiebe / Reduziere}}
+\acro{xml}[XML]{\textit{Extensible Markup Language}}
+
+
 %\acro{bsp}[Bsp.]{Beispiel}
 \end{acronym}
 %---
@@ -343,8 +351,10 @@ Da der Schwerpunkt dieser Arbeit auf der lexikalischen und syntaktischen Analyse
 In der \textit{lexikalischen Analyse} wird die Eingabe in die von der Grammatik erwarteten Tokens zerlegt. Die genaue Aufteilung beziehungsweise Definition, welche Eingabeteile in welche Tokens übersetzt werden, muss abhängig von der Grammatik und den Anforderungen an das System passend gewählt werden.
 	
 Die Unterteilung der Eingabe erfolgt anhand von Regeln, die zum Beispiel die Form von regulären Ausdrücken annehmen können. 
-%TODO quelle: lex & yacc buch!
 
+Ein Programm, welches eine lexikalische Analyse eines Eingabetextes durchführt, wird \textit{Scanner} genannt.
+%TODO quelle: lex & yacc buch!
+%TODO quelle: bantel folien!
 	 
 	
 \subsection{Syntaktische Analyse}
@@ -354,28 +364,45 @@ Die \textit{syntaktische Analyse} untersucht die Eingabe, beziehungsweise die au
 Für die Angabe der Grammatik wird oft eine Art der Backus-Naur-Form wie die \ac{abnf} oder die {ebnf} verwendet. Diese definiert Produktionsregeln, mit welchen nichtterminale Symbole zu einer Folge von terminalen oder nichtterminalen Symbolen abgebildet werden können. 
 	
 Die syntaktische Analyse versucht, für die in der Eingabe gefundenen Tokens eine Folge von Produktionsregeln zu finden, durch welche die Eingabe entstehen kann. Wird keine solche Folge gefunden, lässt sich die Eingabe nicht aus der Grammatik herleiten und wird verworfen.
+
+Ein Programm, welches eine syntaktische Analyse durchführt, wird \textit{Parser} genannt.
 	
 %TODO quelle: lex & yacc buch!
 %TODO quelle: bantel folien!
 	
 \section{flex}
 	
-\textit{flex}, oder \textit{the fast lexical analyzer generator}, ist ein Generatortool für Scanner, also Programme, welche lexikalische Analyse anhand von regulären Ausdrücken durchführen können. 
-	
-TODO!
+\textit{flex}, oder \textit{the fast lexical analyzer generator}, ist ein Generatortool, welches anhand von Regeln bestehend aus regulären Ausdrücken und C-Code einen Scanner generieren kann.  
+
+Die Regeln, aus denen der Scanner erzeugt werden soll, müssen in der sogenannten flex-Datei in der vorgegebenen Struktur aufgeschrieben werden. Die regulären Ausdrücke werden in der Reihenfolge, in der sie in der Datei stehen auf den Eingabetext gematcht und entweder das längste gefundene Match oder im Falle von mehreren längsten Matches das in der Datei zuerst geschriebene Match gewählt. Anschließend wird der zum Match gehörende C-Code ausgeführt und zum Beispiel der passende Token zurückgegeben.
 	
 %TODO quelle: https://github.com/westes/flex
+%TODO quelle: https://ftp.gnu.org/old-gnu/Manuals/flex-2.5.4/html_mono/flex.html#SEC1
+%TODO quelle: bantel folien!
+%TODO quelle: lex & yacc buch!
+
 	
 \section{Bison}
+
+\textit{Bison} ist ein Generatortool, welches aus einer kontextfreien Grammatik einen deterministischen oder allgemeinen LR-Parser erzeugt. Ein LR-Parser ist ein sogenannter \textit{Bottom-Up}-Parser für LR-Grammatiken. Dabei wird ausgehend von jeweils einem Blatt des Syntaxbaums versucht, den Eingabetext auf das Startsymbol zu reduzieren, indem die Produktionsregeln der Grammatik rückwärts angewendet werden, was \textit{Reduzieren} genannt wird.
+
+Eine Bison-Datei enthält Grammatik-Regeln in einer Form ähnlich der \ac{bnf} und zugehörigen C-Code-Anweisungen, sogenannten \textit{semantischen Aktionen}, die beim Reduzieren der Regel ausgeführt werden sollen. 
+
+%TODO quelle: bantel folien!
+%TODO quelle: https://www.gnu.org/software/bison/manual/html_node/index.html#SEC_Contents
+
 	
 \subsection{GLR}
 	
-	
-GLR!!!
-	
-TODO!
+Mehrdeutigkeiten in der zu parsenden Grammatik können von einem LR-Parser nicht aufgelöst werden und führen zu \ac{sr}- und \ac{rr}-Konflikten führen. Ein deterministischer LR-Parser kann in einem solchen Konfliktfall zu einem falschen Ergebnis führen, da standardmäßig die erste Option ausprobiert wird und deren Erfolg über den Erfolg des Parsens entscheidet.
 
+Eine mögliche Lösung, eine mehrdeutige Grammatik zu parsen, ist die Verwendung eines allgemeinen LR-Parsers (englisch \ac{glr}). \ac{glr}-Parser behandeln Grammatiken ohne Mehrdeutigkeiten identisch zu deterministischen LR-Parsern, können aber im Konfliktfall beide Optionen weiterverfolgen. Dabei klont sich der Parser effektiv und beide Klone arbeiten parallel die Eingabe weiter ab. Bei einem weiteren Konflikt klont sich der Parser an dieser Stelle erneut, sodass zu jeder Zeit beliebig viele Alternativen erkundet werden. 
 
+Läuft ein Parserklon in einen Fehler, hört dessen Parsevorgang auf und die anderen Klone werden weiterverfolgt. Wenn alle Parserklone in einen Fehler gelaufen sind, ist der Parsevorgang fehlgeschlagen. Parserklone können auch wieder zusammenlaufen, wenn sie die Eingabe auf eine identische Symbolmenge reduziert haben.
+
+Solange mehr als eine Instanz des Parsers existiert, werden semantische Aktionen nicht ausgeführt und in der jeweiligen Parserinstanz gespeichert. Wenn zwei Parserklone zusammengeführt werden, werden die gespeicherten semantischen Aktionen beider Klone in der übrigbleibenden Instanz gespeichert. Wenn alle Klone zusammengeführt wurden, sodass nur noch eine Parserinstanz existiert, werden die ausstehenden semantischen Aktionen entweder nach Präzedenz der involvierten Grammatikregeln aufgelöst oder alle Aktionen werden ausgeführt und anhand einer nutzerdefinierten Funktion zu einem Ergebnis zusammengeführt.  
+
+%TODO: quelle: https://www.gnu.org/software/bison/manual/html_node/GLR-Parsers.html
 
 
 
