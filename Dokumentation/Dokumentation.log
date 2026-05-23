@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  22 MAY 2026 15:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  23 MAY 2026 09:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**TestDokument_DE.tex
-(./TestDokument_DE.tex
+**Dokumentation.tex
+(./Dokumentation.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (./ausarbeitung.cls
@@ -1226,10 +1226,10 @@ Package: marvosym 2011/07/20 v2.2 Martin Vogel's Symbols font definitions
 Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
 )
 \@indexfile=\write4
-\openout4 = `TestDokument_DE.idx'.
+\openout4 = `Dokumentation.idx'.
 
 
-Writing index file TestDokument_DE.idx
+Writing index file Dokumentation.idx
 (/usr/local/texlive/2025/texmf-dist/tex/latex/acronym/acronym.sty
 Package: acronym 2025/01/17 v1.50 Support for acronyms (Tobias Oetiker)
 
@@ -1504,8 +1504,8 @@ LaTeX Font Info:    Trying to load font information for T1+pnc on input line 7.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pnc.fd
 File: t1pnc.fd 2001/06/04 font definitions for T1/pnc.
 )
-(./TestDokument_DE.aux)
-\openout1 = `TestDokument_DE.aux'.
+(./Dokumentation.aux)
+\openout1 = `Dokumentation.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
@@ -1557,9 +1557,9 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 Package hyperref Info: Link coloring ON on input line 7.
- (./TestDokument_DE.out) (./TestDokument_DE.out)
+ (./Dokumentation.out) (./Dokumentation.out)
 \@outlinefile=\write6
-\openout6 = `TestDokument_DE.out'.
+\openout6 = `Dokumentation.out'.
 
 Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           Using `bookmark' together with `hyperref' is recommended,
@@ -1673,12 +1673,12 @@ File: german.lbx 2024/03/21 v3.20 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout5 = `TestDokument_DE.bcf'.
+\openout5 = `Dokumentation.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'TestDokument_DE.bbl' not found.
+Package biblatex Info: ... file 'Dokumentation.bbl' not found.
 
-No file TestDokument_DE.bbl.
+No file Dokumentation.bbl.
 Package biblatex Info: Reference section=0 on input line 7.
 Package biblatex Info: Reference segment=0 on input line 7.
 LaTeX Font Info:    Trying to load font information for T1+pag on input line 65
@@ -1794,7 +1794,7 @@ LaTeX Font Info:    Font shape `T1/pag/b/n' in size <20.74> not available
 ]
 Package tocbasic Info: character protrusion at toc deactivated on input line 12
 7.
- (./TestDokument_DE.toc
+ (./Dokumentation.toc
 
 [4
 
@@ -1803,7 +1803,7 @@ Package tocbasic Info: character protrusion at toc deactivated on input line 12
 
 ])
 \tf@toc=\write7
-\openout7 = `TestDokument_DE.toc'.
+\openout7 = `Dokumentation.toc'.
 
 
 
@@ -1923,7 +1923,7 @@ Overfull \hbox (14.03598pt too wide) in paragraph at lines 547--548
 
 [13]
 
-./TestDokument_DE.tex:608: Argument of Ã has an extra }.
+./Dokumentation.tex:608: Argument of Ã has an extra }.
 <inserted text> 
                 \par 
 <to be read again> 
@@ -1944,7 +1944,7 @@ l.608 	$[
          'a']
 ? 
 Runaway argument?
-./TestDokument_DE.tex:608: Paragraph ended before Ã was complete.
+./Dokumentation.tex:608: Paragraph ended before Ã was complete.
 <to be read again> 
                    \par 
 <to be read again> 
@@ -2052,7 +2052,7 @@ chapter B.
 [33
 
 
-] (./TestDokument_DE.aux)
+] (./Dokumentation.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
@@ -2061,23 +2061,20 @@ L3 programming layer <2020/03/25>
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package rerunfilecheck Info: File `TestDokument_DE.out' has not changed.
+Package rerunfilecheck Info: File `Dokumentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package logreq Info: Writing requests to 'TestDokument_DE.run.xml'.
-\openout1 = `TestDokument_DE.run.xml'.
+Package logreq Info: Writing requests to 'Dokumentation.run.xml'.
+\openout1 = `Dokumentation.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
  45639 strings out of 473190
- 924083 string characters out of 5715800
- 1976098 words of memory out of 5000000
+ 924027 string characters out of 5715800
+ 1976086 words of memory out of 5000000
  67607 multiletter control sequences out of 15000+600000
  648654 words of font info for 321 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 122i,21n,121p,10934b,3045s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 122i,21n,121p,10932b,3045s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/lo
 cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive
 /2025/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2025/texmf-
@@ -2090,7 +2087,7 @@ ocal/texlive/2025/texmf-dist/fonts/type1/urw/ncntrsbk/uncb8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2
 025/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/tex
 mf-dist/fonts/type1/urw/ncntrsbk/uncri8a.pfb>
-Output written on TestDokument_DE.pdf (41 pages, 829162 bytes).
+Output written on Dokumentation.pdf (41 pages, 829161 bytes).
 PDF statistics:
  830 PDF objects out of 1000 (max. 8388607)
  752 compressed objects within 8 object streams
