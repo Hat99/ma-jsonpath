@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  23 MAY 2026 12:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  24 MAY 2026 16:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1801,17 +1801,29 @@ Package tocbasic Info: character protrusion at toc deactivated on input line 12
 
 
 
-])
+]
+
+[5])
 \tf@toc=\write7
 \openout7 = `Dokumentation.toc'.
 
 
 
-[5]
-
 [6]
+Package tocbasic Info: character protrusion at lof deactivated on input line 13
+0.
+ (./Dokumentation.lof)
+\tf@lof=\write8
+\openout8 = `Dokumentation.lof'.
+
+
 
 [7
+
+
+]
+
+[8
 
 
 ]
@@ -1934,49 +1946,8 @@ Overfull \hbox (14.03598pt too wide) in paragraph at lines 574--575
 
 [14]
 
-./Dokumentation.tex:635: Argument of Ã has an extra }.
-<inserted text> 
-                \par 
-<to be read again> 
-                   }
-\UTFviii@loop ...case \expandafter {\UTFviii@tmp }
-                                                  \advance \count@ \@ne \ifn...
-
-\HyPsd@UTFviii ->\HyPsd@expand@utfviii 
-                                       \let \UTFviii@two@octets \HyPsd@UTFvi...
-
-\pdfstringdef ...\fontencoding {PU}\HyPsd@UTFviii 
-                                                  \def \ifpdfstringunicode #...
-
-\HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
-                                                  \fi \ifx \HyPL@Prefix \HyP...
-...
-l.635 	$[
-         'a']
-? 
-Runaway argument?
-./Dokumentation.tex:635: Paragraph ended before Ã was complete.
-<to be read again> 
-                   \par 
-<to be read again> 
-                   }
-\UTFviii@loop ...case \expandafter {\UTFviii@tmp }
-                                                  \advance \count@ \@ne \ifn...
-
-\HyPsd@UTFviii ->\HyPsd@expand@utfviii 
-                                       \let \UTFviii@two@octets \HyPsd@UTFvi...
-
-\pdfstringdef ...\fontencoding {PU}\HyPsd@UTFviii 
-                                                  \def \ifpdfstringunicode #...
-
-\HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
-                                                  \fi \ifx \HyPL@Prefix \HyP...
-...
-l.635 	$[
-         'a']
-? 
 [15]
-Overfull \hbox (4.20898pt too wide) in paragraph at lines 646--648
+Overfull \hbox (4.20898pt too wide) in paragraph at lines 655--657
 \T1/pnc/m/n/10.95 (-20) Singuläre Ab-fra-gen äh-neln in ih-rer De-fi-ni-ti-on s
 tark all-ge-mei-nen JSONPath-Abfragen,
  []
@@ -1984,83 +1955,140 @@ tark all-ge-mei-nen JSONPath-Abfragen,
 
 
 [16]
-Overfull \hbox (9.87814pt too wide) in paragraph at lines 694--695
+
+[17]
+Overfull \hbox (9.87814pt too wide) in paragraph at lines 702--703
 []\T1/pnc/m/n/10.95 (-20) Wie die der Aus-wer-tung ei-nes JSONPath-Ausdrucks zu
 -grun-de-lie-gen-de [][]-Struktur
  []
 
 
 
-[17]
-
 [18]
 
 [19]
+Overfull \hbox (59.47568pt too wide) in paragraph at lines 748--749
+\T1/pnc/m/n/10.95 (-20) ten Mo-dul ver-ein-facht und mög-li-cher-wei-se op-ti-m
+iert wer-den. JSONPath-Implementationsdetails,
+ []
+
+
 
 [20]
 
 [21]
-chapter 4.
 
-
-[22
-
-
-]
+[22]
 
 [23]
 
 [24]
 
 [25]
+chapter 4.
+<images/Architektur Uebersicht.png, id=507, 1284.8pt x 483.8075pt>
+File: images/Architektur Uebersicht.png Graphic file (type png)
+<use images/Architektur Uebersicht.png>
+Package pdftex.def Info: images/Architektur Uebersicht.png  used on input line 
+908.
+(pdftex.def)             Requested size: 398.33858pt x 150.00092pt.
 
-LaTeX Warning: Reference `chap:problemanalyse' on page 26 undefined on input li
-ne 923.
+
+[26
 
 
+ <./images/Architektur Uebersicht.png>]
+<images/Architektur Detail.png, id=516, 1628.0825pt x 1005.7575pt>
+File: images/Architektur Detail.png Graphic file (type png)
+<use images/Architektur Detail.png>
+Package pdftex.def Info: images/Architektur Detail.png  used on input line 926.
 
-[26]
+(pdftex.def)             Requested size: 398.33858pt x 246.06744pt.
 
-[27]
 
-[28{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+[27 <./images/Architektur Detail.png>]
+
+[28]
 
 [29]
+
+[30]
+Overfull \hbox (3.80493pt too wide) in paragraph at lines 999--1000
+[]\T1/pnc/m/n/10.95 (-20) Für den Ein-satz der Spra-che \T1/pnc/m/it/10.95 (-20
+) M \T1/pnc/m/n/10.95 (-20) (ehe-mals \T1/pnc/m/it/10.95 (-20) Mumps\T1/pnc/m/n
+/10.95 (-20) ) spricht, dass die NoSQL-Datenbank
+ []
+
+
+Overfull \hbox (6.36087pt too wide) in paragraph at lines 1001--1003
+[]\T1/pnc/m/n/10.95 (-20) Der Ein-satz von \T1/pnc/m/it/10.95 (-20) C++ \T1/pnc
+/m/n/10.95 (-20) er-mög-licht ei-ne ein-fa-che Ein-bin-dung von C- und C++-Ress
+ourcen,
+ []
+
+
+
+[31]
+
+[32]
+
+[33]
+
+LaTeX Warning: Reference `chap:problemanalyse' on page 34 undefined on input li
+ne 1086.
+
+
+
+[34]
+
+[35]
+
+[36{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+
+[37]
+LaTeX Font Info:    Trying to load font information for U+mvs on input line 118
+6.
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/marvosym/umvs.fd)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-mvs.cfg
+File: mt-mvs.cfg 2006/07/05 v1.1 microtype config. file: Marvosym Euro (RS)
+)
+
+[38]
 chapter 5.
 
 
-[30
+[39
 
 
 ]
 chapter 6.
 
 
-[31
+[40
 
 
 ]
 chapter 7.
 
-LaTeX Warning: Empty bibliography on input line 1098.
+LaTeX Warning: Empty bibliography on input line 1291.
 
 
 
-[32
+[41
 
 
 ]
 chapter A.
 
 
-[33
+[42
 
 
 ]
 chapter B.
 
 
-[34
+[43
 
 
 ] (./Dokumentation.aux)
@@ -2079,29 +2107,31 @@ Package logreq Info: Writing requests to 'Dokumentation.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45672 strings out of 473190
- 924364 string characters out of 5715800
- 1976367 words of memory out of 5000000
- 67631 multiletter control sequences out of 15000+600000
- 648654 words of font info for 321 fonts, out of 8000000 for 9000
+ 45809 strings out of 473190
+ 926776 string characters out of 5715800
+ 1976516 words of memory out of 5000000
+ 67700 multiletter control sequences out of 15000+600000
+ 649075 words of font info for 322 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
  122i,21n,121p,10932b,3045s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive
-/2025/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2025/texmf-
-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/t
-ype1/public/lm/lmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/publi
-c/lm/lmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/avantgar/uag
-d8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/urw/ncntrsbk/uncb8a.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/tex
-mf-dist/fonts/type1/urw/ncntrsbk/uncri8a.pfb>
-Output written on Dokumentation.pdf (42 pages, 832907 bytes).
+cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive
+/2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2025/texmf
+-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/
+type1/public/lm/lmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public
+/lm/lmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmsy8.
+pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/marvosym/marvosym.pf
+b></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb></usr
+/local/texlive/2025/texmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb></usr/local/
+texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/
+2025/texmf-dist/fonts/type1/urw/ncntrsbk/uncb8a.pfb></usr/local/texlive/2025/te
+xmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/texmf-dis
+t/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts
+/type1/urw/ncntrsbk/uncri8a.pfb>
+Output written on Dokumentation.pdf (52 pages, 911938 bytes).
 PDF statistics:
- 857 PDF objects out of 1000 (max. 8388607)
- 778 compressed objects within 8 object streams
- 237 named destinations out of 1000 (max. 500000)
- 84546 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 993 PDF objects out of 1000 (max. 8388607)
+ 895 compressed objects within 9 object streams
+ 296 named destinations out of 1000 (max. 500000)
+ 84564 words of extra memory for PDF output out of 89155 (max. 10000000)
 

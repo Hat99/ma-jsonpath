@@ -577,19 +577,28 @@ Vergleichsausdrücke ermöglichen Vergleiche zwischen primitiven Werten der Type
 	
 \subsubsection{Funktionsausdrücke}
 	
-TODO
-	
-		
+Funktionsausdrücke können je nach Rückgabetyp entweder in Testausdrücken oder als Teil eines Vergleichsausdrucks verwendet werden. Spezifisch wird von JSONPath die Möglichkeit für Funktionserweiterungen über einen Erweiterungspunkt gestellt, um die Funktionalität von Filterausdrücken zu erweitern.
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+Eine Funktionserweiterung muss einen eindeutigen Namen definieren, welcher auf null oder mehr Argumente angewandt ein Ergebnis liefert. Funktionen müssen in ihrer Auswertung frei von Nebeneffekten definiert werden, sodass die Ausführungsreihenfolge von Ausdrücken und ein möglicher vorzeitiger Abbruch der Ausführung keinen Unterschied im Ergebnis für den Ausdruck ergibt.
+
+Funktionen müssen in Ausdrücken wohlgeformt und wohltypisiert verwendet werden und die Einhaltung dieser Konventionen muss unabhängig vom betrachteten \ac{json}-Objekt sichergestellt werden.
+
+Rückgabewerte von Funktionen können drei verschiedene Typen annehmen: Wert, Boolean und Knoten. Rückgaben vom \textit{Wert}-Typ sind entweder \ac{json}-Werte oder \textit{Nothing}. \textit{Boolesche} Rückgaben können entweder ein logisches \textit{Wahr} oder ein logisches \textit{Falsch} sein. Rückgaben vom Typ \textit{Knoten} müssen eine Knotenliste zurückgeben, die jedoch auch leer sein kann.
+
+Der Rückgabewert \textit{Nothing} ist ein gesondertes Ergebnis, welches die Abwesenheit eines \ac{json}-Wertes repräsentiert und sich von allen \ac{json}-Werten - inklusive \textit{null} -  unterscheidet. Ebenso sind das logische \textit{Wahr} und das logische \textit{Falsch} als Rückgabe vom Typ Boolean und die in \ac{json}-Werten verwendeten Literale \textit{true} und \textit{false} voneinander zu trennen.
+
+Neben der Möglichkeit über den Erweiterungspunkt eigene Funktionen zu definieren, stellt JSONPath auch ein paar Standardfunktionen als Ausgangspunkt zur Verfügung:
+
+\begin{itemize}
+\item length()
+\item count()
+\item match()
+\item search()
+\item value()
+\end{itemize}
+
+
+
 	
 \subsection{Whitespaces}
 	
@@ -655,8 +664,7 @@ Im oberen Ausdruck ist die innere Unterabfrage \textit{\$[ 'a' ]} teil eines Tes
 	
 Der untere Ausdruck hingegen enthält einen Vergleichsausdruck und betrachtet den Wert von einem eventuellen Kindknoten des aktuellen Knotens mit Namen a und vergleicht diesen mit dem Wert 1. \textit{\$['a']} muss also eine singuläre Abfrage sein und erlaubt folglich keine Whitespaces innerhalb ihrer Klammern.
 	
-	
-	
+		
 	
 \subsection{Normalisierte JSONPath-Ausdrücke}
 	
@@ -711,24 +719,44 @@ JSONPath-Implementierungen dürfen nicht ohne Angabe eines Fehlers fehlschlagen.
 	
 	
 	
-	
-	
-	
-	
 \section{Aufbau des Compilers}
+
+Um den Compiler im Sinne von Sekundärziel S6 möglichst einfach verständlich und wartbar zu gestalten, empfiehlt sich die Verwendung von einer Unterteilung anhand der in \ref{cha:grundlagen} beschriebenen Phasen von Compilern zu unterteilen. Da eine gezielte Fehlerbehandlung über den Umfang dieser Arbeit hinausgeht, sind für den Compiler spezifisch die Phasen der \textit{lexikalischen Analyse}, \textit{syntaktischen Analyse} und des \textit{Zwischencodes} relevant. 
+
+
 	
 \subsection{Lexikalische Analyse}
-Welche Anforderungen? (UTF-8?)
+
+Die lexikalische Analyse eines JSONPath-Ausdrucks erfordert zunächst eine präzise Verarbeitung der Eingangszeichen entsprechend der in RFC-9535 definierten \ac{abnf}. Es muss sichergestellt werden, dass nur erlaubte Zeichen akzeptiert werden und als entsprechende Token für die weitere Verarbeitung aufbereitet werden. Die Definition der verwendeten Tokens muss hierbei in Absprache mit der syntaktischen Analyse erstellt werden, sodass sowohl die Möglichkeiten der lexikalischen Analyse als auch die Anforderungen der syntaktischen Analyse beachtet werden.
+
+Wie bereits beschrieben, erfordert JSONPath nach RFC-9535 die Verarbeitung von Unicodezeichen, kann jedoch auch mit eingeschränkten Namensräumen durch kleinere Zeichensätze wie 7-Bit-ASCII realisiert werden. Dementsprechend muss 7-Bit-ASCII als Mindestmaß von der lexikalischen Analyse verarbeitet werden können und eine Lösung für den größeren Unicodezeichensatz gefunden werden. 
+
+
 	
 \subsection{Syntaktische Analyse}
+
+Die syntaktische Analyse eines JSONPath-Ausdrucks muss überprüfen, ob der Ausdruck aus der JSONPath-Grammatik hergeleitet werden kann oder nicht. Hierfür muss zunächst definiert werden, welche Prüfungen in der syntaktischen Analyse abgehandelt werden können, welche auf die vorausgehende lexikalische Analyse ausgelagert werden können und welche in einem weiteren Verarbeitungsschritt umgesetzt werden müssen.
+
+Spezifisch muss entschieden werden, welche Regeln der Grammatik wie repräsentiert werden können. Für Regeln, die eine Anpassung erfordern, muss eine geeignete solche gefunden werden, ohne dadurch die akzeptierten und nicht-akzeptierten Ausdrücke der Grammatik zu beeinflussen.
+
+
 	
 \subsection{Zwischencode}
-AST
+
+Das Ergebnis des Compilers, beziehungsweise die Schnittstelle zum Interpreter und der weiteren Verarbeitung und Auswertung der Eingabe stellt der Zwischencode dar. Konkret soll hierfür ein Syntaxbaum angestrebt werden, welcher die zur Ausführung benötigten Operationen repräsentiert. 
+
+Der Syntaxbaum kann vor der Auswertung durch den Interpreter von einem separaten Modul vereinfacht und möglicherweise optimiert werden. JSONPath-Implementationsdetails, die auf die Auswertung keinen direkten Einfluss haben, können aus dem Syntaxbaum entfernt werden, um den Syntaxbaum zu einem abstrakteren Syntaxbaum umzuformen. Dadurch kann die Kopplung zwischen Compiler und Interpreter weiter gelockert werden und durch die erhöhte Modularität die Wartbarkeit und Erweiterbarkeit verbessert werden.
 	
 	
 \section{Aufbau des Interpreters}
-	
-	
+
+Der Interpreter hat die Aufgabe, den als Zwischencode verwendeten Syntaxbaum traversierend die Auswertung des Eingangsausdrucks anhand eines Datensatzes in YottaDB umzusetzen. Hierfür muss dieser auf geeignete Weise die YottaDB-Instanz ansprechen und Daten abfragen können, um diese Daten intern auszuwerten.
+
+Die Kompetenzverteilung zwischen YottaDB und dem Interpreter ist an dieser Stelle relevant. Für die Auswertung benötigt der Interpreter stellenweise größere Datenmengen aus dem Datensatz, sodass im Extremfall ein möglicher Ansatz wäre, vor Beginn der Auswertung den kompletten Datensatz in den Interpreter zu laden und dort zu auszuwerten. Daraus würde aber insbesondere für große Datensätze ein Anspruch von effizienter Datenverarbeitung an den Interpreter entstehen - vorausgesetzt der Datensatz kann überhaupt gänzlich in den Interpreter geladen werden und übersteigt nicht dessen beispielsweise aus der verfügbaren Hardware enstehende technische Limitationen. 
+
+Ebenso unpraktisch ist der andere Extremansatz, die Daten zu jeder Zeit vollständig in YottaDB zu lassen und nur über gezielte Abfragen auszuwerten, da diese Abfragen einen Flaschenhals für die Umsetzung der JSONPath-Funktionalität darstellen können und folglich die Auswertung ineffizient werden kann.
+
+Um ein besseres Bild zu erhalten, welche JSONPath-Funktionalitäten wie realisiert werden können, kann eine Art Mapping zwischen JSONPath und YottaDB erstellt werden, anhand welchem sich die Implementierung des Interpreters orientieren kann.
 	
 	
 	
@@ -782,9 +810,63 @@ Nach der Implementierung eines oder mehrerer geeigneter Algorithmen können durc
 	
 \section{Anforderungsverzeichnis}
 
-Im Folgenden werden die in diesem Kapitel beschriebenen Aspekte in einer Anforderungsliste zusammengefasst. 
+Im Folgenden werden die in diesem Kapitel beschriebenen Aspekte in einer Anforderungsliste zusammengefasst. Hierbei handelt es sich bewusst nicht nur um Anforderungen, die im Rahmen dieser Arbeit abgehandelt werden können, sondern auch Anforderungen für eine mögliche zukünftige Weiterentwicklung des Systems.
 	
 \begin{enumerate}
+	\item JSONPath-Funktionsumfang
+	\begin{enumerate}
+		\item Wurzel- und \textit{Current}-Identifier
+		\item Segmente in Klammer- und Punktnotation
+		\item Namensselektoren als Strings und Member-Name-Shorthands
+		\item Wildcard-Selektor
+		\item Slice-Selektoren mit optionalen Parametern und Standardwerten
+		\item Index-Selektoren für positive und negative Indizes
+		\item Filterselektoren mit logischen Ausdrücken
+		\begin{enumerate}
+			\item Testausdrücke
+			\item Vergleichsausdrücke
+			\item Funktionsausdrücke mit Funktionserweiterungen
+		\end{enumerate}
+		\item Beachtung von Whitespaces
+		\item Beachtung von Groß- und Kleinschreibung
+		\item Normalisierte JSONPath-Ausdrücke
+		\item Fehlerbehandlung
+	\end{enumerate}
+	
+	\item JSONPath-Compiler
+	\begin{enumerate}
+		\item Kompetenzverteilung zwischen lexikalischer Analyse, syntaktischer Analyse und Nachbearbeitung
+		\item Lexikalische Analyse
+		\begin{enumerate}
+			\item Präzise Verarbeitung der Eingangszeichen
+			\item Tokenisierung passend zur Grammatik
+			\item Abbildung von 7-Bit-ASCII (Minimum)
+			\item Abbildung von Unicode (RFC-konform)
+		\end{enumerate}
+		\item Syntaktische Analyse
+		\begin{enumerate}
+			\item Überprüfung der Wohlgeformtheit der Eingabe
+			\item Überprüfung der Validität der Eingabe
+			\item Umsetzung der Grammatik
+			\item Umformungen der Grammatikregeln unter Einhaltung von RFC-Konformität
+		\end{enumerate}
+		\item Zwischencode
+		\begin{enumerate}
+			\item Überführung in Syntaxbaum
+			\item Abbildung der Auswertungsoperationen und deren Parameter
+		\end{enumerate}
+	\end{enumerate}
+		
+	\item Zwischencodeoptimierung
+	
+	\item JSONPath-Interpreter
+	\begin{enumerate}
+		\item Auswertung des Zwischencode-Syntaxbaums
+		\item Schnittstelle zu YottaDB
+		\item Kompetenzverteilung zwischen YottaDB und Interpreter
+		\item Mapping von JSONPath-Funktionalitäten auf YottaDB-Abfragen
+	\end{enumerate}
+	
 	\item Beschleunigen der Suche in YottaDB
 	\begin{enumerate}
 		\item Auswahl geeigneter Algorithmen 
@@ -813,18 +895,59 @@ Im Folgenden werden die in diesem Kapitel beschriebenen Aspekte in einer Anforde
 \chapter{Lösungskonzept}
 \label{cha:loesungskonzept}
 
-TODO: Einstieg
+Anhand der in Kapitel \ref{cha:problemanalyse} erarbeiteten Anforderungen wird im Folgenden ein Lösungskonzept erstellt. Hierbei werden sowohl zielführende Überlegungen als auch exemplarisch einige nicht zielführende Ansätze erkundet um einen Überblick über die getroffenen Entscheidungen und dazu betrachteten Alternativen zu geben.
+
+
 
 \section{Gesamtsystem}
-Welche Anforderungen hat das Gesamtsystem zu erfüllen?
 
-in welche Komponenten kann es zerlegt werden?
+Das Gesamtsystem lässt sich zunächst inhaltlich anhand des Aufgabenbereichs in Compiler und Interpreter unterteilen, welche die beiden Hauptabschnitte des Programmablaufs darstellen. Um den Gesamtablauf zu steuern, Eingaben vom Nutzer entgegen zu nehmen und bei Bedarf die Schnittstelle zwischen einzelnen Komponenten zu spielen, werden diese beiden Hauptabschnitte in eine zentrale Steuerungskomponente eingebettet. 
 	
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 14cm, keepaspectratio]{"images/Architektur Uebersicht.png"}
+    \caption{Architekturübersicht des Gesamtsystems}
+    \label{abb:archUebersicht}
+\end{figure}
+
+Wie in Abbildung \ref{abb:archUebersicht} erkennbar wird, kann das Gesamtsystem als eine Art Pipeline verstanden werden, welche eine Eingabe in Form eines JSONPath-Ausdrucks entgegennimmt und auswertet, um eine entsprechende Ausgabe zurückzugeben. 
+
+Der JSONPath-Ausdruck wird dabei zunächst vom Compiler in einen Syntaxbaum als Zwischencode überführt, und anschließend vom Interpreter unter Bezug auf den in einer YottaDB gespeicherten Datensatz ausgewertet. 
 	
 	
 \subsection{Systemarchitektur}
-	
-	
+
+Um eine präzisere Vorstellung der internen Abläufe des Zielsystems zu bekommen, wird ausgehend von der Architekturübersicht in Abbildung \ref{abb:archUebersicht} ein detailliertes Architekturdiagramm erstellt. Hierbei werden die Hauptsegmente in einzelne Komponenten unterteilt und die Darstellung um genauere Ablaufschemata erweitert.
+
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width = 14cm, keepaspectratio]{"images/Architektur Detail.png"}
+    \caption{Architekturdiagramm im Detail}
+    \label{abb:archDetail}
+\end{figure}
+
+Abbildung \ref{abb:archDetail} zeigt das detaillierte Architekturdiagramm. Neben kleinen Anpassungen für eine ansprechendere Darstellung ist dies in seiner Funktionalität mit der Übersicht identisch, ermöglicht es jedoch, die einzelnen Komponenten und deren Verantwortungsbereiche besser nachzuvollziehen.
+
+Die Eingabe wird zunächst vom \textit{Controller} entgegengenommen, welcher die zentrale Steuereinheit des Systems darstellt. In der Eingabe können neben JSONPath-Ausdrücken auch diverse Steuersequenzen mitgegeben werden, um verschiedene Abläufe auszulösen.
+
+Im Standardfall reicht der Controller den JSONPath-Ausdruck an den Scanner weiter, welcher diesen in Tokens zerlegt. Basierend auf diesen Tokens kann der Parser überprüfen, ob der Ausdruck aus der JSONPath-Grammatik hervorgehen kann. Das Ergebnis des Parsers ist zum einen die Information, ob der Ausdruck ein wohlgeformter und valider JSONPath-Ausdruck ist, und zum anderen im Falle, dass der Ausdruck akzeptiert wurde, der daraus entstehende Syntaxbaum.
+
+Im Falle, dass der Ausdruck vom Parser verworfen wird, bricht der Controller die Auswertung direkt ab, andernfalls leitet er den Syntaxbaum an den Interpreter weiter. Der Interpreter greift dann zur Auswertung des Syntaxbaums über eine geeignete YottaDB-Schnittstelle auf den Datensatz in YottaDB zu. Das Ergebnis der Auswertung wird anschließend zurück zum Controller gesendet, sodass dieser die Ausgabe in geeigneter Form entsprechend des Ergebnisses tätigen kann. 
+
+Im Architekturdiagramm sind außerdem automatisierte Tests und Optimierungen vorgesehen. Beide werden bei Bedarf vom Controller aus angesteuert.
+
+Die automatisierten Tests beziehen sich im Architekturdiagramm zunächst nur auf den Compiler und dessen Eingabevalidierung. Eine Erweiterung um Tests des Gesamtsystems, also Compiler und Parser, erfordert eine Möglichkeit, das YottaDB-Interface auf einen Testdatensatz umzulenken, da die Auswertung von JSONPath-Ausdrücken vom dieser zugrundeliegenden Datensatz abhängig ist. 
+
+Die Compiler-Tests simulieren die Eingabe von diversen JSONPath-Ausdrücken und überprüfen das Ergebnis des Parsers. Idealerweise sollten diese Ausdrücke möglichst viele verschiedene Testfälle und Szenarien abdecken, sodass die Funktionalität des Parsers zum Beispiel nach eventuellen Anpassungen reibungslos und möglichst ausführlich überprüft werden kann.
+
+Die Komponente für Optimierungen des Syntaxbaums kann diesen vor der Weiterverarbeitung durch den Interpreter vereinfachen. Ziel dieser Vereinfachung ist nicht die Laufzeit des Interpreters zu beschleunigen, da die Laufzeitgewinne wahrscheinlich maximal die Laufzeit der Optimierung selbst aufwiegen können. Die Optimierung dient vielmehr der Erhöhung der Modularität zwischen Compiler und Interpreter und der Vereinfachung und dadurch Reduktion möglicher Fehlerquellen des Interpreters.
+
+Zusätzlich kann an Stelle der Optimierung auch eine Nachbearbeitung des Syntaxbaums erfolgen, in welcher Prüfungen des Ausdrucks abgehandelt werden können, zu denen der Parser nicht in der Lage ist. Insbesondere sind das diese der Wohlgeformtheit und Wohltypisiertheit von Funktionsausdrücken und dementsprechend beispielsweise auch der Typisierung der logischen Ausdrücke in Filterausdrücken.
+
+
+
 \subsection{Kompetenzverteilung Scanner / Parser}
 	
 Die in RFC-9535 definierte \ac{abnf}-Grammatik bricht JSONPath-Ausdrücke von ihrer Gesamtheit ebenenweise in kleinere Komponenten herunter, bis diese zeichenweise anhand von Unicode-Zeichen präzise definiert werden können. Eine Umsetzung dieser Grammatik mittels eines Scanners für die lexikalische Analyse und eines Parsers für die syntaktische Analyse muss also eine sinnvolle Aufteilung der \ac{abnf}-Regeln definieren, anhand welcher die Schnittstelle von Scanner und Parser vollzogen wird.
@@ -864,6 +987,46 @@ Im Sinne einer minimalumgeformten Grammatik werden große Teile verbatim aus RFC
 	
 	
 \subsection{Technologie-Auswahl}
+
+Um die Komponenten des Systems möglichst reibungslos zu realisieren, müssen einige Entscheidungen bezüglich der verwendeten Technologien getroffen werden. Diese werden im Folgenen vorgestellt.
+
+
+
+\subsubsection{Programmiersprache}
+
+Für die Wahl der Programmiersprache, in welcher das Gesamtsystem implementiert werden kann, stehen prinzipiell zwei Hauptkandidaten zur Verfügung: \textit{C++} und \textit{M}.
+
+Für den Einsatz der Sprache \textit{M} (ehemals \textit{Mumps}) spricht, dass die NoSQL-Datenbank YottaDB auf dieser basiert und somit nativ angesprochen werden kann. M findet unter anderem im medizinischen und im Finanzbereich Anwendung. 
+
+Der Einsatz von \textit{C++} ermöglicht eine einfache Einbindung von C- und C++-Ressourcen, allen voran die Generatortools flex und Bison, durch welche der Scanner beziehungsweise der Parser umgesetzt wird. Für C++ existieren Schnittstellen zu YottaDB, sodass dessen Einsatz auch möglich ist.  Außerdem ermöglicht der Einsatz von C++ die Verwendung des \textit{Bison-Syntaxtree-Hacks} und dadurch eine automatisierte Erzeugung von Syntaxbäumen inklusive Visualisierung. 
+C++ genießt eine weite Verbreitung, wodurch viele Dokumentationen und Hilfsressourcen zur Verfügung stehen. 
+
+Da der Fokus dieser Arbeit in der Implementation zunächst auf dem Compiler liegt, da dieser die Grundlage für weitere Verarbeitung und Auswertung darstellt, wird hierfür die Programmiersprache C++ verwendet. 
+
+
+
+\subsubsection{Scanner-Generatortool}
+
+flex?
+
+
+
+\subsubsection{Parser-Generatortool}
+bison?
+
+
+
+\subsubsection{Erstellung von Syntaxbäumen}
+bison-hack?
+
+
+
+\subsubsection{Weitere Technologien}
+
+Da beispielsweise die Implementierung des Interpreters und einer Syntaxbaum-Optimierung aus Zeitgründen in dieser Arbeit nicht erfolgt ist, sind auch entsprechende Technologieentscheidungen hierfür hinfällig und werden für eine eventuelle Fortsetzung der Arbeit nicht festgelegt.
+
+
+
 	
 \section{Controller}
 Das Hauptprogramm bzw Controller (C++) nimmt Nutzerinputs entgegen (Konsole) und steuert die Komponenten Scanner, Parser, usw an
@@ -942,10 +1105,10 @@ Die tatsächliche erwartete Auswirkung kann an einem Rechenbeispiel nachvollzoge
 	c = 127				// 7-Bit-ASCII-Zeichensatz
 	o = 2					// Overhead der Größe 2
 	
-	Erwartete Laufzeit im Ausgangsdatensatz:
+	Worst Case Laufzeit im Ausgangsdatensatz:
 	n = 5.000
 	
-	Erwartete Laufzeit im geänderten Datensatz:
+	Worst Case Laufzeit im geänderten Datensatz:
 	m*c = 2.032
 	
 	
@@ -955,11 +1118,15 @@ Die tatsächliche erwartete Auswirkung kann an einem Rechenbeispiel nachvollzoge
 	Erwarteter Speicherbedarf im geänderten Datensatz:
 	n*m + n*m*o = 240.000
 \end{lstlisting}
+
+Wie aus dem Rechenbeispiel erkennbar wird, bietet die Schlüsselzerlegung signifikante Vorteile in der Laufzeit, welche durch akzeptierbare Einbußen in der Speicherkomplexität erkauft werden. 
 	
 
 \subsubsection{Anpassung an verbesserte Laufzeit}
 
 Wie in Kapitel \ref{cha:problemanalyse} besprochen, ist die Annahme, dass YottaDB eine lineare Suche einsetzt und dadurch eine Laufzeit von $\mathcal{O}(n)$ erreicht, nicht unbedingt korrekt. Es muss daher die Auswirkung auf die Laufzeit betrachtet werden, wenn beispielsweise über binäre Suche die Dauer einer einzelnen Suche auf einer Ebene auf $\mathcal{O}(\log(n))$ reduziert wird. 
+
+Die Änderungen an der betrachteten Laufzeit haben keinen Einfluss auf die Speicherkomplexität, sodass diese im weiteren nicht mehr betrachtet werden muss. Alleinig nach der Speicherkomplexität ist die Schlüsselzerlegung ein erhöhter Speicheraufwand, der jedoch für die meisten Datensätze problemlos in Kauf genommen werden kann.
 
 Im Ausgangsdatensatz ändert sich die Zahl der betrachteten Einträge von $n$ zu $\log(n)$.
 
@@ -987,20 +1154,46 @@ Wenn der Datensatz zukünftig erweiterbar bleiben soll, müssten neue Einträge 
 
 Eine Reduktion des Zeichensatzes jenseits der tatsächlich verwendeten Zeichen ist möglich und kann weitere Ersparnisse bringen. Beispielsweise könnten Schlüssel, die nur aus Buchstaben bestehen, auf entweder nur Groß- oder nur Kleinbuchstaben reduziert werden. Jedoch können hierbei Konflikte zwischen Schlüsseln entstehen, wenn die Schlüssel bewusst abhängig von Groß- und Kleinschreibung gewählt wurden. Im Falle einer Kollision müssten die kollidierenden Schlüssel durch zusätzliche Zeichen unterscheidbar gemacht werden, wodurch sich die Schlüssellänge erhöhen würde.
 
-Da jedoch die Schlüssellänge einen deutlich größeren Einfluss auf die Gesamtlaufzeit als der verwendete Zeichensatz hat, empfiehlt sich keine bewusste Verlängerung der Schlüssel. Im Umkehrschluss wäre es sogar eine mögliche Überlegung, durch bewusste Vergrößerung des Zeichensatzes die Schlüssellängen zu reduzieren. Die Lesbarkeit der Schlüssel für Menschen würde dabei verschlechtert werden, jedoch könnten erhebliche Laufzeitverbesserungen erzielt werden.
+Da jedoch die Schlüssellänge einen deutlich größeren Einfluss auf die Gesamtlaufzeit als der verwendete Zeichensatz hat, ist eine Reduktion der Schlüssellänge einer Reduktion der Größe des Zeichensatzes im Zweifelsfall vorzuziehen, oder im Idealfall die Reduktion beider Größen zu reduzieren.
 
 
 
-\subsubsection{Vergrößern des Zeichensatzes}
+\subsubsection{Reduktion der Schlüssellänge}
 
+Eine direkte Reduktion der Schlüssellänge ist nicht ohne weiteres auf jeden Fall anwendbar, da die Ausgangsschlüssellänge durch den gewünschten Einsatz der Schlüssel im Ausgangsdatensatz bedingt sein kann. Vielmehr ist die zu reduzierende Einheit nicht die tatsächliche Schlüssellänge, sondern die effektive Schlüssellänge für die Schlüsselzerlegung, oder mit anderen Worten der Anteil der Schlüssellänge, der zerlegt werden soll.
 
-Ansätze: m reduzieren -> nicht volle schlüssel cutten
-c reduzieren -> schlüsselzeichensatz verringern (kann mehrdeutigkeiten bringen)
+Die bisherigen Rechnungen und Laufzeit- und Speicherkomplexitätsüberlegungen bezogen sich auf die vollständige Zerlegung einer Schlüsselebene, jedoch schießt diese schnell über das eigentliche Ziel hinaus. Wenn beispielsweise durch die Zerlegung des ersten Zeichens der Schlüssel im Ausgangsdatensatzes bereits die entstehenden Suchräume zu klein werden, um weitere Zerlegung zu rechtfertigen, lohnt es sich, die Schlüssel nicht weiter zu zerlegen, da die weitere Zerlegung die Laufzeit und Speicherkomplexität nur noch negativ beeinflusst.
+
+In der Theorie ist es also möglich, durch gezielte Zerlegung der Schlüssel die Suchräume ideal aufzuteilen, um die erzielte Suchbeschleunigung zu maximieren. Da es jedoch möglich ist, dass selbst unter optimalen Bedingungen die Schlüsselzerlegung keinen Laufzeitgewinn gegenüber der binären Suche bringt, wird im weiteren zuerst abgewogen, ob eine minimale Schlüsselzerlegung sinnvoll sein kann, bevor weitere Überlegungen zum optimalen Maß der Schlüsselzerlegung und dessen Erkennung angestellt werden.
+
+Um zu prüfen, ob eine minimale Schlüsselzerlegung einen Vorteil gegenüber binärer Suche auf dem Ausgangsdatensatz bringen kann, wird hierfür zunächst der Idealfall betrachtet. Konkret bedeutet das, dass der Ausgangsdatensatz $n$ Schlüssel beinhaltet, welche mit ihrem ersten Zeichen den vollen Umfang des verwendeten Zeichensatzes ausschöpfen und die Belegung der einzelnen Zeichen gleich verteilt ist, also jedes Anfangszeichen genau gleich häufig in der Schlüsselmenge auftritt. Dadurch bringt die Zerlegung der Schlüssel anhand des ersten Zeichens folgenden Effekt:
+
+Der Suchraum der Ausgangsebene wird von $n$ Schlüsseln im Ausgangsdatensatz zu $c$ Schlüsseln im geänderten Datensatz reduziert. Neben der Ausgangsebene muss eine weitere Ebene unter dieser durchsucht werden, auf welcher sich zu jedem Knoten in der Ausgangsebene weitere $n/c$ Schlüsselreste zu durchsuchen befinden.
+
+Daraus ergibt sich für die Laufzeit unter der Annahme, dass auf jeder Ebene binäre Suche oder ein ähnlicher Algorithmus zum Einsatz kommt, ein schlimmster Fall von $\log(c)$ auf der Ausgangsebene und ein zusätzlicher Aufwand von $\log(n/c)$ auf der neuen Ebene. Insgesamt ist die Laufzeit im geänderten Datensatz also $\log(c) + \log(n/c)$. 
+
+Folglich lässt sich die Effizienz der minimalen Schlüsselreduktion anhand dieser Gleichungen überprüfen:
+
+\begin{center}
+	$\log_2(n) > \log_2(c) + \log_2(n/c)$
+	
+	$n > 2^{\log_2(c) + \log_2(n/c)}$
+	
+	$n > 2^{\log_2(c)} + 2^{\log_2(n/c)}$
+	
+	$n > c * n/c$
+	
+	$n > n$ \hspace{2mm} \Lightning
+\end{center}
+
+Wie aus den obigen Gleichungen erkennbar wird, bringt die minimale Schlüsselzerlegung in ihrem Idealfall keinen Vorteil gegenüber binärer Suche. Folglich sind weitere Überlegungen zur Auswahl des idealen Zerlegungsbereichs hinfällig, da die Anwendung der minimalen Schlüsselzerlegung bereits keinen Vorteil bringt und dementsprechend die Anwendung weiterer Schlüsselzerlegungen in den Restschlüsseln ebenso keinen Vorteil erzielen kann.
+
+Die Schlüsselzerlegung bringt dementsprechend unter der Annahme, dass in YottaDB binäre Suche oder ein anderer Algorithmus mit logarithmischer Laufzeit zum Einsatz kommt, keinen Laufzeitvorteil und ist daher nicht zur Beschleunigung der Suche in YottaDB geeignet.
 	
 	
 	
 	
-	%alternative ansätze? (google scholar "effiziente suche" zb)
+	%TODO: alternative ansätze? (google scholar "effiziente suche" zb)
 
 
 
