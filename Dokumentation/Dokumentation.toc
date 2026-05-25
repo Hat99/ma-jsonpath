@@ -62,34 +62,43 @@
 \contentsline {subsection}{\numberline {4.1.4}Technologie-Auswahl}{31}{subsection.4.1.4}%
 \contentsline {subsubsection}{\nonumberline Programmiersprache}{31}{subsubsection*.42}%
 \contentsline {subsubsection}{\nonumberline Scanner-Generatortool}{31}{subsubsection*.44}%
-\contentsline {subsubsection}{\nonumberline Parser-Generatortool}{31}{subsubsection*.46}%
+\contentsline {subsubsection}{\nonumberline Parser-Generatortool}{32}{subsubsection*.46}%
 \contentsline {subsubsection}{\nonumberline Erstellung von Syntaxbäumen}{32}{subsubsection*.48}%
 \contentsline {subsubsection}{\nonumberline Weitere Technologien}{32}{subsubsection*.50}%
-\contentsline {section}{\numberline {4.2}Controller}{32}{section.4.2}%
-\contentsline {section}{\numberline {4.3}JSONPath-Grammatik in EBNF}{32}{section.4.3}%
-\contentsline {section}{\numberline {4.4}flex-Scanner}{32}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Bison-Parser}{32}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Bisonhack-AST}{33}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Beschleunigte Suche in YottaDB}{33}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}Erweiterung der Schlüssel}{33}{subsection.4.7.1}%
-\contentsline {subsubsection}{\nonumberline Vollständige Zerlegung einer Schlüsselebene}{34}{subsubsection*.52}%
-\contentsline {subsubsection}{\nonumberline Anpassung an verbesserte Laufzeit}{35}{subsubsection*.54}%
-\contentsline {subsubsection}{\nonumberline Reduktion des Zeichensatzes}{36}{subsubsection*.56}%
-\contentsline {subsubsection}{\nonumberline Reduktion der Schlüssellänge}{37}{subsubsection*.58}%
-\contentsline {chapter}{\numberline {5}Implementierung}{39}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Gesamtsystem}{39}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Controller}{39}{section.5.2}%
-\contentsline {section}{\numberline {5.3}flex-Scanner}{39}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Bison-Parser}{39}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Bisonhack-AST}{39}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Evaluierung}{40}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Erreichte Ergebnisse anhand Anforderungsliste}{40}{section.6.1}%
-\contentsline {section}{\numberline {6.2}RFC-Konformität}{40}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Automatisierte Tests}{40}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Performance}{40}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{41}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Erreichte Ergebnisse}{41}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Ausblick}{41}{section.7.2}%
-\contentsline {chapter}{\numberline {A}Anhang A}{42}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Anhang B}{43}{appendix.B}%
+\contentsline {section}{\numberline {4.2}JSONPath-Grammatik in EBNF}{33}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Controller}{33}{section.4.3}%
+\contentsline {section}{\numberline {4.4}flex-Scanner}{34}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Whitespace-Verarbeitung}{34}{subsection.4.4.1}%
+\contentsline {section}{\numberline {4.5}Bison-Parser}{36}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Wiederholungsschema}{36}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Optionsschema}{37}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Epsilon-Ableitungen}{37}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Normalisierte Ausdrücke}{37}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Bison-Syntaxtree-Hack}{38}{subsection.4.5.5}%
+\contentsline {section}{\numberline {4.6}Compiler-Tests}{38}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Interpreter}{39}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Beschleunigte Suche in YottaDB}{39}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Vollständige Zerlegung einer Schlüsselebene}{40}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}Anpassung an verbesserte Laufzeit}{42}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.3}Reduktion des Zeichensatzes}{43}{subsection.4.8.3}%
+\contentsline {subsection}{\numberline {4.8.4}Reduktion der Schlüssellänge}{44}{subsection.4.8.4}%
+\contentsline {chapter}{\numberline {5}Implementierung}{46}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Gesamtsystem}{46}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Controller}{46}{section.5.2}%
+\contentsline {section}{\numberline {5.3}flex-Scanner}{46}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Bison-Parser}{46}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Bisonhack-AST}{46}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Evaluierung}{47}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Erreichte Ergebnisse anhand Anforderungsliste}{47}{section.6.1}%
+\contentsline {section}{\numberline {6.2}RFC-Konformität}{47}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Automatisierte Tests}{47}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Performance}{47}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{48}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Erreichte Ergebnisse}{48}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Ausblick}{48}{section.7.2}%
+\contentsline {chapter}{\numberline {A}JSONPath-Grammatik in EBNF}{49}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Grammatik-Regeln}{49}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Zeichenregeln}{50}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Normalisierte Abfragen}{52}{section.A.3}%
+\contentsline {chapter}{\numberline {B}Anhang B}{54}{appendix.B}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -846,7 +846,6 @@ Im Folgenden werden die in diesem Kapitel beschriebenen Aspekte in einer Anforde
 		\item Syntaktische Analyse
 		\begin{enumerate}
 			\item Überprüfung der Wohlgeformtheit der Eingabe
-			\item Überprüfung der Validität der Eingabe
 			\item Umsetzung der Grammatik
 			\item Umformungen der Grammatikregeln unter Einhaltung von RFC-Konformität
 		\end{enumerate}
@@ -855,6 +854,11 @@ Im Folgenden werden die in diesem Kapitel beschriebenen Aspekte in einer Anforde
 			\item Überführung in Syntaxbaum
 			\item Abbildung der Auswertungsoperationen und deren Parameter
 		\end{enumerate}
+		\item Nachbearbeitung
+		\begin{enumerate}
+			\item Überprüfung der Validität der Eingabe
+		\end{enumerate}
+
 	\end{enumerate}
 		
 	\item Zwischencodeoptimierung
@@ -965,6 +969,7 @@ Um diese Verteilung zu ermöglichen, muss in der Implementierung für jedes defi
 	
 	
 \subsection{Anpassungen der Grammatik}
+\label{sec:anpassungen}
 	
 Über Umformungen der im RFC definierten Ausgangsgrammatik kann diese an die Implementierungsumgebung angepasst und potenziell stellenweise vereinfacht werden, wodurch die weitere Verarbeitung einfacher und weniger rechenaufwändig gestaltet werden kann. Umformungen der Ausgangsgrammatik stellen jedoch auch eine große potenzielle Fehlerquelle dar, da für RFC-Konformität die von der umgeformten Grammatik akzeptierten und verworfenen Ausdrücke mit denen der Ausgangsgrammatik übereinstimmen müssen.
 	
@@ -1007,17 +1012,23 @@ Da der Fokus dieser Arbeit in der Implementation zunächst auf dem Compiler lieg
 
 \subsubsection{Scanner-Generatortool}
 
-flex?
+Die Umsetzung des Scanners kann manuell beispielsweise als C++-Programm realisiert werden, jedoch erhöht dies nicht nur den Implementationsaufwand, sondern führt auch eine unnötige zusätzliche Fehlerquelle in Form der eigenen Implementation ein. Da keine Funktionalität vom Scanner benötigt wird, die nicht über ein Scanner-Generatortool erreicht werden kann, empfiehlt es sich daher, ein solches zu verwenden.
+
+Prinzipiell gibt es verschiedene Generatortools für Scanner, wie zum Beispiel \textit{lex} und \textit{flex}, jedoch unterscheiden sich diese für die meisten Anwendungsfälle nicht voneinander, weshalb das kostenfreie und weit verbreitete Scanner-Generatortool \textit{flex} verwendet wird.
+
+Standardmäßig ermöglicht flex nur die byteweise Verarbeitung von Eingaben, sodass Unicode beispielsweise UTF-8 codiert nicht vollständig abgebildet werden kann. flex ermöglicht die Abbildung der Standard-7-Bit-ASCII-Zeichen, welche für eine JSONPath-Implementierung mit eingeschränktem Namensraum ausreicht. Die vollständige Abbildung des Unicode-Zeichenraums kann zum Beispiel über besondere Codierung realisiert und auch nachgerüstet werden.
 
 
 
 \subsubsection{Parser-Generatortool}
-bison?
+
+Wie auch bei der Auswahl von Implementierungsmöglichkeiten für den Scanner, gibt es für Parser geeignete Generatortools, welche die potenzielle Fehlerquelle einer eigenen Implementation reduzieren. Wohl die bekanntesten hiervon sind \textit{YACC} und \textit{Bison}, wobei sich \textit{Bison} durch seine weit verbreitete und kostenfreie Verfügbarkeit und Aufwärtskompatibilität zu \textit{yacc} als Kandidat hervorhebt. Darüber hinaus ermöglicht die Verwendung von Bison den Einsatz des \textit{Bison-Syntaxtree-Hacks} und somit eine einfache Überführung der Eingaben in Syntaxbäume.
 
 
 
 \subsubsection{Erstellung von Syntaxbäumen}
-bison-hack?
+
+Wie vorausgehend besprochen, wird für die Erstellung der Syntaxbäume die \textit{Bison-Syntaxtree-Hack}-Klasse eingesetzt. Diese bindet sich direkt in den Bison-Parser ein und erstellt automatisch während des Parsevorgangs den Syntaxbaum. Weiterhin bietet die Klasse eine Visualisierungskomponente an, durch welche die erstellten Syntaxbäume in einer graphischen Darstellung repräsentiert werden können und somit im Aufbau einfacher nachvollziehbar werden.
 
 
 
@@ -1027,32 +1038,179 @@ Da beispielsweise die Implementierung des Interpreters und einer Syntaxbaum-Opti
 
 
 
+\section{JSONPath-Grammatik in EBNF}
+
+Um den Aufbau und das Zusammenspiel der Grammatikregeln der in RFC-9535 definierten \ac{abnf} besser nachvollziehen zu können und die Regeln näher an die Implementation anzupassen, wurde die \ac{abnf} in \ac{ebnf} überführt.
+\ac{ebnf} ist näher an der Struktur, die beispielsweise Bison für Grammatikregeln vorgibt, sodass anhand der \ac{ebnf}-Grammatik die Regeln für Bison einfacher zu definieren sind.
+
+Die vollständige JSONPath-Grammatik in EBNF findet sich zur Referenz in Anhang \ref{cha:ebnf}.
+
+Die \ac{abnf}-Regeln definieren sowohl die Grammatik als auch die spezifischen Zeichen, die verwendet werden können beziehungsweise müssen. Da die Verarbeitung von syntaktischer Analyse und lexikalischer Analyse in Parser und Scanner getrennt voneinander realisiert werden soll, wurde die \ac{ebnf} in Grammatikregeln und Zeichenregeln unterteilt. Außerdem ist der Grammatik für normalisierte JSONPath-Ausdrücke ein eigener Abschnitt gewidmet.
+
+Die Zeichenangaben in \ac{abnf} geben teilweise keine Groß- oder Kleinschreibung vor, definieren aber dafür in anderen Stellen präzise und ausschließliche Angaben zur erforderten Groß- beziehungsweise Kleinschreibung. Dies wurde in der \ac{ebnf} zur Vereinfachung nicht beachtet, muss jedoch in der letztlichen Implementation wieder mit eingebaut werden. 
+
+Die Überführung der \ac{abnf} in \ac{ebnf} wurde in mehreren Iterationen durchgeführt, wobei frühere Iterationen sich teilweise im Versuch, die Regeln zu vereinfachen, weiter von der RFC-Definition entfernt haben. Letztlich wurden keine sinnvollen Vereinfachungen der Regeln gefunden, die sich nicht negativ auf die RFC-Konformität auswirken, weshalb der gegenteilige Ansatz gewählt wurde und die Grammatik in Struktur und Namensgebung möglichst nahe an der ursprünglichen RFC-Definition gehalten wurde. Dies entspricht auch den Überlegungen zu Grammatik-Umformungen, die in Abschnitt \ref{sec:anpassungen} ausgelegt wurden.
+
+Konkrete Umformungen nach der besprochenen Umformungssystematik sind in der \ac{ebnf} nicht realisiert, mit der Ausnahme von kleinen Änderungen, wie beispielsweise der Verwendung von Unter- statt Bindestrichen in Regelnamen. 
+
+
+
+
+
 	
 \section{Controller}
-Das Hauptprogramm bzw Controller (C++) nimmt Nutzerinputs entgegen (Konsole) und steuert die Komponenten Scanner, Parser, usw an
-	
-\section{JSONPath-Grammatik in EBNF}
-	
-Um eine 
+
+Der \textit{Controller} stellt die zentrale Steuereinheit des Systems dar. Seine Aufgaben sind die Entgegennahme von Eingaben vom Benutzer und die Steuerung deren Auswertung. Insbesondere muss der Controller dabei die Eingaben in auszuwertende JSONPath-Ausdrücke und Steuerparameter unterteilen.
+
+Der Controller kann beliebig viele JSONPath-Ausdrücke erhalten, welche er sequenziell abarbeitet. Hierfür übergibt er den einzelnen JSONPath-Ausdruck dem Scanner und Parser, um diesen auf Wohlgeformtheit zu prüfen und im Falle von Wohlgeformtheit in einen Syntaxbaum zu überführen. Anschließend leitet er den Syntaxbaum an den Interpreter weiter, um die Auswertung des Ausdrucks zu starten. Das Ergebnis des Interpreters gibt der Controller abschließend in geeigneter Form aus.
+
+
 	
 \section{flex-Scanner}
-Lexikalische Analyse
-	
-Whitespace Verarbeitung
+
+Der flex-Scanner muss in Absprache mit dem Parser die Eingabe in eine Menge aus vordefinierten Tokens überführen. Prinzipiell kann ein Token für eine beliebige Teilmenge der Eingabe stehen, jedoch stellt die Koordination der Tokens eine Kopplung zwischen Scanner und Parser dar, sodass die Zahl der Tokens nicht unnötig groß werden sollte. Dementsprechend werden keine Tokens definiert, die ein einzelnes Zeichen in der Eingabe unverändert an den Parser weiterreichen, wie dies beispielsweise für Klammern der Fall ist. Um einzelne Zeichen weiterzuleiten werden diese direkt als Zeichen weitergeleitet und können dementsprechend in den Grammatikregeln auch direkt als Zeichen verwendet werden. 
+
+Für Teilmengen der Eingabe, deren Länge fest ist, wie dies zum Beispiel für den Vergleichsoperator $==$ der Fall ist, werden entsprechende Tokens definiert, damit Whitespaces zwischen den Operatorzeichen ausgeschlossen werden können
+
+Alle weiteren Tokens repräsentieren komplexere Teilmengen des Eingabetextes, die über reguläre Ausdrücke abgebildet werden. Diese regulären Ausdrücke orientieren sich möglichst eng an den Zeichenregeln der Grammatik, sodass unnötige Fehler durch falsche Umformungen vermieden werden können und die regulären Ausdrücke einfacher nachzuvollziehen und bei Bedarf einfacher zu warten und zu erweitern sind.
+
+
+
+\subsection{Whitespace-Verarbeitung}
+
+Da es keine Stellen in der JSONPath-Grammatik gibt, an denen Whitespaces verpflichtend sind, wäre ein möglicher Ansatz, die Grammatik erheblich zu vereinfachen, einfach beispielsweise auf Scanner-Ebene alle Whitespaces zu überlesen. Whitespaces auf Grammatik-Ebene müssen über Optionen in die betroffenen Regeln eingebunden werden, damit diese an allen erlaubten Stellen vorkommen können, ohne vorkommen zu müssen. Dies führt dazu, dass diese Regeln erheblich komplexer werden, wodurch der Parsevorgang fehleranfälliger wird. 
+
+Es gibt jedoch einige Stellen, an denen JSONPath Whitespaces nicht erlaubt, welche bei einer vollständigen Überlesung von Whitespaces nicht realisiert werden können. 
+
+\begin{lstlisting}
+	$.a
+	$ .a
+	$. a \Lightning
+\end{lstlisting}
+
+Das obige Beispiel zeigt einen einfachen JSONPath-Ausdruck und mögliche Anordnungen von Whitespaces. Ein Whitespace zwischen dem Punktoperator und dem darauf folgenden Selektor ist jedoch nicht erlaubt, weshalb dieser Ausdruck nicht als JSONPath-Ausdruck nach RFC-9535 akzeptiert werden darf.
+
+Der naheliegende Ansatz, die Whitespaces wie im RFC als Teil der Grammatik zu behandeln und entsprechend im Parser darzustellen erhöht wie bereits beschrieben die Fehleranfälligkeit des Parsers und führt zu diversen \ac{sr}- und \ac{rr}-Konflikten. Es ist jedoch in gewisser Weise auch der am wenigsten fehleranfällige Ansatz, da dieser wie auch der RFC über positive Definition die Stellen kennzeichnet, an welchen Whitespaces erlaubt sind, während Stellen, an denen Whitespaces verboten sind implizit durch Abwesenheit einer Erlaubnis dargestellt werden. Wenn Whitespaces beispielsweise im Scanner behandelt werden sollen, ist der zuverlässigere Weg hierfür, die Stellen, an denen keine Whitespaces verwendet werden dürfen durchzusetzen. Dementsprechend muss für solche Ansätze dieser Aspekt der Grammatik erfolgreich umgedreht werden, was eine Grammatikänderung als mögliche Fehlerquelle als Folge hat.
+
+Die Behandlung von Whitespaces im Scanner, also effektiv die Umsetzung von Stellen, an denen Whitespaces verboten sind, erhöht die Komplexität der verwendeten regulären Ausdrücke. Auch unscheinbare Stellen müssen hierbei bedacht werden, so können beispielsweise Operatoren, die aus mehreren Zeichen bestehen, nicht ohne weitere Prüfungen als einzelne Zeichen an den Parser gereicht werden, da sonst Whitespaces zwischen den Operatorzeichen nicht erkannt werden. Des weiteren geht diese Bearbeitung davon aus, dass der Scanner ausreichende Informationen hat, um entscheiden zu können, ob ein gegebenes Whitespace erlaubt ist oder nicht. Wie sich in der Implementation herausstellen wird, ist dies nicht für alle Stellen der Fall.
+
+Ein weiterer möglicher Ansatz wäre es, Whitespaces in Scanner und Parser zu ignorieren und in einem anschließenden Nachbearbeitungsschritt zu prüfen. Effektiv entspricht das einem zweiten, auf Whitespaces und eventuelle andere Nachbearbeitungen spezialisierten Parsevorgang, was dementsprechend nennenswerte negative Auswirkungen auf die Laufzeit des Compilers haben kann. Ebenso wird die Frage der konkreten Lösung der Whitespaces damit auch nur auf einen Nachbearbeitungsschritt verschoben und muss folglich nach wie vor geklärt werden.
+
+Da die Bearbeitung von Whitespaces im Scanner vergleichsweise einfach umzusetzen ist und dabei die Vorteile für den Parser ohne größere Nachteile für den Scanner erreichen kann, wird diese für die Implementation verwendet. Whitespaces werden somit aus der Grammatik entfernt und beim Auswerten der Tokens beachtet. Dies stellt jedoch einen Kompromiss dar, da nicht alle kritischen Stellen erfolgreich im Scanner abgehandelt werden können.
+
+Es entsteht dadurch an einigen Problemstellen die Möglichkeit, dass JSONPath-Ausdrücke fälschlich als solche akzeptiert werden, obwohl sie nach RFC-9535 keine solchen sind. Die konkret betroffenen Stellen werden in der Implementierung aufgeführt.
+
+
+
 	
 \section{Bison-Parser}
-Syntaktische Analyse
+
+Um die syntaktische Analyse mit einem von Bison generierten Parser zu ermöglichen, müssen einige Regelkonstrukte aus der \ac{abnf} beziehungsweise \ac{ebnf} umgeformt werden.
+
+Bison-Regeln können keine Wiederholungsklammern oder Optionsklammern beinhalten, weshalb beide eine passende Umformung benötigen. Um diese Umformungen einheitlich und nachvollziehbar zu halten, werden folgende Umformungsschemata eingesetzt:
+
+\subsection{Wiederholungsschema}
+
+\begin{lstlisting}
+	A = {B}
 	
-nach welchem system umformungen? 
-wie validieren, ob noch RFC-konform?
+	A = rep_B
+	rep_B = epsilon
+		| rep_B B
+\end{lstlisting}
+
+Das obige Schema zeigt, wie aus einer \ac{ebnf}-Regel mit einer Wiederholung durch Umformung die Wiederholung auf eine rekursive Hilfsregel ausgelagert wird. Um ein einheitliches Namensschema zu erhalten, wird die Hilfsregel nach dem sich wiederholenden Teil benannt und erhält den Präfix \textit{rep_} (englisch \textit{repetition}).
+
+
+\begin{lstlisting}
+	A = B B B rep_B
+	rep_B = epsilon
+		| rep_B B
+\end{lstlisting}
+
+Wiederholungen mit einer festen Mindestanzahl an Wiederholungen müssen zusätzlich zur Hilfsfunktion diesen Mindestanteil als festen Bestandteil der Regel definieren. Obiges Beispiel zeigt eine mindestens dreifache Wiederholung von \textit{B}.
+
+
+\begin{lstlisting}
+	A = opt_B opt_B opt_B
+\end{lstlisting}
+
+Wiederholungen mit einer festen Höchstanzahl an Wiederholungen müssen anstelle der Wiederholungshilfsregel die benötigte Anzahl über Optionen ausdrücken. Obiges Beispiel zeigt eine maximal dreifache Wiederholung von \textit{B}.
+
+\begin{lstlisting}
+	A = B B B
+\end{lstlisting}
+
+Wiederholungen mit einer festen Anzahl an Wiederholungen, also derselben festen Mindest- und Höchstanzahl, müssen diese über eine entsprechende Anzahl des Basisausdrucks regeln. Obiges Beispiel zeigt eine genau dreifache Wiederholung von \textit{B}.
+
+\subsection{Optionsschema}
+
+\begin{lstlisting}
+	A = [B]
 	
-\section{Bisonhack-AST}
+	A = opt_B
+	opt_B = epsilon
+		| B
+\end{lstlisting}
+
+Optionsklammern können in Bison nicht direkt dargestellt werden. Um optionale Teile zu realisieren, wird das obige Umformungsschema benutzt. Hierbei wird der optionale Teil durch eine Hilfsregel ersetzt, welche auf diesen oder die leere Menge abgeleitet werden kann. Wie auch beim Wiederholungsschema setzt das Optionsschema auf eine einheitliche Namensgebung, für welche die Hilfsregeln den Präfix \textit{opt_} (\textit{Option}) erhalten.
+
+
+\subsection{Epsilon-Ableitungen}
+
+Da viele Regeln eine Epsilon-Ableitung in Form einer leeren Option enthalten, wird zur Erkennbarkeit dieser Stellen eine spezielle Hilfsregel \textit{epsilon} ergänzt. Diese enthält keine weiteren Terminale oder Nichtterminale, wodurch sie der leeren Menge entspricht und eine einheitliche Kennzeichnung der leeren Menge in anderen Regeln ermöglicht.
+
+
+
+
+\subsection{Normalisierte Ausdrücke}
+
+Da JSONPath klare Grammatikdefinitionen für die JSONPath-Ausdrucksteilmenge der normalisierten JSONPath-Ausdrücke bereitstellt, werden diese vom Parser auch umgesetzt. 
+
+Die Umsetzung der normalisierten Ausdrücke wurde initial motiviert durch ein Missverständnis, da die \ac{abnf} im RFC an verschiedenen Stellen nur Groß- beziehungsweise Kleinbuchstaben angibt und aufgrund dessen, dass Groß- und Kleinschreibung in \ac{abnf} nicht beachtet wird, die jeweils nicht angegebene Schreibweise impliziert. Wenn die \ac{abnf} Groß- und Kleinbuchstaben unterscheiden würde, würden Randfälle entstehen, in denen ein Ausdruck ein normalisierter JSONPath-Ausdruck aber \textit{kein} allgemeiner JSONPath-Ausdruck ist.
+
+\begin{lstlisting}
+	$['\u000b']
+\end{lstlisting}
+
+Obiges Beispiel zeigt einen solchen Fall, der unter der Annahme, dass die \ac{abnf} Groß- und Kleinschreibung unterscheidet, nur als normalisierter Ausdruck erlaubt ist. Die Definition für normalisierte Hex-Character-Escapes erlaubt in diesen nur Kleinbuchstaben, während die Definition für allgemeine Hex-Character-Escapes zwar nur Großbuchstaben angibt, aber durch die Eigenschaften der \ac{abnf} auch Kleinbuchstaben implizit erlaubt.
+
+Unter Berücksichtigung der implizierten Groß- beziehungsweise Kleinschreibungen sind die normalisieren JSONPath-Ausdrücke eine echte Teilmenge der allgemeinen JSONPath-Ausdrücke, wodurch die Grammatik für die normalisierten Ausdrücke nicht notwendig ist, um allgemeine JSONPath-Ausdrücke auf Wohlgeformtheit zu überprüfen. Da diese Erkenntnis jedoch zu einem Zeitpunkt erfolgt ist, an dem normalisierte Ausdrücke bereits erkannt und von allgemeinen Ausdrücken unterschieden werden konnten, wurden diese beibehalten. Somit kann der Parser nicht nur die Wohlgeformtheit von JSONPath-Ausdrücken überprüfen, sondern auch erkennen, wenn der Ausdruck ein normalisierter JSONPath-Ausdruck ist.
+
+
+
+\subsection{Bison-Syntaxtree-Hack}
+
+Um die Überführung der Eingabe in einen als Zwischencode geeigneten Syntaxbaum zu automatisieren, wird die Bison-Syntaxtree-Hack-Klasse in den Parser eingebunden. 
+
+Da diese Klasse außerdem über eine Visualisierungskomponente verfügt, wird diese über Steuerparameter im Controller zugänglich gemacht.
+
+
+
+\section{Compiler-Tests}
+
+Die Compiler-Tests dienen einer automatischen Bestätigung der Funktionstüchtigkeit des Compilers, insbesondere nach eventuellen Änderungen daran. Hierfür werden Testfälle definiert, welche aus einem Ausdruck und der Information, ob dieser Wohlgeformt ist, bestehen. Diese können automatisiert dem Compiler vorgesetzt werden um dessen Ergebnis mit dem erwarteten Ergebnis abzugleichen.
+
+Es ist hierbei im Interesse einer möglichst fehlerfreien und erweiterbaren Anwendung, soviele Szenarien wie möglich abzudecken, mit dem idealisierten Ziel alle möglichen Szenarien für wohlgeformte und nicht-wohlgeformte JSONPath-Ausdrücke zu beinhalten. Da sowohl die Anzahl der wohlgeformten als auch insbesondere die Anzahl der nicht-wohlgeformten Ausdrücke unendlich ist, ist eine Test-Suite, die vollständig alle möglichen Fälle abdecken kann nicht realistisch.
+
+Ziel der Tests ist es daher zunächst eine ungefähre Idee zu geben, ob die aktuelle Compiler-Konfiguration die Wohlgeformtheit von Ausdrücken richtig erkennen kann. Diese Grundlage kann anschließend um weitere Testfälle erweitert werden um weitere Szenarien abdecken zu können.
+
+
+
+\section{Interpreter}
+
+Die Auswertung von JSONPath-Ausdrücken erfolgt segmentweise. Jedes Segment erhält als Eingangswert eine Menge von Knoten aus dem \ac{json}-Objekt, auf welchem die Auswertung ausgeführt werden soll, wählt anhand dieser Knoten und den im Segment definierten Selektoren eine neue Knotenmenge aus und gibt diese als Rückgabewert aus. Das erste Segment erhält hierbei den Wurzelknoten des \ac{json}-Objekts und die Ausgabe des letzten Segments ist die Ausgabe des gesamten JSONPath-Ausdrucks. Wenn an irgendeiner Stelle die weitergegebene Knotenmenge leer ist, kann die Auswertung vorzeitig abgebrochen werden, da jedes Segment nur aus den noch vorhandenen Knoten und deren Kindknoten eine Auswahl treffen kann.
+
+Aufgrund dieser Beschaffenheit von JSONPath-Ausdrücken muss der Interpreter nicht den gesamten JSONPath-Ausdruck auf einmal auswerten können, sondern kann dessen Segmente der Reihe nach auswerten um das Gesamtergebnis zu erhalten.
+
 	
 \section{Beschleunigte Suche in YottaDB}
 	
-	
-	
-\subsection{Erweiterung der Schlüssel}
+Im Folgenden wird die Schlüsselzerlegung als ein Ansatz zur Beschleunigung der Suche in YottaDB betrachtet und auf ihre Laufzeit und Speicherkomplexität untersucht. 
+
+Weitere Ansätze können ungefähr nach demselben Schema auf ihre Eignung untersucht werden. Da jedoch wie sich zeigen wird der untersuchte Ansatz in erster Linie an der wahrscheinlich bereits vorhandenen Effizienz der Suche in YottaDB scheitert und die Implementierung dieser Ansätze nicht im Rahmen dieser Arbeit stattgefunden hat, werden an dieser Stelle darüber hinaus keine weiteren Ansätze verfolgt.
+
+
 	
 \begin{lstlisting}
 	["Hallo", "Welt", 1]
@@ -1072,7 +1230,7 @@ Auf dieselbe Weise müssen einzelne Schlüssel nicht vollständig unterteilt wer
 	
 Da die Zerlegung der Schlüssel nach Bedarf entschieden werden kann, muss zunächst geklärt werden, ab wann sich die Zerlegung einer Schlüsselebene lohnt. Um die Komplexität der Betrachtungen etwas zu reduzieren, wird vorerst davon ausgegangen, dass die Schlüsselzerlegung auf einer Ebene ausgeführt wird und diese vollständig in einzelne Zeichen zerlegt wird. Wenn die Zerlegung einer Schlüsselebene einen Laufzeitvorteil bringt, dann lässt sich derselbe Vorteil auch auf anderen Ebenen erzielen, wenn diese ausreichend viele Schlüssel beinhalten.
 	
-\subsubsection{Vollständige Zerlegung einer Schlüsselebene}
+\subsection{Vollständige Zerlegung einer Schlüsselebene}
 	
 Um die Auswirkungen der Zerlegung einer Schlüsselebene auf Laufzeit und Speicherkomplexität bestimmen zu können, werden zunächst einige Variablen definiert:
 \begin{itemize}
@@ -1122,7 +1280,7 @@ Die tatsächliche erwartete Auswirkung kann an einem Rechenbeispiel nachvollzoge
 Wie aus dem Rechenbeispiel erkennbar wird, bietet die Schlüsselzerlegung signifikante Vorteile in der Laufzeit, welche durch akzeptierbare Einbußen in der Speicherkomplexität erkauft werden. 
 	
 
-\subsubsection{Anpassung an verbesserte Laufzeit}
+\subsection{Anpassung an verbesserte Laufzeit}
 
 Wie in Kapitel \ref{cha:problemanalyse} besprochen, ist die Annahme, dass YottaDB eine lineare Suche einsetzt und dadurch eine Laufzeit von $\mathcal{O}(n)$ erreicht, nicht unbedingt korrekt. Es muss daher die Auswirkung auf die Laufzeit betrachtet werden, wenn beispielsweise über binäre Suche die Dauer einer einzelnen Suche auf einer Ebene auf $\mathcal{O}(\log(n))$ reduziert wird. 
 
@@ -1146,7 +1304,7 @@ Beim vorigen Rechenbeispiel mit Schlüsseln der Länge $16$ und einem Zeichensat
 
 Um die Schlüsselzerlegung möglicherweise konkurrenzfähig zu machen müssten idealerweise sowohl die Schlüssellänge $m$ als auch die Größe $c$ des verwendeten Zeichensatzes verkleinert werden. Beide dieser Ansätze werden im Folgenden weiter untersucht.
 
-\subsubsection{Reduktion des Zeichensatzes}
+\subsection{Reduktion des Zeichensatzes}
 
 Eine Reduktion des verwendeten Zeichensatzes ist problemlos möglich, wenn der ursprüngliche Zeichensatz nicht vollständig ausgeschöpft wird. Wenn zum Beispiel der Ausgangsdatensatz von einem 7-Bit-ASCII-Zeichensatz ausgeht, aber Schlüssel tatsächlich nur aus Groß- und Kleinbuchstaben bestehen, würde die Einschränkung des Zeichensatzes auf diese Buchstaben keine Änderungen an den bestehenden Schlüsseln erfordern, könnte aber bereits nennenswerte Einsparungen in der Laufzeit bewirken.
 
@@ -1158,7 +1316,7 @@ Da jedoch die Schlüssellänge einen deutlich größeren Einfluss auf die Gesamt
 
 
 
-\subsubsection{Reduktion der Schlüssellänge}
+\subsection{Reduktion der Schlüssellänge}
 
 Eine direkte Reduktion der Schlüssellänge ist nicht ohne weiteres auf jeden Fall anwendbar, da die Ausgangsschlüssellänge durch den gewünschten Einsatz der Schlüssel im Ausgangsdatensatz bedingt sein kann. Vielmehr ist die zu reduzierende Einheit nicht die tatsächliche Schlüssellänge, sondern die effektive Schlüssellänge für die Schlüsselzerlegung, oder mit anderen Worten der Anteil der Schlüssellänge, der zerlegt werden soll.
 
@@ -1193,7 +1351,6 @@ Die Schlüsselzerlegung bringt dementsprechend unter der Annahme, dass in YottaD
 	
 	
 	
-	%TODO: alternative ansätze? (google scholar "effiziente suche" zb)
 
 
 
@@ -1291,7 +1448,240 @@ Beschleunigung regex suche!
 \printbibliography[heading=bibintoc]
 
 %---
-\chapter{Anhang A}
+\chapter{JSONPath-Grammatik in EBNF}
+\label{cha:ebnf}
+
+\section{Grammatik-Regeln}
+
+\begin{lstlisting}
+	jsonpath_query = root_identifier segments
+	segments = {S segment}
+	
+	selector = name_selector
+			| wildcard_selector 
+			| slice_selector 
+			| index_selector 
+			| filter_selector
+	
+	name_selector = string_literal
+	
+	index_selector = int
+	
+	slice_selector = [start S] ":" S [end S] [":" [S step]]
+	start = int
+	end = int
+	step = int
+	
+	filter_selector = "?" S logical_expr
+	
+	logical_expr = logical_or_expr
+	logical_or_expr = logical_and_expr {S "||" S logical_and_expr}
+	logical_and_expr = basic_expr {S "&&" S basic_expr}
+	
+	basic_expr = paren_expr
+			| comparison_expr
+			| test_expr
+			
+	paren_expr = [logical_not_op S] "(" S logical_expr S ")"
+	
+	test_expr = [logical_not_op S] (filter_query | function_expr)
+	filter_query = rel_query | jsonpath_query
+	rel_query = current_node_identifier segments
+	
+	comparison_expr = comparable S comparison_op S comparable
+	
+	literal = number
+			| string_literal
+			| true
+			| false
+			| null
+			
+	comparable = literal
+			| singular_query
+			| function_expr
+			
+	singular_query = rel_singular_query
+			| abs_singular_query
+	rel_singular_query = current_node_identifier singular_query_segments
+	abs_singular_query = root_identifier singular_query_segments
+	singular_query_segments = {S (name_segment | index_segment)}
+	name_segment = ("[" name_selector "]")
+			| ("." member_name_shorthand)
+	index_segment = "[" index_selector "]"
+	
+	number = (int | "-0") [frac] [exp]
+	frac = "." DIGIT {DIGIT}
+	exp = "e" ["+" | "-"] DIGIT {DIGIT}
+	
+	function_expr = function_name "(" S [function_argument 
+			{S "," S function_argument}] S ")"
+			
+	function_argument = literal
+			| filter_query
+			| logical_expr
+			| function_expr
+			
+	segment = child_segment
+			| descendant_segment
+	child_segment = bracketed_selection
+			| ("." (wildcard_selector | member_name_shorthand))
+			
+	bracketed_selection = "[" S selector {S "," S selector} S "]"
+	
+	descendant_segment = ".." (bracketed_selection 
+			| wildcard_selector
+			| member_name_shorthand)
+\end{lstlisting}
+
+
+
+\section{Zeichenregeln}
+
+\begin{lstlisting}
+	B = " "
+			| "\t" 
+			| "\n" 
+			| "\c"
+	S = {B}
+	
+	root_identifier = "$"
+	
+	
+	string_literal = '"' {double_quoted} '"'
+			| "'" {single_quoted} "'"
+			
+	double_quoted = unescaped
+			| "'"
+			| ESC '"'
+			| ESC escapable
+	
+	single_quoted = unescaped
+			| '"'
+			| ESC "'"
+			| ESC escapable
+	
+	ESC = "\"
+	
+	unescaped = [\x20-\x21]
+			| [\x23-\x26]
+			| [\x22-\x5B]
+			| [\x5D-\xD7FF]
+			| [\xE000-\x10FFFF]
+				
+	escapable = "b"
+			| "f"
+			| "n"
+			| "r"
+			| "t"
+			| "/"
+			| "\"
+			| ("u" hexchar)
+	
+	hexchar = non_surrogate
+			| (high_surrogate "\u" low_surrogate)
+	non_surrogate = 
+			((DIGIT | "A" | "B" | "C" | "E" | "F") HEXDIG HEXDIG HEXDIG)
+			| ("D" [0-7] HEXDIG HEXDIG)
+	high_surrogate = "D" ("8" | "9" | "A" | "B") HEXDIG HEXDIG
+	low_surrogate = "D" ("C" | "D" | "E" | "F") HEXDIG HEXDIG
+	HEXDIG = DIGIT
+			| "A"
+			| "B"
+			| "C"
+			| "D"
+			| "E"
+			| "F"
+	
+	
+	wildcard_selector = "*"
+	
+	int = "0"
+			| (["-"] DIGIT1 {DIGIT})
+	DIGIT1 = [1-9]
+	
+	logical_not_op = "!"
+	
+	current_node_identifier = "@"
+	
+	comparison_op = "=="
+			| "!="
+			| "<="
+			| ">="
+			| "<"
+			| ">"
+			
+	true = "true"
+	false = "false"
+	null = "null"
+	
+	function_name = function_name_first {function_name_char}
+	function_name_first = LCALPHA
+	function_name_char = function_name_first
+			| "_"
+			| DIGIT
+	
+	LCALPHA = [a-z]
+	
+	member_name_shorthand = name_first {name_char}
+	name_first = ALPHA
+			| "_"
+			| [\x80-\xD7FF]
+			| [\xE000-\x10FFFF]
+	name_char = name_first
+			| DIGIT
+			
+	DIGIT = [0-9]
+	ALPHA = [A-Za-z]		
+	
+\end{lstlisting}
+
+
+
+\section{Normalisierte Abfragen}
+
+\begin{lstlisting}
+	normalized_path = root_identifier {normal_index_segment}
+	normal_index_segment = "[" normal_selector "]"
+	
+	normal_selector = normal_name_selector
+			| normal_index_selector
+			
+	normal_name_selector = "'" {normal_single_quoted} "'"
+	normal_single_quoted = normal_unescaped
+			| ESC normal_escapable
+			
+	normal_unescaped = [\x20-\x26]
+			| [\x28-\x5B]
+			| [\x5D-\xD7FF]
+			| [\xE000-\x10FFFF]
+			
+	normal_escapable = "b"
+			| "f"
+			| "n"
+			| "r"
+			| "t"
+			| "'"
+			| "\"
+			| ("u" normal_hexchar)
+			
+	normal_hexchar = "00"
+			(
+				("0" [0-7])
+				| ("0b")
+				| ("0" [e-f])
+				| ("1" normal_HEXDIG)
+			)
+			
+	normal_HEXDIG = DIGIT
+			| [a-f]
+			
+			
+	normal_index_selector = "0"
+			| (DIGIT1 {DIGIT})
+	
+\end{lstlisting}
+
+
 
 
 
