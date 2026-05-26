@@ -7,98 +7,113 @@
 \contentsline {chapter}{Abkürzungsverzeichnis}{viii}{chapter*.6}%
 \contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Problemstellung und -abgrenzung}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Problemstellung und -abgrenzung}{2}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Ziel der Arbeit}{2}{section.1.3}%
 \contentsline {section}{\numberline {1.4}Vorgehen}{3}{section.1.4}%
-\contentsline {chapter}{\numberline {2}Grundlagen}{4}{chapter.2}%
-\contentsline {section}{\numberline {2.1}JSON}{4}{section.2.1}%
-\contentsline {section}{\numberline {2.2}JSONPath}{5}{section.2.2}%
-\contentsline {section}{\numberline {2.3}NoSQL-Datenbanken}{5}{section.2.3}%
-\contentsline {section}{\numberline {2.4}YottaDB}{5}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Phasen von Compilern}{6}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Lexikalische Analyse}{6}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Syntaktische Analyse}{7}{subsection.2.5.2}%
-\contentsline {section}{\numberline {2.6}flex}{7}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Bison}{7}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}GLR}{8}{subsection.2.7.1}%
-\contentsline {chapter}{\numberline {3}Problemanalyse}{9}{chapter.3}%
-\contentsline {section}{\numberline {3.1}JSONPath-Funktionsumfang}{9}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Allgemein}{10}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Wurzel}{10}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Segmente}{10}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Selektoren}{11}{subsection.3.1.4}%
-\contentsline {subsubsection}{\nonumberline Namensselektoren}{12}{subsubsection*.16}%
-\contentsline {subsubsection}{\nonumberline Der Wildcard-Selektor}{12}{subsubsection*.18}%
-\contentsline {subsubsection}{\nonumberline Slice-Selektoren}{12}{subsubsection*.20}%
-\contentsline {subsubsection}{\nonumberline Index-Selektoren}{13}{subsubsection*.22}%
-\contentsline {subsubsection}{\nonumberline Filterselektoren}{13}{subsubsection*.24}%
-\contentsline {subsubsection}{\nonumberline Funktionsausdrücke}{14}{subsubsection*.26}%
-\contentsline {subsection}{\numberline {3.1.5}Whitespaces}{15}{subsection.3.1.5}%
-\contentsline {subsubsection}{\nonumberline Whitespaces vor und nach der JSONPath-Abfrage}{16}{subsubsection*.28}%
-\contentsline {subsubsection}{\nonumberline Whitespaces in geschlossenen Definitionen}{16}{subsubsection*.30}%
-\contentsline {subsubsection}{\nonumberline Whitespaces in singulären Abfragen}{17}{subsubsection*.32}%
-\contentsline {subsection}{\numberline {3.1.6}Normalisierte JSONPath-Ausdrücke}{17}{subsection.3.1.6}%
-\contentsline {subsection}{\numberline {3.1.7}Erlaubte Eingangszeichen}{18}{subsection.3.1.7}%
-\contentsline {subsubsection}{\nonumberline Beachtung von Groß- und Kleinschreibung}{18}{subsubsection*.34}%
-\contentsline {subsection}{\numberline {3.1.8}Fehlerbehandlung}{19}{subsection.3.1.8}%
-\contentsline {section}{\numberline {3.2}Aufbau des Compilers}{19}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Lexikalische Analyse}{20}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Syntaktische Analyse}{20}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Zwischencode}{20}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Aufbau des Interpreters}{21}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Beschleunigung der Suche in YottaDB}{21}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Laufzeit von Suchen nach exakter Übereinstimmung}{22}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Speicherkomplexität von Suchen nach exakter Übereinstimmung}{22}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Parametrisierung der Suchalgorithmen}{23}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Zusammenfassung}{23}{subsection.3.4.4}%
-\contentsline {section}{\numberline {3.5}Anforderungsverzeichnis}{23}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Lösungskonzept}{26}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Gesamtsystem}{26}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Systemarchitektur}{27}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Kompetenzverteilung Scanner / Parser}{28}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Anpassungen der Grammatik}{30}{subsection.4.1.3}%
-\contentsline {subsubsection}{\nonumberline Umformungssystematik}{30}{subsubsection*.38}%
-\contentsline {subsubsection}{\nonumberline Weitere Umformungsüberlegungen}{30}{subsubsection*.40}%
-\contentsline {subsection}{\numberline {4.1.4}Technologie-Auswahl}{31}{subsection.4.1.4}%
-\contentsline {subsubsection}{\nonumberline Programmiersprache}{31}{subsubsection*.42}%
-\contentsline {subsubsection}{\nonumberline Scanner-Generatortool}{31}{subsubsection*.44}%
-\contentsline {subsubsection}{\nonumberline Parser-Generatortool}{32}{subsubsection*.46}%
-\contentsline {subsubsection}{\nonumberline Erstellung von Syntaxbäumen}{32}{subsubsection*.48}%
-\contentsline {subsubsection}{\nonumberline Weitere Technologien}{32}{subsubsection*.50}%
-\contentsline {section}{\numberline {4.2}JSONPath-Grammatik in EBNF}{33}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Controller}{33}{section.4.3}%
-\contentsline {section}{\numberline {4.4}flex-Scanner}{34}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Whitespace-Verarbeitung}{34}{subsection.4.4.1}%
-\contentsline {section}{\numberline {4.5}Bison-Parser}{36}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Wiederholungsschema}{36}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Optionsschema}{37}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Epsilon-Ableitungen}{37}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Normalisierte Ausdrücke}{37}{subsection.4.5.4}%
-\contentsline {subsection}{\numberline {4.5.5}Bison-Syntaxtree-Hack}{38}{subsection.4.5.5}%
-\contentsline {section}{\numberline {4.6}Compiler-Tests}{38}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Interpreter}{39}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Beschleunigte Suche in YottaDB}{39}{section.4.8}%
-\contentsline {subsection}{\numberline {4.8.1}Vollständige Zerlegung einer Schlüsselebene}{40}{subsection.4.8.1}%
-\contentsline {subsection}{\numberline {4.8.2}Anpassung an verbesserte Laufzeit}{42}{subsection.4.8.2}%
-\contentsline {subsection}{\numberline {4.8.3}Reduktion des Zeichensatzes}{43}{subsection.4.8.3}%
-\contentsline {subsection}{\numberline {4.8.4}Reduktion der Schlüssellänge}{44}{subsection.4.8.4}%
-\contentsline {chapter}{\numberline {5}Implementierung}{46}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Gesamtsystem}{46}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Controller}{46}{section.5.2}%
-\contentsline {section}{\numberline {5.3}flex-Scanner}{46}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Bison-Parser}{46}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Bisonhack-AST}{46}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Evaluierung}{47}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Erreichte Ergebnisse anhand Anforderungsliste}{47}{section.6.1}%
-\contentsline {section}{\numberline {6.2}RFC-Konformität}{47}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Automatisierte Tests}{47}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Performance}{47}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{48}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Erreichte Ergebnisse}{48}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Ausblick}{48}{section.7.2}%
-\contentsline {chapter}{\numberline {A}JSONPath-Grammatik in EBNF}{49}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Grammatik-Regeln}{49}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Zeichenregeln}{50}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Normalisierte Abfragen}{52}{section.A.3}%
-\contentsline {chapter}{\numberline {B}Anhang B}{54}{appendix.B}%
+\contentsline {chapter}{\numberline {2}Grundlagen}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}JSON}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}JSONPath}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}NoSQL-Datenbanken}{6}{section.2.3}%
+\contentsline {section}{\numberline {2.4}YottaDB}{7}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Phasen von Compilern}{8}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Lexikalische Analyse}{9}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Syntaktische Analyse}{9}{subsection.2.5.2}%
+\contentsline {section}{\numberline {2.6}flex}{10}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Bison}{10}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}GLR}{10}{subsection.2.7.1}%
+\contentsline {chapter}{\numberline {3}Problemanalyse}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}JSONPath-Funktionsumfang}{13}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Allgemein}{13}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Wurzel}{13}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Segmente}{13}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Selektoren}{15}{subsection.3.1.4}%
+\contentsline {subsubsection}{\nonumberline Namensselektoren}{15}{subsubsection*.17}%
+\contentsline {subsubsection}{\nonumberline Der Wildcard-Selektor}{16}{subsubsection*.19}%
+\contentsline {subsubsection}{\nonumberline Slice-Selektoren}{16}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Index-Selektoren}{16}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline Filterselektoren}{17}{subsubsection*.25}%
+\contentsline {subsubsection}{\nonumberline Funktionsausdrücke}{18}{subsubsection*.27}%
+\contentsline {subsection}{\numberline {3.1.5}Whitespaces}{19}{subsection.3.1.5}%
+\contentsline {subsubsection}{\nonumberline Whitespaces vor und nach der JSONPath-Abfrage}{19}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline Whitespaces in geschlossenen Definitionen}{20}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Whitespaces in singulären Abfragen}{20}{subsubsection*.33}%
+\contentsline {subsection}{\numberline {3.1.6}Normalisierte JSONPath-Ausdrücke}{21}{subsection.3.1.6}%
+\contentsline {subsection}{\numberline {3.1.7}Erlaubte Eingangszeichen}{22}{subsection.3.1.7}%
+\contentsline {subsubsection}{\nonumberline Beachtung von Groß- und Kleinschreibung}{22}{subsubsection*.35}%
+\contentsline {subsection}{\numberline {3.1.8}Fehlerbehandlung}{23}{subsection.3.1.8}%
+\contentsline {section}{\numberline {3.2}Aufbau des Compilers}{23}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Lexikalische Analyse}{23}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Syntaktische Analyse}{24}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Zwischencode}{24}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Aufbau des Interpreters}{25}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Beschleunigung der Suche in YottaDB}{25}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Laufzeit von Suchen nach exakter Übereinstimmung}{26}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Speicherkomplexität von Suchen nach exakter Übereinstimmung}{26}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Parametrisierung der Suchalgorithmen}{27}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Zusammenfassung}{27}{subsection.3.4.4}%
+\contentsline {section}{\numberline {3.5}Anforderungsverzeichnis}{28}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Lösungskonzept}{30}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Gesamtsystem}{30}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Systemarchitektur}{31}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Kompetenzverteilung Scanner / Parser}{33}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Anpassungen der Grammatik}{34}{subsection.4.1.3}%
+\contentsline {subsubsection}{\nonumberline Umformungssystematik}{35}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline Weitere Umformungsüberlegungen}{35}{subsubsection*.41}%
+\contentsline {subsection}{\numberline {4.1.4}Technologie-Auswahl}{35}{subsection.4.1.4}%
+\contentsline {subsubsection}{\nonumberline Programmiersprache}{35}{subsubsection*.43}%
+\contentsline {subsubsection}{\nonumberline Scanner-Generatortool}{36}{subsubsection*.45}%
+\contentsline {subsubsection}{\nonumberline Parser-Generatortool}{37}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Erstellung von Syntaxbäumen}{37}{subsubsection*.49}%
+\contentsline {subsubsection}{\nonumberline Weitere Technologien}{37}{subsubsection*.51}%
+\contentsline {section}{\numberline {4.2}JSONPath-Grammatik in EBNF}{37}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Controller}{38}{section.4.3}%
+\contentsline {section}{\numberline {4.4}flex-Scanner}{39}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Whitespace-Verarbeitung}{39}{subsection.4.4.1}%
+\contentsline {section}{\numberline {4.5}Bison-Parser}{41}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Wiederholungsschema}{41}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Optionsschema}{42}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Epsilon-Ableitungen}{42}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Normalisierte Ausdrücke}{43}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Bison-Syntaxtree-Hack}{43}{subsection.4.5.5}%
+\contentsline {section}{\numberline {4.6}Compiler-Tests}{44}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Interpreter}{44}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Beschleunigte Suche in YottaDB}{45}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Vollständige Zerlegung einer Schlüsselebene}{46}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}Anpassung an verbesserte Laufzeit}{48}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.3}Reduktion des Zeichensatzes}{49}{subsection.4.8.3}%
+\contentsline {subsection}{\numberline {4.8.4}Reduktion der Schlüssellänge}{50}{subsection.4.8.4}%
+\contentsline {chapter}{\numberline {5}Implementierung}{52}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Gesamtsystem}{52}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Controller}{52}{section.5.2}%
+\contentsline {section}{\numberline {5.3}flex-Scanner}{53}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Whitespaces}{54}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Schlüsselworte und Operatoren}{55}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Komplexe reguläre Ausdrücke}{55}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Startbedingungen}{56}{subsection.5.3.4}%
+\contentsline {subsubsection}{\nonumberline INITIAL-Zustand}{57}{subsubsection*.55}%
+\contentsline {subsubsection}{\nonumberline MEMBER\_NAME\_SHORTHAND-Zustand}{57}{subsubsection*.57}%
+\contentsline {subsubsection}{\nonumberline NUMBER\_FRAC- und NUMBER\_EXP-Zustand}{58}{subsubsection*.59}%
+\contentsline {subsubsection}{\nonumberline NORMALIZED-Zustand}{58}{subsubsection*.61}%
+\contentsline {section}{\numberline {5.4}Bison-Parser}{59}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Normalisierte Ausdrücke}{59}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Mehrdeutigkeiten in der Grammatik}{60}{subsection.5.4.2}%
+\contentsline {section}{\numberline {5.5}Automatisierte Syntaxbaumerstellung mit Bison-Syntaxtree-Hack}{61}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Visualisierung}{61}{subsection.5.5.1}%
+\contentsline {chapter}{\numberline {6}Evaluierung}{62}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Erreichte Ergebnisse anhand Anforderungsliste}{62}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}JSONPath-Funktionsumfang}{62}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}JSONPath-Compiler}{63}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}JSONPath-Interpreter}{64}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Beschleunigen der Suche in YottaDB}{64}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}RFC-Konformität}{64}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Automatisierte Tests}{65}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Performance}{65}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{66}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Erreichte Ergebnisse}{66}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Ausblick}{67}{section.7.2}%
+\contentsline {chapter}{\numberline {A}JSONPath-Grammatik in EBNF}{68}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Grammatik-Regeln}{68}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Zeichenregeln}{70}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Normalisierte Abfragen}{72}{section.A.3}%
+\contentsline {chapter}{\numberline {B}Syntaxbäume}{73}{appendix.B}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

@@ -2,13 +2,18 @@
 \babel@toc {ngerman}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Phasen eines Compilers (vereinfacht nach TODO QUELLE!)}}{8}{figure.caption.10}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Architekturübersicht des Gesamtsystems}}{26}{figure.caption.35}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Architekturdiagramm im Detail}}{27}{figure.caption.36}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Architekturübersicht des Gesamtsystems}}{30}{figure.caption.36}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Architekturdiagramm im Detail}}{31}{figure.caption.37}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Zustandsdiagramm der Startbedingungen}}{56}{figure.caption.53}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {B.1}{\ignorespaces Syntaxbaum für Ausdruck \textit {\$['a'][1]}}}{73}{figure.caption.62}%
+\contentsline {figure}{\numberline {B.2}{\ignorespaces Syntaxbaum für Ausdruck \textit {\$.a[1]}}}{73}{figure.caption.63}%
+\contentsline {figure}{\numberline {B.3}{\ignorespaces Syntaxbaum für Ausdruck \textit {\$[?@.a > 1 \&\& @.b <= 0]}}}{74}{figure.caption.64}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
