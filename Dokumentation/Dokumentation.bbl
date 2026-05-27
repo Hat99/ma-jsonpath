@@ -1,0 +1,435 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{Bantel:bisonhack}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=0e192c49ca73b135389403bbc3aea310}{%
+           family={Bantel},
+           familyi={B\bibinitperiod},
+           given={Prof.\bibnamedelimi Dr.\bibnamedelimi Winfried},
+           giveni={P\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{fullhash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{fullhashraw}{0e192c49ca73b135389403bbc3aea310}
+      \strng{bibnamehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authorbibnamehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authornamehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authorfullhash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authorfullhashraw}{0e192c49ca73b135389403bbc3aea310}
+      \field{extraname}{1}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Bison Syntaxtree Hack}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/informatik-aalen/Bison-Syntaxtree-Hack
+      \endverb
+      \verb{url}
+      \verb https://github.com/informatik-aalen/Bison-Syntaxtree-Hack
+      \endverb
+    \endentry
+    \entry{Bantel:compilerbau}{unpublished}{}{}
+      \name{author}{1}{}{%
+        {{hash=0e192c49ca73b135389403bbc3aea310}{%
+           family={Bantel},
+           familyi={B\bibinitperiod},
+           given={Prof.\bibnamedelimi Dr.\bibnamedelimi Winfried},
+           giveni={P\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{fullhash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{fullhashraw}{0e192c49ca73b135389403bbc3aea310}
+      \strng{bibnamehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authorbibnamehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authornamehash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authorfullhash}{0e192c49ca73b135389403bbc3aea310}
+      \strng{authorfullhashraw}{0e192c49ca73b135389403bbc3aea310}
+      \field{extraname}{2}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Compilerbau}
+      \field{year}{2022}
+      \field{dateera}{ce}
+    \endentry
+    \entry{Estes:flex}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c610beac63f29b57e3ef308b18ddb302}{%
+           family={Estes},
+           familyi={E\bibinitperiod},
+           given={Will},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{c610beac63f29b57e3ef308b18ddb302}
+      \strng{fullhash}{c610beac63f29b57e3ef308b18ddb302}
+      \strng{fullhashraw}{c610beac63f29b57e3ef308b18ddb302}
+      \strng{bibnamehash}{c610beac63f29b57e3ef308b18ddb302}
+      \strng{authorbibnamehash}{c610beac63f29b57e3ef308b18ddb302}
+      \strng{authornamehash}{c610beac63f29b57e3ef308b18ddb302}
+      \strng{authorfullhash}{c610beac63f29b57e3ef308b18ddb302}
+      \strng{authorfullhashraw}{c610beac63f29b57e3ef308b18ddb302}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{flex}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/westes/flex/
+      \endverb
+      \verb{url}
+      \verb https://github.com/westes/flex/
+      \endverb
+    \endentry
+    \entry{GNU:Bison}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=f9ce3c726d54181a202c590efe2cc2e9}{%
+           family={Free\bibnamedelimb Software\bibnamedelima Foundation},
+           familyi={F\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Inc.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{fullhash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{fullhashraw}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{bibnamehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authorbibnamehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authornamehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authorfullhash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authorfullhashraw}{f9ce3c726d54181a202c590efe2cc2e9}
+      \field{extraname}{1}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Bison 3.8.1}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2021}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.gnu.org/software/bison/manual/bison.html
+      \endverb
+      \verb{url}
+      \verb https://www.gnu.org/software/bison/manual/bison.html
+      \endverb
+    \endentry
+    \entry{GNU:BisonGLR}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=f9ce3c726d54181a202c590efe2cc2e9}{%
+           family={Free\bibnamedelimb Software\bibnamedelima Foundation},
+           familyi={F\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Inc.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{fullhash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{fullhashraw}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{bibnamehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authorbibnamehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authornamehash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authorfullhash}{f9ce3c726d54181a202c590efe2cc2e9}
+      \strng{authorfullhashraw}{f9ce3c726d54181a202c590efe2cc2e9}
+      \field{extraname}{2}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Writing GLR Parsers1}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2021}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.gnu.org/software/bison/manual/html_node/GLR-Parsers.html
+      \endverb
+      \verb{url}
+      \verb https://www.gnu.org/software/bison/manual/html_node/GLR-Parsers.html
+      \endverb
+    \endentry
+    \entry{Herold:lexYacc}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=3299192597c772b8972217acca7199e5}{%
+           family={Herold},
+           familyi={H\bibinitperiod},
+           given={Helmut},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley}%
+      }
+      \strng{namehash}{3299192597c772b8972217acca7199e5}
+      \strng{fullhash}{3299192597c772b8972217acca7199e5}
+      \strng{fullhashraw}{3299192597c772b8972217acca7199e5}
+      \strng{bibnamehash}{3299192597c772b8972217acca7199e5}
+      \strng{authorbibnamehash}{3299192597c772b8972217acca7199e5}
+      \strng{authornamehash}{3299192597c772b8972217acca7199e5}
+      \strng{authorfullhash}{3299192597c772b8972217acca7199e5}
+      \strng{authorfullhashraw}{3299192597c772b8972217acca7199e5}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{3-8273-2096-8}
+      \field{title}{lex \& yacc: Die Profitools zur lexikalischen und syntaktischen Textanalyse}
+      \field{year}{2003}
+      \field{dateera}{ce}
+    \endentry
+    \entry{Paxson:flex}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=64469f291d02ccaef81afd5cc785044f}{%
+           family={Paxson},
+           familyi={P\bibinitperiod},
+           given={Vern},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{64469f291d02ccaef81afd5cc785044f}
+      \strng{fullhash}{64469f291d02ccaef81afd5cc785044f}
+      \strng{fullhashraw}{64469f291d02ccaef81afd5cc785044f}
+      \strng{bibnamehash}{64469f291d02ccaef81afd5cc785044f}
+      \strng{authorbibnamehash}{64469f291d02ccaef81afd5cc785044f}
+      \strng{authornamehash}{64469f291d02ccaef81afd5cc785044f}
+      \strng{authorfullhash}{64469f291d02ccaef81afd5cc785044f}
+      \strng{authorfullhashraw}{64469f291d02ccaef81afd5cc785044f}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{flex - fast lexical analyzer generator}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://web.stanford.edu/class/archive/cs/cs143/cs143.1112/materials/other/manflex.html
+      \endverb
+      \verb{url}
+      \verb https://web.stanford.edu/class/archive/cs/cs143/cs143.1112/materials/other/manflex.html
+      \endverb
+    \endentry
+    \entry{Gössner:jsonpath}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=be18c8defeedbbc77eabdc0892f98875}{%
+           family={S.\bibnamedelimi Gössner},
+           familyi={S\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={Ed.},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{be18c8defeedbbc77eabdc0892f98875}
+      \strng{fullhash}{be18c8defeedbbc77eabdc0892f98875}
+      \strng{fullhashraw}{be18c8defeedbbc77eabdc0892f98875}
+      \strng{bibnamehash}{be18c8defeedbbc77eabdc0892f98875}
+      \strng{authorbibnamehash}{be18c8defeedbbc77eabdc0892f98875}
+      \strng{authornamehash}{be18c8defeedbbc77eabdc0892f98875}
+      \strng{authorfullhash}{be18c8defeedbbc77eabdc0892f98875}
+      \strng{authorfullhashraw}{be18c8defeedbbc77eabdc0892f98875}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{RFC 9535: JSONPath: Query Expressions for JSON}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.rfc-editor.org/rfc/rfc9535.html
+      \endverb
+      \verb{url}
+      \verb https://www.rfc-editor.org/rfc/rfc9535.html
+      \endverb
+    \endentry
+    \entry{Schaefer:nosql}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=437349e3249b2fabc18643fdd12059e8}{%
+           family={Schaefer},
+           familyi={S\bibinitperiod},
+           given={Lauren},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{437349e3249b2fabc18643fdd12059e8}
+      \strng{fullhash}{437349e3249b2fabc18643fdd12059e8}
+      \strng{fullhashraw}{437349e3249b2fabc18643fdd12059e8}
+      \strng{bibnamehash}{437349e3249b2fabc18643fdd12059e8}
+      \strng{authorbibnamehash}{437349e3249b2fabc18643fdd12059e8}
+      \strng{authornamehash}{437349e3249b2fabc18643fdd12059e8}
+      \strng{authorfullhash}{437349e3249b2fabc18643fdd12059e8}
+      \strng{authorfullhashraw}{437349e3249b2fabc18643fdd12059e8}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Was ist NoSQL?}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.mongodb.com/de-de/resources/basics/databases/nosql-explained
+      \endverb
+      \verb{url}
+      \verb https://www.mongodb.com/de-de/resources/basics/databases/nosql-explained
+      \endverb
+    \endentry
+    \entry{Bray:json}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=ff23e1997868afdfed2f2a4c68f8ff0e}{%
+           family={T.\bibnamedelimi Bray},
+           familyi={T\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Ed.},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \strng{fullhash}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \strng{fullhashraw}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \strng{bibnamehash}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \strng{authorbibnamehash}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \strng{authornamehash}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \strng{authorfullhash}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \strng{authorfullhashraw}{ff23e1997868afdfed2f2a4c68f8ff0e}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{RFC 8259: STD 90: The JavaScript Object Notation (JSON) Data Interchange Format}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{year}{2017}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.rfc-editor.org/info/rfc8259/
+      \endverb
+      \verb{url}
+      \verb https://www.rfc-editor.org/info/rfc8259/
+      \endverb
+    \endentry
+    \entry{yottadb:about}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=00f5778869a4f4d584c8afc5051efd8c}{%
+           family={YottaDB},
+           familyi={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{fullhash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{fullhashraw}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{bibnamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorbibnamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authornamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorfullhash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorfullhashraw}{00f5778869a4f4d584c8afc5051efd8c}
+      \field{extraname}{1}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About Us}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://yottadb.com/about-us/
+      \endverb
+      \verb{url}
+      \verb https://yottadb.com/about-us/
+      \endverb
+    \endentry
+    \entry{yottadb:hiw}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=00f5778869a4f4d584c8afc5051efd8c}{%
+           family={YottaDB},
+           familyi={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{fullhash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{fullhashraw}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{bibnamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorbibnamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authornamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorfullhash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorfullhashraw}{00f5778869a4f4d584c8afc5051efd8c}
+      \field{extraname}{2}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{How It Works}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://yottadb.com/product/how-it-works/
+      \endverb
+      \verb{url}
+      \verb https://yottadb.com/product/how-it-works/
+      \endverb
+    \endentry
+    \entry{yottadb:home}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=00f5778869a4f4d584c8afc5051efd8c}{%
+           family={YottaDB},
+           familyi={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{fullhash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{fullhashraw}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{bibnamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorbibnamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authornamehash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorfullhash}{00f5778869a4f4d584c8afc5051efd8c}
+      \strng{authorfullhashraw}{00f5778869a4f4d584c8afc5051efd8c}
+      \field{extraname}{3}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{YottaDB}
+      \field{urlday}{26}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://yottadb.com/
+      \endverb
+      \verb{url}
+      \verb https://yottadb.com/
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

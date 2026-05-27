@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  26 MAY 2026 17:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2026.2.26)  27 MAY 2026 07:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1498,8 +1498,8 @@ Package: xtotalcount 2018/01/21 v1.0a Total values of counters (AR)
 ))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
-LaTeX Font Info:    Trying to load font information for T1+pnc on input line 9.
-
+LaTeX Font Info:    Trying to load font information for T1+pnc on input line 11
+.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pnc.fd
 File: t1pnc.fd 2001/06/04 font definitions for T1/pnc.
@@ -1507,48 +1507,48 @@ File: t1pnc.fd 2001/06/04 font definitions for T1/pnc.
 (./Dokumentation.aux)
 \openout1 = `Dokumentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-Package scrbase Info: activating english \partname on input line 9.
-Package scrbase Info: activating english \chaptername on input line 9.
-Package scrbase Info: activating english \appendixname on input line 9.
-Package scrbase Info: activating english \figurename on input line 9.
-Package scrbase Info: activating english \tablename on input line 9.
-Package scrbase Info: activating english \contentsname on input line 9.
-Package scrbase Info: activating english \listfigurename on input line 9.
-Package scrbase Info: activating english \listtablename on input line 9.
-Package scrbase Info: activating english \bibname on input line 9.
-Package scrbase Info: activating english \indexname on input line 9.
-LaTeX Info: Redefining \microtypecontext on input line 9.
-Package microtype Info: Applying patch `item' on input line 9.
-Package microtype Info: Applying patch `toc' on input line 9.
-Package microtype Info: Applying patch `eqnum' on input line 9.
-Package microtype Info: Applying patch `footnote' on input line 9.
-Package microtype Info: Applying patch `verbatim' on input line 9.
-LaTeX Info: Redefining \microtypesetup on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+Package scrbase Info: activating english \partname on input line 11.
+Package scrbase Info: activating english \chaptername on input line 11.
+Package scrbase Info: activating english \appendixname on input line 11.
+Package scrbase Info: activating english \figurename on input line 11.
+Package scrbase Info: activating english \tablename on input line 11.
+Package scrbase Info: activating english \contentsname on input line 11.
+Package scrbase Info: activating english \listfigurename on input line 11.
+Package scrbase Info: activating english \listtablename on input line 11.
+Package scrbase Info: activating english \bibname on input line 11.
+Package scrbase Info: activating english \indexname on input line 11.
+LaTeX Info: Redefining \microtypecontext on input line 11.
+Package microtype Info: Applying patch `item' on input line 11.
+Package microtype Info: Applying patch `toc' on input line 11.
+Package microtype Info: Applying patch `eqnum' on input line 11.
+Package microtype Info: Applying patch `footnote' on input line 11.
+Package microtype Info: Applying patch `verbatim' on input line 11.
+LaTeX Info: Redefining \microtypesetup on input line 11.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 9.
+LaTeX Info: Redefining \showhyphens on input line 11.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1556,7 +1556,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pnc' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package hyperref Info: Link coloring ON on input line 9.
+Package hyperref Info: Link coloring ON on input line 11.
  (./Dokumentation.out) (./Dokumentation.out)
 \@outlinefile=\write6
 \openout6 = `Dokumentation.out'.
@@ -1568,7 +1568,7 @@ Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           `bookmarkpackage=false' before \begin{document} and
 (scrbook)           you can avoid this message adding:
 (scrbook)             \usepackage{bookmark}
-(scrbook)           before \begin{document} on input line 9.
+(scrbook)           before \begin{document} on input line 11.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
@@ -1623,7 +1623,7 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 9.
+or `english'. on input line 11.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/translations/translations-basic-d
 ictionary-german.trsl
@@ -1631,22 +1631,22 @@ File: translations-basic-dictionary-german.trsl (german translation file `trans
 lations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `german'. on input line 9.
+or `german'. on input line 11.
 \c@lstlisting=\count541
-Package tocbasic Info: setting babel extension for `lol' on input line 9.
+Package tocbasic Info: setting babel extension for `lol' on input line 11.
 \scr@dte@lstlisting@maxnumwidth=\skip120
 \symgns@font=\mathgroup7
 LaTeX Font Info:    Overwriting symbol font `gns@font' in version `bold'
-(Font)                  TS1/pnc/m/n --> TS1/pnc/b/n on input line 9.
-Package gensymb Info: Math companion symbols declared on input line 9.
-LaTeX Info: Redefining \degree on input line 9.
-LaTeX Info: Redefining \celsius on input line 9.
+(Font)                  TS1/pnc/m/n --> TS1/pnc/b/n on input line 11.
+Package gensymb Info: Math companion symbols declared on input line 11.
+LaTeX Info: Redefining \degree on input line 11.
+LaTeX Info: Redefining \celsius on input line 11.
 Package gensymb Info: Using text companion symbols for \degree, \celsius and \p
-erthousand on input line 9.
-LaTeX Info: Redefining \ohm on input line 9.
-Package gensymb Info: Using \textohm for \ohm on input line 9.
-LaTeX Info: Redefining \micro on input line 9.
-Package gensymb Info: Using \textmu for \micro on input line 9.
+erthousand on input line 11.
+LaTeX Info: Redefining \ohm on input line 11.
+Package gensymb Info: Using \textohm for \ohm on input line 11.
+LaTeX Info: Redefining \micro on input line 11.
+Package gensymb Info: Using \textmu for \micro on input line 11.
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
 
@@ -1676,13 +1676,14 @@ Package biblatex Info: Automatic encoding selection.
 \openout5 = `Dokumentation.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'Dokumentation.bbl' not found.
+Package biblatex Info: ... file 'Dokumentation.bbl' found.
 
-No file Dokumentation.bbl.
-Package biblatex Info: Reference section=0 on input line 9.
-Package biblatex Info: Reference segment=0 on input line 9.
-LaTeX Font Info:    Trying to load font information for T1+pag on input line 67
+(./Dokumentation.bbl)
+Package biblatex Info: Reference section=0 on input line 11.
+Package biblatex Info: Reference segment=0 on input line 11.
+LaTeX Font Info:    Trying to load font information for T1+pag on input line 69
 .
+
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pag.fd
 File: t1pag.fd 2001/06/04 font definitions for T1/pag.
 )
@@ -1693,12 +1694,12 @@ Package microtype Info: Loading generic protrusion settings for font family
 <images/hs-aalen.jpg, id=7, 2007.5pt x 1155.31625pt>
 File: images/hs-aalen.jpg Graphic file (type jpg)
 <use images/hs-aalen.jpg>
-Package pdftex.def Info: images/hs-aalen.jpg  used on input line 67.
+Package pdftex.def Info: images/hs-aalen.jpg  used on input line 69.
 (pdftex.def)             Requested size: 209.12778pt x 120.35101pt.
 LaTeX Font Info:    Font shape `T1/pag/b/n' in size <24.88> not available
-(Font)              Font shape `T1/pag/db/n' tried instead on input line 67.
+(Font)              Font shape `T1/pag/db/n' tried instead on input line 69.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 6
-7.
+9.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1708,30 +1709,30 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (RS)
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 6
-7.
+9.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-67.
+69.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-67.
+69.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 67.
+(Font)              <10.95> on input line 69.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 67.
+(Font)              <8> on input line 69.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 67.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 67.
+(Font)              <6> on input line 69.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 69.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1740,7 +1741,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 67.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 69.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -1750,7 +1751,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for TS1+pnc on input line 6
-7.
+9.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1pnc.fd
 File: ts1pnc.fd 2001/06/04 font definitions for TS1/pnc.
@@ -1769,9 +1770,9 @@ Package microtype Info: Loading generic protrusion settings for font family
 al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc} <./images/hs-aalen.jpg>
 ]
 LaTeX Font Info:    Font shape `T1/pag/b/n' in size <10.95> not available
-(Font)              Font shape `T1/pag/db/n' tried instead on input line 80.
+(Font)              Font shape `T1/pag/db/n' tried instead on input line 82.
 LaTeX Font Info:    Font shape `T1/pag/b/n' in size <20.74> not available
-(Font)              Font shape `T1/pag/db/n' tried instead on input line 80.
+(Font)              Font shape `T1/pag/db/n' tried instead on input line 82.
 
 
 [1
@@ -1792,8 +1793,8 @@ LaTeX Font Info:    Font shape `T1/pag/b/n' in size <20.74> not available
 
 
 ]
-Package tocbasic Info: character protrusion at toc deactivated on input line 11
-8.
+Package tocbasic Info: character protrusion at toc deactivated on input line 12
+0.
  (./Dokumentation.toc
 
 [4
@@ -1811,7 +1812,7 @@ Package tocbasic Info: character protrusion at toc deactivated on input line 11
 
 [6]
 Package tocbasic Info: character protrusion at lof deactivated on input line 12
-1.
+3.
  (./Dokumentation.lof)
 \tf@lof=\write8
 \openout8 = `Dokumentation.lof'.
@@ -1829,12 +1830,12 @@ Package tocbasic Info: character protrusion at lof deactivated on input line 12
 ]
 chapter 1.
 LaTeX Font Info:    Font shape `T1/pag/b/n' in size <14.4> not available
-(Font)              Font shape `T1/pag/db/n' tried instead on input line 177.
+(Font)              Font shape `T1/pag/db/n' tried instead on input line 179.
 Package acronym Info: Label `acro:json' newly defined as it shall be overridden
 
-although it is yet undefined on input line 180.
+although it is yet undefined on input line 182.
 Package acronym Info: Label `acro:xml' newly defined as it shall be overridden
-although it is yet undefined on input line 180.
+although it is yet undefined on input line 182.
 
 
 
@@ -1855,7 +1856,7 @@ been already used, duplicate ignored
 \__hook shipout/before ...ip \Hy@EveryPageBoxHook 
                                                   \box \AtBeginShipoutBox }\...
 ...
-l.195 
+l.194 
        [1
 
 
@@ -1876,7 +1877,7 @@ chapter 2.
 
 ]
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 29
-7.
+4.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
@@ -1888,38 +1889,38 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [6]
 Package acronym Info: Label `acro:gtm' newly defined as it shall be overridden
-although it is yet undefined on input line 321.
+although it is yet undefined on input line 315.
 
 
 [7{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
 cal/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}]
-<images/CMP-Phasen.png, id=356, 724.7075pt x 782.925pt>
+<images/CMP-Phasen.png, id=373, 724.7075pt x 782.925pt>
 File: images/CMP-Phasen.png Graphic file (type png)
 <use images/CMP-Phasen.png>
-Package pdftex.def Info: images/CMP-Phasen.png  used on input line 349.
+Package pdftex.def Info: images/CMP-Phasen.png  used on input line 341.
 (pdftex.def)             Requested size: 227.62204pt x 245.9059pt.
 
 
 [8 <./images/CMP-Phasen.png>]
 LaTeX Font Info:    Font shape `T1/pag/b/n' in size <12> not available
-(Font)              Font shape `T1/pag/db/n' tried instead on input line 363.
+(Font)              Font shape `T1/pag/db/n' tried instead on input line 354.
 Package acronym Info: Label `acro:abnf' newly defined as it shall be overridden
 
-although it is yet undefined on input line 378.
+although it is yet undefined on input line 367.
 
 
 [9]
 Package acronym Info: Label `acro:bnf' newly defined as it shall be overridden
-although it is yet undefined on input line 409.
+although it is yet undefined on input line 394.
 Package acronym Info: Label `acro:sr' newly defined as it shall be overridden
-although it is yet undefined on input line 417.
+although it is yet undefined on input line 400.
 Package acronym Info: Label `acro:rr' newly defined as it shall be overridden
-although it is yet undefined on input line 417.
+although it is yet undefined on input line 400.
 
 
 [10]
 Package acronym Info: Label `acro:glr' newly defined as it shall be overridden
-although it is yet undefined on input line 422.
+although it is yet undefined on input line 405.
 
 
 [11]
@@ -1933,11 +1934,11 @@ chapter 3.
 
 [13]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 505.
+(Font)              <10> on input line 487.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 505.
+(Font)              <7> on input line 487.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 505.
+(Font)              <5> on input line 487.
 
 
 [14]
@@ -1951,7 +1952,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [18]
 
 [19]
-Overfull \hbox (4.20898pt too wide) in paragraph at lines 691--693
+Overfull \hbox (4.20898pt too wide) in paragraph at lines 673--675
 \T1/pnc/m/n/10.95 (-20) Singuläre Ab-fra-gen äh-neln in ih-rer De-fi-ni-ti-on s
 tark all-ge-mei-nen JSONPath-Abfragen,
  []
@@ -1978,11 +1979,11 @@ tark all-ge-mei-nen JSONPath-Abfragen,
 
 [29]
 chapter 4.
-<images/Architektur Uebersicht.png, id=590, 1284.8pt x 483.8075pt>
+<images/Architektur Uebersicht.png, id=631, 1284.8pt x 483.8075pt>
 File: images/Architektur Uebersicht.png Graphic file (type png)
 <use images/Architektur Uebersicht.png>
 Package pdftex.def Info: images/Architektur Uebersicht.png  used on input line 
-960.
+941.
 (pdftex.def)             Requested size: 398.33858pt x 150.00092pt.
 
 
@@ -1990,10 +1991,10 @@ Package pdftex.def Info: images/Architektur Uebersicht.png  used on input line
 
 
  <./images/Architektur Uebersicht.png>]
-<images/Architektur Detail.png, id=598, 1628.0825pt x 1005.7575pt>
+<images/Architektur Detail.png, id=639, 1628.0825pt x 1005.7575pt>
 File: images/Architektur Detail.png Graphic file (type png)
 <use images/Architektur Detail.png>
-Package pdftex.def Info: images/Architektur Detail.png  used on input line 978.
+Package pdftex.def Info: images/Architektur Detail.png  used on input line 960.
 
 (pdftex.def)             Requested size: 398.33858pt x 246.06744pt.
 
@@ -2011,7 +2012,7 @@ Package pdftex.def Info: images/Architektur Detail.png  used on input line 978.
 [36]
 Package acronym Info: Label `acro:ebnf' newly defined as it shall be overridden
 
-although it is yet undefined on input line 1104.
+although it is yet undefined on input line 1086.
 
 
 [37]
@@ -2032,11 +2033,6 @@ although it is yet undefined on input line 1104.
 
 [45]
 
-LaTeX Warning: Reference `chap:problemanalyse' on page 46 undefined on input li
-ne 1318.
-
-
-
 [46]
 
 [47]
@@ -2046,8 +2042,8 @@ ne 1318.
 [49]
 
 [50]
-LaTeX Font Info:    Trying to load font information for U+mvs on input line 142
-4.
+LaTeX Font Info:    Trying to load font information for U+mvs on input line 140
+6.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/marvosym/umvs.fd)
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-mvs.cfg
 File: mt-mvs.cfg 2006/07/05 v1.1 microtype config. file: Marvosym Euro (RS)
@@ -2055,12 +2051,6 @@ File: mt-mvs.cfg 2006/07/05 v1.1 microtype config. file: Marvosym Euro (RS)
 
 [51]
 chapter 5.
-
-Overfull \hbox (9.82382pt too wide) in paragraph at lines 1457--1458
-\T1/pnc/m/n/10.95 (-20) Das Ge-samt-sys-tem ist ent-spre-chend des Ar-chi-tek-t
-ur-dia-gramms als ein C++-Programm
- []
-
 
 
 [52
@@ -2073,10 +2063,10 @@ ur-dia-gramms als ein C++-Programm
 [54]
 
 [55]
-<images/Zustaende.png, id=806, 644.4075pt x 885.3075pt>
+<images/Zustaende.png, id=853, 644.4075pt x 885.3075pt>
 File: images/Zustaende.png Graphic file (type png)
 <use images/Zustaende.png>
-Package pdftex.def Info: images/Zustaende.png  used on input line 1541.
+Package pdftex.def Info: images/Zustaende.png  used on input line 1523.
 (pdftex.def)             Requested size: 170.71652pt x 234.53783pt.
 
 
@@ -2112,72 +2102,18 @@ chapter 7.
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 1799.
-
-
-
 [67]
-chapter A.
+chapter without number
 
-
-./Dokumentation.tex:1846: Argument of Ã has an extra }.
-<inserted text> 
-                \par 
-<to be read again> 
-                   }
-\UTFviii@loop ...case \expandafter {\UTFviii@tmp }
-                                                  \advance \count@ \@ne \ifn...
-
-\HyPsd@UTFviii ->\HyPsd@expand@utfviii 
-                                       \let \UTFviii@two@octets \HyPsd@UTFvi...
-
-\pdfstringdef ...\fontencoding {PU}\HyPsd@UTFviii 
-                                                  \def \ifpdfstringunicode #...
-
-\HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
-                                                  \fi \ifx \HyPL@Prefix \HyP...
-...
-l.1846 			| 
-            true
-I've run across a `}' that doesn't seem to match anything.
-For example, `\def\a#1{...}' and `\a}' would produce
-this error. If you simply proceed now, the `\par' that
-I've just inserted will cause me to report a runaway
-argument that might be the root of the problem. But if
-your `}' was spurious, just type `2' and it will go away.
-
-Runaway argument?
-./Dokumentation.tex:1846: Paragraph ended before Ã was complete.
-<to be read again> 
-                   \par 
-<to be read again> 
-                   }
-\UTFviii@loop ...case \expandafter {\UTFviii@tmp }
-                                                  \advance \count@ \@ne \ifn...
-
-\HyPsd@UTFviii ->\HyPsd@expand@utfviii 
-                                       \let \UTFviii@two@octets \HyPsd@UTFvi...
-
-\pdfstringdef ...\fontencoding {PU}\HyPsd@UTFviii 
-                                                  \def \ifpdfstringunicode #...
-
-\HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
-                                                  \fi \ifx \HyPL@Prefix \HyP...
-...
-l.1846 			| 
-            true
-I suspect you've forgotten a `}', causing me to apply this
-control sequence to too much text. How can we recover?
-My plan is to forget the whole thing and hope for the best.
 
 [68
 
 
 ]
+chapter A.
 
-[69]
 
-./Dokumentation.tex:1942: Argument of Ã has an extra }.
+./Dokumentation.tex:1830: Argument of Ã has an extra }.
 <inserted text> 
                 \par 
 <to be read again> 
@@ -2194,8 +2130,8 @@ My plan is to forget the whole thing and hope for the best.
 \HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
                                                   \fi \ifx \HyPL@Prefix \HyP...
 ...
-l.1942 			| 
-            "B"
+l.1830 			| 
+            true
 I've run across a `}' that doesn't seem to match anything.
 For example, `\def\a#1{...}' and `\a}' would produce
 this error. If you simply proceed now, the `\par' that
@@ -2204,7 +2140,7 @@ argument that might be the root of the problem. But if
 your `}' was spurious, just type `2' and it will go away.
 
 Runaway argument?
-./Dokumentation.tex:1942: Paragraph ended before Ã was complete.
+./Dokumentation.tex:1830: Paragraph ended before Ã was complete.
 <to be read again> 
                    \par 
 <to be read again> 
@@ -2221,36 +2157,93 @@ Runaway argument?
 \HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
                                                   \fi \ifx \HyPL@Prefix \HyP...
 ...
-l.1942 			| 
+l.1830 			| 
+            true
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+[69
+
+
+]
+
+[70]
+
+./Dokumentation.tex:1926: Argument of Ã has an extra }.
+<inserted text> 
+                \par 
+<to be read again> 
+                   }
+\UTFviii@loop ...case \expandafter {\UTFviii@tmp }
+                                                  \advance \count@ \@ne \ifn...
+
+\HyPsd@UTFviii ->\HyPsd@expand@utfviii 
+                                       \let \UTFviii@two@octets \HyPsd@UTFvi...
+
+\pdfstringdef ...\fontencoding {PU}\HyPsd@UTFviii 
+                                                  \def \ifpdfstringunicode #...
+
+\HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
+                                                  \fi \ifx \HyPL@Prefix \HyP...
+...
+l.1926 			| 
+            "B"
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+./Dokumentation.tex:1926: Paragraph ended before Ã was complete.
+<to be read again> 
+                   \par 
+<to be read again> 
+                   }
+\UTFviii@loop ...case \expandafter {\UTFviii@tmp }
+                                                  \advance \count@ \@ne \ifn...
+
+\HyPsd@UTFviii ->\HyPsd@expand@utfviii 
+                                       \let \UTFviii@two@octets \HyPsd@UTFvi...
+
+\pdfstringdef ...\fontencoding {PU}\HyPsd@UTFviii 
+                                                  \def \ifpdfstringunicode #...
+
+\HyPL@EveryPage ...gdef \HyPL@Prefix \HyPL@Prefix 
+                                                  \fi \ifx \HyPL@Prefix \HyP...
+...
+l.1926 			| 
             "B"
 I suspect you've forgotten a `}', causing me to apply this
 control sequence to too much text. How can we recover?
 My plan is to forget the whole thing and hope for the best.
 
-[70]
-
 [71]
 
 [72]
+
+[73]
 chapter B.
-<images/Syntaxbaum1.jpg, id=1121, 496.0131pt x 228.855pt>
+<images/Syntaxbaum1.jpg, id=1192, 496.0131pt x 228.855pt>
 File: images/Syntaxbaum1.jpg Graphic file (type jpg)
 <use images/Syntaxbaum1.jpg>
-Package pdftex.def Info: images/Syntaxbaum1.jpg  used on input line 2047.
+Package pdftex.def Info: images/Syntaxbaum1.jpg  used on input line 2031.
 (pdftex.def)             Requested size: 341.43306pt x 157.53645pt.
-<images/Syntaxbaum2.png, id=1122, 1027.84pt x 738.76pt>
+<images/Syntaxbaum2.png, id=1193, 1027.84pt x 738.76pt>
 File: images/Syntaxbaum2.png Graphic file (type png)
 <use images/Syntaxbaum2.png>
-Package pdftex.def Info: images/Syntaxbaum2.png  used on input line 2054.
+Package pdftex.def Info: images/Syntaxbaum2.png  used on input line 2038.
 (pdftex.def)             Requested size: 341.43306pt x 245.40352pt.
-<images/Syntaxbaum3.png, id=1123, 4733.685pt x 2117.9125pt>
+<images/Syntaxbaum3.png, id=1194, 4733.685pt x 2117.9125pt>
 File: images/Syntaxbaum3.png Graphic file (type png)
 <use images/Syntaxbaum3.png>
-Package pdftex.def Info: images/Syntaxbaum3.png  used on input line 2061.
+Package pdftex.def Info: images/Syntaxbaum3.png  used on input line 2045.
 (pdftex.def)             Requested size: 667.69528pt x 298.75394pt.
 
 
-[73
+[74
 
 
  <./images/Syntaxbaum1.jpg> <./images/Syntaxbaum2.png (PNG copy)>]
@@ -2258,15 +2251,11 @@ Overfull \vbox (95.49501pt too high) has occurred while \output is active []
 
 
 
-[74 <./images/Syntaxbaum3.png>] (./Dokumentation.aux)
+[75 <./images/Syntaxbaum3.png>] (./Dokumentation.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `Dokumentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package logreq Info: Writing requests to 'Dokumentation.run.xml'.
@@ -2274,13 +2263,13 @@ Package logreq Info: Writing requests to 'Dokumentation.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 46538 strings out of 473190
- 937626 string characters out of 5715800
- 2015105 words of memory out of 5000000
- 68095 multiletter control sequences out of 15000+600000
- 650459 words of font info for 338 fonts, out of 8000000 for 9000
+ 46830 strings out of 473190
+ 944425 string characters out of 5715800
+ 2017296 words of memory out of 5000000
+ 68356 multiletter control sequences out of 15000+600000
+ 655050 words of font info for 348 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 122i,21n,121p,10932b,3045s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 122i,21n,121p,10932b,3353s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/lo
 cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive
 /2025/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2025/texmf
@@ -2295,10 +2284,10 @@ texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/
 xmf-dist/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/texmf-dis
 t/fonts/type1/urw/ncntrsbk/uncr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts
 /type1/urw/ncntrsbk/uncri8a.pfb>
-Output written on Dokumentation.pdf (83 pages, 1362828 bytes).
+Output written on Dokumentation.pdf (84 pages, 1369287 bytes).
 PDF statistics:
- 1617 PDF objects out of 1728 (max. 8388607)
- 1474 compressed objects within 15 object streams
- 606 named destinations out of 1000 (max. 500000)
- 84781 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 1695 PDF objects out of 1728 (max. 8388607)
+ 1548 compressed objects within 16 object streams
+ 621 named destinations out of 1000 (max. 500000)
+ 88885 words of extra memory for PDF output out of 89155 (max. 10000000)
 

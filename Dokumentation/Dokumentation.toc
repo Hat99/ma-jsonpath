@@ -111,9 +111,10 @@
 \contentsline {chapter}{\numberline {7}Zusammenfassung und Ausblick}{66}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Erreichte Ergebnisse}{66}{section.7.1}%
 \contentsline {section}{\numberline {7.2}Ausblick}{67}{section.7.2}%
-\contentsline {chapter}{\numberline {A}JSONPath-Grammatik in EBNF}{68}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Grammatik-Regeln}{68}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Zeichenregeln}{70}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Normalisierte Abfragen}{72}{section.A.3}%
-\contentsline {chapter}{\numberline {B}Syntaxbäume}{73}{appendix.B}%
+\contentsline {chapter}{\nonumberline Literatur}{68}{chapter*.62}%
+\contentsline {chapter}{\numberline {A}JSONPath-Grammatik in EBNF}{69}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Grammatik-Regeln}{69}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Zeichenregeln}{71}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Normalisierte Abfragen}{73}{section.A.3}%
+\contentsline {chapter}{\numberline {B}Syntaxbäume}{74}{appendix.B}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

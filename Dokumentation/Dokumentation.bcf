@@ -2369,9 +2369,38 @@
   <!-- CITATION DATA -->
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
-    <bcf:datasource type="file" datatype="bibtex">latexlit.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex" glob="false">latexlit.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex" glob="false">latexlit.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="3" intorder="1">Gössner:jsonpath</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">Bray:json</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">Gössner:jsonpath</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">Schaefer:nosql</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">yottadb:about</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">yottadb:hiw</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">Herold:lexYacc</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">Bantel:compilerbau</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">Herold:lexYacc</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">Bantel:compilerbau</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">Herold:lexYacc</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">Bantel:compilerbau</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">Herold:lexYacc</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">Bantel:compilerbau</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">Herold:lexYacc</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">Bantel:compilerbau</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">Estes:flex</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">Paxson:flex</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">Herold:lexYacc</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">Bantel:compilerbau</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">Bantel:compilerbau</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">GNU:Bison</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">GNU:BisonGLR</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">Gössner:jsonpath</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">yottadb:home</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">Bantel:bisonhack</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">Bantel:bisonhack</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">Bantel:bisonhack</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
