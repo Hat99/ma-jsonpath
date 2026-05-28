@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXCopyFilesBuildPhase section */
-		DAB833362F63075100B9939C /* CopyFiles */ = {
+		DAD71CE72FC837EE00BC11A5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -19,19 +19,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DAB833382F63075100B9939C /* Cpp-Integration-Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Cpp-Integration-Test"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAD71CE92FC837EF00BC11A5 /* JSONPath-Compiler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "JSONPath-Compiler"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		DAB8333A2F63075100B9939C /* Cpp-Integration-Test */ = {
+		DAD71CEB2FC837EF00BC11A5 /* JSONPath-Compiler */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Cpp-Integration-Test";
+			path = "JSONPath-Compiler";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DAB833352F63075100B9939C /* Frameworks */ = {
+		DAD71CE62FC837EE00BC11A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,18 +41,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DAB8332F2F63075100B9939C = {
+		DAD71CE02FC837EE00BC11A5 = {
 			isa = PBXGroup;
 			children = (
-				DAB8333A2F63075100B9939C /* Cpp-Integration-Test */,
-				DAB833392F63075100B9939C /* Products */,
+				DAD71CEB2FC837EF00BC11A5 /* JSONPath-Compiler */,
+				DAD71CEA2FC837EF00BC11A5 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		DAB833392F63075100B9939C /* Products */ = {
+		DAD71CEA2FC837EF00BC11A5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DAB833382F63075100B9939C /* Cpp-Integration-Test */,
+				DAD71CE92FC837EF00BC11A5 /* JSONPath-Compiler */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,63 +60,63 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DAB833372F63075100B9939C /* Cpp-Integration-Test */ = {
+		DAD71CE82FC837EE00BC11A5 /* JSONPath-Compiler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAB8333F2F63075100B9939C /* Build configuration list for PBXNativeTarget "Cpp-Integration-Test" */;
+			buildConfigurationList = DAD71CF02FC837EF00BC11A5 /* Build configuration list for PBXNativeTarget "JSONPath-Compiler" */;
 			buildPhases = (
-				DAB833342F63075100B9939C /* Sources */,
-				DAB833352F63075100B9939C /* Frameworks */,
-				DAB833362F63075100B9939C /* CopyFiles */,
+				DAD71CE52FC837EE00BC11A5 /* Sources */,
+				DAD71CE62FC837EE00BC11A5 /* Frameworks */,
+				DAD71CE72FC837EE00BC11A5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				DAB8333A2F63075100B9939C /* Cpp-Integration-Test */,
+				DAD71CEB2FC837EF00BC11A5 /* JSONPath-Compiler */,
 			);
-			name = "Cpp-Integration-Test";
+			name = "JSONPath-Compiler";
 			packageProductDependencies = (
 			);
-			productName = "Cpp-Integration-Test";
-			productReference = DAB833382F63075100B9939C /* Cpp-Integration-Test */;
+			productName = "JSONPath-Compiler";
+			productReference = DAD71CE92FC837EF00BC11A5 /* JSONPath-Compiler */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		DAB833302F63075100B9939C /* Project object */ = {
+		DAD71CE12FC837EE00BC11A5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
-					DAB833372F63075100B9939C = {
+					DAD71CE82FC837EE00BC11A5 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
 			};
-			buildConfigurationList = DAB833332F63075100B9939C /* Build configuration list for PBXProject "Cpp-Integration-Test" */;
+			buildConfigurationList = DAD71CE42FC837EE00BC11A5 /* Build configuration list for PBXProject "JSONPath-Compiler" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = DAB8332F2F63075100B9939C;
+			mainGroup = DAD71CE02FC837EE00BC11A5;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = DAB833392F63075100B9939C /* Products */;
+			productRefGroup = DAD71CEA2FC837EF00BC11A5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DAB833372F63075100B9939C /* Cpp-Integration-Test */,
+				DAD71CE82FC837EE00BC11A5 /* JSONPath-Compiler */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		DAB833342F63075100B9939C /* Sources */ = {
+		DAD71CE52FC837EE00BC11A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -126,7 +126,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		DAB8333D2F63075100B9939C /* Debug */ = {
+		DAD71CEE2FC837EF00BC11A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -187,7 +187,7 @@
 			};
 			name = Debug;
 		};
-		DAB8333E2F63075100B9939C /* Release */ = {
+		DAD71CEF2FC837EF00BC11A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -241,7 +241,7 @@
 			};
 			name = Release;
 		};
-		DAB833402F63075100B9939C /* Debug */ = {
+		DAD71CF12FC837EF00BC11A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -249,7 +249,7 @@
 			};
 			name = Debug;
 		};
-		DAB833412F63075100B9939C /* Release */ = {
+		DAD71CF22FC837EF00BC11A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -260,25 +260,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DAB833332F63075100B9939C /* Build configuration list for PBXProject "Cpp-Integration-Test" */ = {
+		DAD71CE42FC837EE00BC11A5 /* Build configuration list for PBXProject "JSONPath-Compiler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAB8333D2F63075100B9939C /* Debug */,
-				DAB8333E2F63075100B9939C /* Release */,
+				DAD71CEE2FC837EF00BC11A5 /* Debug */,
+				DAD71CEF2FC837EF00BC11A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAB8333F2F63075100B9939C /* Build configuration list for PBXNativeTarget "Cpp-Integration-Test" */ = {
+		DAD71CF02FC837EF00BC11A5 /* Build configuration list for PBXNativeTarget "JSONPath-Compiler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAB833402F63075100B9939C /* Debug */,
-				DAB833412F63075100B9939C /* Release */,
+				DAD71CF12FC837EF00BC11A5 /* Debug */,
+				DAD71CF22FC837EF00BC11A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = DAB833302F63075100B9939C /* Project object */;
+	rootObject = DAD71CE12FC837EE00BC11A5 /* Project object */;
 }
