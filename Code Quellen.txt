@@ -1,0 +1,88 @@
+//Code-Quellen//
+
+Neben den in der Ausarbeitung verwendeten Literaturquellen, wurden für diese Arbeit verschiedene Quellen für den Code verwendet. Diese sind teilweise an der betroffenen Stelle als Kommentar hinzugefügt, um deren Ursprung erkenntlich zu machen. 
+
+In dieser Arbeit verwendete Libraries:
+
+Bison-Syntaxtree-Hack von Prof. Dr. Winfried Bantel
+https://github.com/informatik-aalen/Bison-Syntaxtree-Hack
+
+
+
+
+Weitere für die Erstellung des Codes zu Rate gezogene Quellen sind:
+
+Flex / Bison Beispiel
+https://github.com/meyerd/flex-bison-example
+
+JSON lex / yacc
+https://gist.github.com/justjkk/436828
+
+Flex / Bison Tutorial
+https://www.youtube.com/watch?v=ZfeABEU4I4s
+
+
+Flex Manual
+https://web.stanford.edu/class/archive/cs/cs143/cs143.1112/materials/other/manflex.html
+https://westes.github.io/flex/manual/Start-Conditions.html
+
+Flex Default Rule
+https://stackoverflow.com/questions/10267307/flex-default-rule
+
+Flex Examples
+https://westes.github.io/flex/manual/Simple-Examples.html#Simple-Examples
+
+Flex Start Conditions von Außen ansprechen
+https://stackoverflow.com/questions/68436132/how-to-change-start-condition-outside-of-actions-in-flex-lex
+
+
+GNU-Bison Manual
+https://www.gnu.org/software/bison/manual/bison.html
+
+Bison GLR
+https://www.gnu.org/software/bison/manual/html_node/GLR-Parsers.html
+
+Bison Parser Debugging
+https://www.gnu.org/software/bison/manual/html_node/Enabling-Traces.html
+https://web.mit.edu/gnu/doc/html/bison_11.html
+
+Bison C++-Einbindung
+Vorlesungsfolien "Compilerbau" von Prof. Dr. Winfried Bantel
+https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example.html
+https://stackoverflow.com/questions/6635064/interfacing-a-yacc-bison-parser-with-a-c-program
+https://www.gnu.org/software/bison/manual/html_node/C_002b_002b-Parser-Interface.html
+https://stackoverflow.com/questions/76509844/how-do-you-interface-c-flex-with-c-bison
+
+Bison Symbole
+https://www.gnu.org/software/bison/manual/html_node/Symbols.html
+
+Token Values
+https://stackoverflow.com/questions/8632516/how-to-get-string-value-of-token-in-flex-and-bison
+
+
+C++ User Input
+https://www.w3schools.com/cpp/cpp_user_input.asp
+
+C++ String Erase
+https://cplusplus.com/reference/string/string/erase/
+
+C-Code in C++ verwenden
+https://stackoverflow.com/questions/17448014/how-to-use-c-code-in-c
+
+Weitere C++ Resourcen
+https://stackoverflow.com/questions/18086193/redirect-stdout-stderr-to-file-under-unix-c-again
+https://www.w3schools.com/cpp/cpp_date.asp
+https://stackoverflow.com/questions/22203319/c-c-microsecond-timestamp
+https://latexref.xyz/Command-line-options.html
+https://www.w3schools.com/cpp/cpp_strings_access.asp
+https://stackoverflow.com/questions/5882872/reading-a-full-line-of-input
+
+
+Makefile Beispiel
+https://github.com/ezaquarii/bison-flex-cpp-example/blob/master/Makefile
+
+ASCII Table
+https://www.ascii-code.com
+
+LaTeX-Sonderzeichen
+https://trybibby.com/learn/special-characters-latex
