@@ -67,8 +67,8 @@ inline syntaxTree * syntaxTree_epsilon_node () {
 
 //siehe RFC-9535 S.27
 %token T_MINUS_ZERO
-%token<cval> T_FRAC
-%token<cval> T_EXP
+%token<ival> T_FRAC
+%token<ival> T_EXP
 
 //siehe RFC-9535 S.47
 %token<cval> T_NORMAL_NAME_SELECTOR
@@ -401,8 +401,8 @@ rep_function_argument:
 function_argument:
 	literal
     | logical_expr
-	| filter_query        //-> TODO: RFC-konform?
-	| function_expr       //-> TODO: RFC-Konform?
+	| filter_query
+	| function_expr
 ;
 
 

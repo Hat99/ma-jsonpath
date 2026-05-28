@@ -16,11 +16,11 @@
 
 /* Regex-Bausteine nach RFC-9535 Abschnitt 2.3.3.1 (S.17) */
 
-HEXDIG  [0-9A-F]
+HEXDIG  [0-9A-Fa-f]
 
-LOW_SURROGATE   (D[C-F]{HEXDIG}{HEXDIG})
-HIGH_SURROGATE  (D[89AB]{HEXDIG}{HEXDIG})
-NON_SURROGATE   ([0-9ABCEF]{HEXDIG}{HEXDIG}{HEXDIG})|(D[0-7]{HEXDIG}{HEXDIG})
+LOW_SURROGATE   ([Dd][CcDdEeFf]{HEXDIG}{HEXDIG})
+HIGH_SURROGATE  ([Dd][89AaBb]{HEXDIG}{HEXDIG})
+NON_SURROGATE   ([0-9AaBbCcEeFf]{HEXDIG}{HEXDIG}{HEXDIG})|([Dd][0-7]{HEXDIG}{HEXDIG})
 HEXCHAR         ({NON_SURROGATE}|({HIGH_SURROGATE}\\u{LOW_SURROGATE}))
 
 ESCAPABLE   ([bfnrt/\\]|(u{HEXCHAR}))
@@ -79,21 +79,24 @@ NORMAL_SINGLE_QUOTED    ({NORMAL_UNESCAPED}|({ESC}{NORMAL_ESCAPABLE}))
 
     /* Verarbeitung von Number (optionale Fraction, optionaler Exponent, "-0" erlaubt) bzw. Int */
 
-<NUMBER_FRAC>\.[0-9]+/"e"   {
+<NUMBER_FRAC>\.[0-9]+/[Ee]   {
     BEGIN(NUMBER_EXP);
-    yylval.cval = yytext;
+    yytext[0] = ' ';                //atoi überliest whitespaces
+    yylval.ival = atoi(yytext);
     return T_FRAC;
 }
 
 <NUMBER_FRAC>\.[0-9]+   {
     BEGIN(INITIAL);
-    yylval.cval = yytext;
+    yytext[0] = ' ';                //atoi überliest whitespaces
+    yylval.ival = atoi(yytext);
     return T_FRAC;
 }
 
-<NUMBER_EXP>e[-+]?[0-9]+    {
+<NUMBER_EXP>[Ee][-+]?[0-9]+    {
     BEGIN(INITIAL);
-    yylval.cval = yytext;
+    yytext[0] = ' ';                //atoi überliest whitespaces
+    yylval.ival = atoi(yytext);
     return T_EXP;
 }
 
@@ -102,7 +105,7 @@ NORMAL_SINGLE_QUOTED    ({NORMAL_UNESCAPED}|({ESC}{NORMAL_ESCAPABLE}))
     return T_MINUS_ZERO;
 }
 
-"-0"/"e"    {
+"-0"/[Ee]    {
     BEGIN(NUMBER_EXP);
     return T_MINUS_ZERO;
 }
@@ -115,7 +118,7 @@ NORMAL_SINGLE_QUOTED    ({NORMAL_UNESCAPED}|({ESC}{NORMAL_ESCAPABLE}))
     return T_INT;
 }
 
-"0"|([-]?[1-9][0-9]*)/"e"   {
+"0"|([-]?[1-9][0-9]*)/[Ee]   {
     BEGIN(NUMBER_EXP);
     yylval.ival = atoi(yytext);
     return T_INT;
