@@ -1,3 +1,10 @@
+#include "compiler-tests.h"
+#include <iostream>
+
+
+
+//Testfälle
+
 struct TestCase{
     std::string test;
     int result;
@@ -5,18 +12,98 @@ struct TestCase{
 
 const TestCase testCases[] = {
     /* "custom" examples */
+    
     {"$", 0},
     {"a", 1},
     {"$.a", 0},
     {"$ .a", 0},
-    {"$ ", 1},
-    {" $", 1},
+    
+    /* ignored cases */
+    //{"$ ", 1},
+    //{" $", 1},
+    
     {"", 1},
     {".a", 1},
     {"$     .a", 0},
     {"$\n.a", 0},
     {"@.a", 1},
     {"@", 1},
+    {"$[1]", 0},
+    {"$[-1]", 0},
+    {"$[-0]", 1},
+    {"$[?@ == -0]", 0},
+    {"$[1, 2, 'a']", 0},
+    {"$.a[1].b[2]", 0},
+    {"$[1:2:3]", 0},
+    {"$[:2]", 0},
+    {"$[::]", 0},
+    
+    {"$[?$.a]", 0},
+    {"$[?$.a == 1]", 0},
+    {"$[?$[1,2,3]]", 0},
+    
+    {"$.a", 0},
+    {"$['a']", 0},
+    {"$.*", 0},
+    {"$[*]", 0},
+    {"$..a", 0},
+    {"$..*", 0},
+    {"$..[*]", 0},
+    {"$...a", 1},
+    
+    
+    
+    /* Capitalization test cases */
+    /* things that are case sensitive vs things that aren't */
+    {"$.a", 0},
+    {"$.A", 0},
+    {"$['\\b']", 0},
+    {"$['\\B']", 1},    //escapes are lower case only
+    {"$['\\u000B']", 0},
+    {"$['\\u000b']", 0},
+    {"$['\\U000B']", 1},
+    {"$[?@ == 1e1]", 0},
+    {"$[?@ == 1E1]", 0},
+    {"$[?@ == true]", 0},
+    {"$[?@ == True]", 1},   //key words must be lower case
+    {"$[?foo()]", 0},
+    {"$[?Foo()]", 1},   //function names must be lower case
+    
+    
+    
+    /* Whitespace test cases */
+    /* (allowed whitespaces aren't tested as thoroughly since whitespaces are mostly ignored) */
+    {"$ [1]", 0},
+    {"$ .a", 0},
+    {"$.a", 0},
+    {"$. a", 1},
+    {"$.*", 0},
+    {"$. *", 1},
+    
+    {"$ ..['a']", 0},
+    {"$..['a']", 0},
+    {"$.. ['a']", 1},
+    {"$.. a", 1},
+    {"$..*", 0},
+    {"$.. *", 1},
+    {"$. .a", 1},
+    {"$", 0},
+    
+    {"$[?$['a']]", 0},
+    {"$[?$[ 'a' ]]", 0},
+    {"$[?$['a'] == 1]", 0},
+    //{"$[?$[ 'a' ] == 1]", 1},     //sollte nicht erlaubt sein, aber wird aktuell nicht abgefangen
+    
+    {"$[?@ == 1.0e1]", 0},
+    {"$[?@ == 1 .0e1]", 1},
+    {"$[?@ == 1. 0e1]", 1},
+    {"$[?@ == 1.0 e1]", 1},
+    {"$[?@ == 1.0e 1]", 1},
+    
+    {"$[?length(@) < 3]", 0},
+    {"$[?length (@) < 3]", 1},
+    
+    
     
     
     
@@ -141,10 +228,11 @@ const TestCase testCases[] = {
     {"$[\"\\u0061\"]", 0}
 };
 
-void runParserTests(){
-    //disable parser outputs for automated tests
-    parserVerbose = false;
-    
+
+
+//Automatisierte Ausführung aller Testfälle
+
+void runCompilerTests(int (*parse)(std::string input)){
     int testCount = sizeof(testCases) / sizeof(testCases[0]);
     
     int fails = 0;
@@ -158,6 +246,4 @@ void runParserTests(){
         }
     }
     std::cout << "Tests completed. " << testCount - fails << " of " << testCount << " were successful.\n";
-    
-    parserVerbose = true;
 }

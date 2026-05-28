@@ -3,7 +3,9 @@
 #include <ctime>
 #include "lex.yy.h"
 #include "jsonpath.tab.hpp"
+#include "compiler-tests.h"
 
+/* Für Einbindung des Parsers */
 bool parserVerbose = true;
 
 
@@ -14,7 +16,6 @@ int yyerror(std::string s) {
     return 0;
 }
 int yyparse();
-//void yy_scan_string(const char* str);
 
 extern int yydebug;
 extern void setStateInitial();
@@ -24,15 +25,18 @@ using namespace std;
 int yylex();
 int yylex_2();
 
+//Für Bison-Syntaxtree-Hack Einbindung
 
 int yylex() {
     int rc = yylex_2();
     yylval.tree = new syntaxTree(yytext);
     return rc;
 }
-
 extern syntaxTree * root;
 
+
+
+//Eigener Parse-Vorgang, um normalisierte und allgemeine Ausdrücke zu erkennen
 
 int parse(std::string input){
     //try normalized path first, then try "normal" jsonpath
@@ -52,236 +56,12 @@ int parse(std::string input){
 }
 
 
-struct TestCase{
-    std::string test;
-    int result;
-};
 
-const TestCase testCases[] = {
-    /* "custom" examples */
-    
-    {"$", 0},
-    {"a", 1},
-    {"$.a", 0},
-    {"$ .a", 0},
-    
-    /* ignored cases */
-    //{"$ ", 1},
-    //{" $", 1},
-    
-    {"", 1},
-    {".a", 1},
-    {"$     .a", 0},
-    {"$\n.a", 0},
-    {"@.a", 1},
-    {"@", 1},
-    {"$[1]", 0},
-    {"$[-1]", 0},
-    {"$[-0]", 1},
-    {"$[?@ == -0]", 0},
-    {"$[1, 2, 'a']", 0},
-    {"$.a[1].b[2]", 0},
-    {"$[1:2:3]", 0},
-    {"$[:2]", 0},
-    {"$[::]", 0},
-    
-    {"$[?$.a]", 0},
-    {"$[?$.a == 1]", 0},
-    {"$[?$[1,2,3]]", 0},
-    
-    {"$.a", 0},
-    {"$['a']", 0},
-    {"$.*", 0},
-    {"$[*]", 0},
-    {"$..a", 0},
-    {"$..*", 0},
-    {"$..[*]", 0},
-    {"$...a", 1},
-    
-    
-    
-    /* Whitespace test cases */
-    /* (allowed whitespaces aren't tested as thoroughly since whitespaces are mostly ignored) */
-    {"$ [1]", 0},
-    {"$ .a", 0},
-    {"$.a", 0},
-    {"$. a", 1},
-    {"$.*", 0},
-    {"$. *", 1},
-    
-    {"$ ..['a']", 0},
-    {"$..['a']", 0},
-    {"$.. ['a']", 1},
-    {"$.. a", 1},
-    {"$..*", 0},
-    {"$.. *", 1},
-    {"$. .a", 1},
-    {"$", 0},
-    
-    {"$[?$['a']]", 0},
-    {"$[?$[ 'a' ]]", 0},
-    {"$[?$['a'] == 1]", 0},
-    //{"$[?$[ 'a' ] == 1]", 1},     //sollte nicht erlaubt sein, aber wird aktuell nicht abgefangen
-    
-    {"$[?@ == 1.0e1]", 0},
-    {"$[?@ == 1 .0e1]", 1},
-    {"$[?@ == 1. 0e1]", 1},
-    {"$[?@ == 1.0 e1]", 1},
-    {"$[?@ == 1.0e 1]", 1},
-    
-    {"$[?length(@) < 3]", 0},
-    {"$[?length (@) < 3]", 1},
-    
-    
-    
-    
-    
-    /* examples from RFC-9535 section 1.5 */
-    {"$['store']['book'][0]['title']", 0},
-    {"$.store.book[0].title", 0},
-    {"$.store.book[?@.price < 10].title", 0},
-    {"$.store.book[*].author", 0},
-    {"$..author", 0},
-    {"$.store.*", 0},
-    {"$.store..price", 0},
-    {"$..book[2]", 0},
-    {"$..book[2].author", 0},
-    {"$..book[2].publisher", 0},
-    {"$..book[-1]", 0},
-    {"$..book[0,1]", 0},
-    {"$..book[:2]", 0},
-    {"$..book[?@.isbn]", 0},
-    {"$..book[?@.price<10]", 0},
-    {"$..*", 0},
-    
-    /* examples from RFC-9535 section 2.2.3 */
-    {"$", 0},
-    
-    /* examples from RFC-9535 section 2.3.1.3 */
-    {"$.o['j j']", 0},
-    {"$.o['j j']['k.k']", 0},
-    {"$.o[\"j j\"][\"k.k\"]", 0},
-    {"$.o[\"'\"][\"@\"]", 0},
-    
-    /* examples from RFC-9535 section 2.3.2.3 */
-    {"$[*]", 0},
-    {"$.o[*]", 0},
-    {"$.o[*, *]", 0},
-    {"$.a[*]", 0},
-    
-    /* examples from RFC-9535 section 2.3.3.3 */
-    {"$[1]", 0},
-    {"$[-2]", 0},
-    
-    /* examples from RFC-9535 section 2.3.4.3 */
-    {"$[1:3]", 0},
-    {"$[5:]", 0},
-    {"$[1:5:2]", 0},
-    {"$[5:1:-2]", 0},
-    {"$[::-1]", 0},
-    
-    /* examples from RFC-9535 section 2.3.5.3 */
-    {"$.a[?@.b == 'kilo']", 0},
-    {"$.a[?(@.b == 'kilo')]", 0},
-    {"$.a[?@>3.5]", 0},
-    {"$.a[?@.b]", 0},
-    {"$[?@.*]", 0},
-    {"$[?@[?@.b]]", 0},
-    {"$.o[?@<3, ?@<3]", 0},
-    {"$.a[?@<2 || @.b == \"k\"]", 0},
-    {"$.a[?match(@.b,\"[jk]\")]", 0},
-    {"$.a[?search(@.b,\"[jk]\")]", 0},
-    {"$.o[?@>1 && @<4]", 0},
-    {"$.o[?@.u || @.x]", 0},
-    {"$.a[?@.b == $.x]", 0},
-    {"$.a[?@ == @]", 0},
-    
-    /* examples from RFC-9535 section 2.4 */
-    {"$[?length(@.authors) >= 5]", 0},
-    {"$[?count(@.*.author) >= 5]", 0},
-    {"$[?match(@.date, \"1974-05-..\")]", 0},
-    {"$[?search(@.author, \"[BR]ob\")]", 0},
-    {"$[?value(@..color) == \"red\"]", 0},
-    //well-typedness as stated in RFC-9535 has to be checked
-    //after parsing ("does function x accept y and return z?")
-    {"$[?length(@) < 3]", 0},
-    {"$[?length(@.*) < 3]", 0},
-    {"$[?count(@.*) == 1]", 0},
-    {"$[?count(1) == 1]", 0},
-    {"$[?count(foo(@.*)) == 1]", 0},
-    {"$[?match(@.timezone,'Europe/.*')]", 0},
-    {"$[?match(@.timezone,'Europe/.*') == true]", 0},
-    {"$[?value(@..color) == \"red\"]", 0},
-    {"$[?value(@..color)]", 0},
-    {"$[?bar(@.a)]", 0},
-    {"$[?bnl(@.*)]", 0},
-    {"$[?blt(1==1)]", 0},
-    {"$[?blt(1)]", 0},
-    {"$[?bal(1)]", 0},
-    
-    /* examples from RFC-9535 section 2.5.1.3 */
-    {"$[0, 3]", 0},
-    {"$[0:2, 5]", 0},
-    {"$[0, 0]", 0},
-    
-    /* examples from RFC-9535 section 2.5.1.3 */
-    {"$..j", 0},
-    {"$..[0]", 0},
-    {"$..[*]", 0},
-    {"$..*", 0},
-    {"$..o", 0},
-    {"$.o..[*,*]", 0},
-    {"$.a..[0,1]", 0},
-    
-    /* examples from RFC-9535 section 2.6.1 */
-    {"$.a", 0},
-    {"$.a[0]", 0},
-    {"$.a.d", 0},
-    {"$.b[0]", 0},
-    {"$.b[*]", 0},
-    {"$.b[?@]", 0},
-    {"$.b[?@==null]", 0},
-    {"$.c[?@.d==null]", 0},
-    {"$.null", 0},
-    
-    /* examples from RFC-9535 section 2.7.1 */
-    {"$.a", 0},
-    {"$['a']", 0},
-    {"$[1]", 0},
-    {"$[-3]", 0},
-    {"$[2]", 0},
-    {"$.a.b[1:2]", 0},
-    {"$['a']['b'][1]", 0},
-    {"$[\"\\u000B\"]", 0},
-    {"$['\\u000b']", 0},
-    {"$[\"\\u0061\"]", 0}
-};
-
-void runParserTests(){
-    //disable parser outputs for automated tests
-    parserVerbose = false;
-    
-    int testCount = sizeof(testCases) / sizeof(testCases[0]);
-    
-    int fails = 0;
-    for(int i = 0; i < testCount; i++){
-        std::cout << "Running case " << i+1 << " of " << testCount << "...";
-        if(parse(testCases[i].test) == testCases[i].result){
-            std::cout << "Success!\n";
-        }else{
-            fails++;
-            std::cout << "Failed! Case: " << testCases[i].test << "\n";
-        }
-    }
-    std::cout << "Tests completed. " << testCount - fails << " of " << testCount << " were successful.\n";
-    
-    parserVerbose = true;
-}
+//Ausgabe des Syntaxbaums über Visualisierungskomponente als PDF
 
 void root2pdf(){
     
     /* micro sekunden timestamp nach https://stackoverflow.com/questions/22203319/c-c-microsecond-timestamp */
-    //TODO: geht das auch schöner? wäre schön...
     long microseconds_since_epoch = duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     
     std::string timeStamp = to_string(microseconds_since_epoch);
@@ -303,6 +83,9 @@ void root2pdf(){
 }
 
 
+
+//Controller-Funktionalität in main-Funktion
+
 int main(int argc, const char * argv[]) {
     yydebug = 0;
     parserVerbose = false;
@@ -310,6 +93,8 @@ int main(int argc, const char * argv[]) {
     
     bool inputProvided = false;
     
+    
+    //Flags setzen, erkennen ob Ausdrücke im Input sind
     for(int i = 1; i < argc; i++){
         std::string arg = argv[i];
         if(arg == "-debug" || arg == "-d"){
@@ -319,7 +104,7 @@ int main(int argc, const char * argv[]) {
             parserVerbose = true;
         }
         else if(arg == "-run-tests" || arg == "-rt"){
-            runParserTests();
+            runCompilerTests(&parse);
             return EXIT_SUCCESS;
         }
         else if(arg == "-visualize" || arg == "-vis"){
@@ -330,6 +115,7 @@ int main(int argc, const char * argv[]) {
         }
     }
     
+    //Wenn Ausdrücke im Input sind, abarbeiten
     if(inputProvided){
         for(int i = 1; i < argc; i++){
             std::string arg = argv[i];
@@ -351,6 +137,7 @@ int main(int argc, const char * argv[]) {
             }
         }
     }
+    //Sonst: "Eingabemaske" starten
     else{
         while(true){
             std::cout << "Input a JSONPath query ('quit' or 'exit' to quit):\n";

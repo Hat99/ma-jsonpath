@@ -22,9 +22,22 @@
 		DAD71CE92FC837EF00BC11A5 /* JSONPath-Compiler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "JSONPath-Compiler"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		DAD71D112FC83A9000BC11A5 /* Exceptions for "JSONPath-Compiler" folder in "Compile Sources" phase from "JSONPath-Compiler" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = DAD71CE52FC837EE00BC11A5 /* Sources */;
+			membershipExceptions = (
+				"compiler-tests.h",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DAD71CEB2FC837EF00BC11A5 /* JSONPath-Compiler */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DAD71D112FC83A9000BC11A5 /* Exceptions for "JSONPath-Compiler" folder in "Compile Sources" phase from "JSONPath-Compiler" target */,
+			);
 			path = "JSONPath-Compiler";
 			sourceTree = "<group>";
 		};
@@ -93,6 +106,7 @@
 				TargetAttributes = {
 					DAD71CE82FC837EE00BC11A5 = {
 						CreatedOnToolsVersion = 26.2;
+						LastSwiftMigration = 2620;
 					};
 				};
 			};
@@ -244,16 +258,21 @@
 		DAD71CF12FC837EF00BC11A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
 		DAD71CF22FC837EF00BC11A5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
